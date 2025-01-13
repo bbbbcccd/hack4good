@@ -1,0 +1,13 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "~4.16.1",
+    "morgan": "~1.9.1"
+  }
+}
