@@ -1,8 +1,10 @@
 import express from "express";
 import morgan from "morgan";
 
+import indexRouter from "./routes/index.js";
 import userRouter from "./routes/userRouter.js";
 import adminRouter from "./routes/adminRouter.js";
+import minimartRouter from "./routes/minimartRouter.js";
 
 const app = express();
 
@@ -12,6 +14,7 @@ const loadMiddleware = () => {
   app.use(morgan("dev"));
   app.use("/user", userRouter);
   app.use("/admin", adminRouter);
+  app.use("/minimart", minimartRouter);
   app.get("/keep-alive", (req, res) => {
     res.status(204).send();
   });
