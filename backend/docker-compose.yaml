@@ -3,16 +3,15 @@ services:
     image: hack4good-app
     build:
       context: .
-      dockerfile: Dockerfile.app
+      dockerfile: Dockerfile
     ports:
       - '4000:4000'
   db:
-    image: 'postgres'
-    build:
-      context: ./database
-      dockerfile: Dockerfile.database
+    image: postgres
     ports:
       - '5432:5432'
+    volumes:
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     environment:
       POSTGRES_USER: ${PG_USER}
       POSTGRES_PASSWORD: ${PG_PASSWORD}
