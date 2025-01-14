@@ -1,7 +1,6 @@
 import express from "express";
 import morgan from "morgan";
 
-import indexRouter from "./routes/index.js";
 import userRouter from "./routes/userRouter.js";
 import adminRouter from "./routes/adminRouter.js";
 import minimartRouter from "./routes/minimartRouter.js";
