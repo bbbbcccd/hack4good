@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 
 import {
   createUser,
@@ -9,25 +9,35 @@ import {
   updateAdmin,
   deleteAdmin,
   getAdmins,
-} from '../controllers/adminController.js';
+} from "../controllers/adminController.js";
+
+import * as TaskController from "../controllers/taskController.js";
 
 const adminRouter = express.Router();
 
-adminRouter.get('/users', getUsers);
+adminRouter.get("/users", getUsers);
 
-adminRouter.post('/users', createUser);
+adminRouter.post("/users", createUser);
 
-adminRouter.patch('/users/:id', updateUser);
+adminRouter.patch("/users/:id", updateUser);
 
-adminRouter.delete('/users/:id', deleteUser);
+adminRouter.delete("/users/:id", deleteUser);
 
-adminRouter.post('/admin', createAdmin);
+adminRouter.post("/admin", createAdmin);
 
-adminRouter.patch('/admin/:id', updateAdmin);
+adminRouter.patch("/admin/:id", updateAdmin);
 
-adminRouter.delete('/admin/:id', deleteAdmin);
+adminRouter.delete("/admin/:id", deleteAdmin);
 
 // should be removed in the future
-adminRouter.get('/admin', getAdmins);
+adminRouter.get("/admin", getAdmins);
+
+adminRouter.get("/admin/task", TaskController.getTask);
+
+adminRouter.post("/admin/task", TaskController.createTask);
+
+adminRouter.patch("/admin/task", TaskController.updateTask);
+
+adminRouter.delete("/admin/task", TaskController.deleteTask);
 
 export default adminRouter;
