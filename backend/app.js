@@ -2,7 +2,7 @@ import express from "express";
 import morgan from "morgan";
 
 import indexRouter from "./routes/index.js";
-import userRouter from "./routes/users/userRoute.js";
+import userRouter from "./routes/userRouter.js";
 import adminRouter from "./routes/adminRouter.js";
 
 const app = express();
