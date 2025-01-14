@@ -1,6 +1,6 @@
 import express from "express";
 
-import * as UserController from "../../controllers/userController.js";
+import * as UserController from "../controllers/userController.js";
 
 const userRouter = express.Router();
 
@@ -18,12 +18,5 @@ userRouter.get("/", UserController.getUserDetails);
 // Complete task
 
 // View task completion history
-
-indexRouter.get("/", async (req, res) => {
-  await pool.query(
-    "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, name VARCHAR(255), age INT)"
-  );
-  res.send("Success!");
-});
 
 export default userRouter;

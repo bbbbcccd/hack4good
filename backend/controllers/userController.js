@@ -1,18 +1,21 @@
-import express from "express";
-
 import pool from "../database/db.js";
 
 export const getUserDetails = async (req, res) => {
-  const username = req.username;
-  const password = req.password;
+  const { username, password } = req.body;
 
-  const result = await pool.query(
-    "SELECT * FROM users WHERE username = $1 AND password = $2",
-    [username, password]
-  );
-  if (result.length != 1) {
-    res.status(400).end("Invalid user");
-  }
+  await pool
+    .query("SELECT * FROM users WHERE username = $1 AND password = $2", [
+      username,
+      password,
+    ])
+    .then((data) => {
+      if (data.rows.length != 1) {
+        res.status(400).json({ msg: "Invalid user" });
+      }
 
-  res.status(200).send(result.rows[0]);
+      res.send(data.rows[0]);
+    })
+    .catch((err) =>
+      res.status(400).json({ msg: "Error fetching user", error: err.message })
+    );
 };
