@@ -1,16 +1,15 @@
-import express from "express";
-import morgan from "morgan";
-
-import indexRouter from "./routes/index.js";
+import express from 'express';
+import morgan from 'morgan';
+import adminRouter from './routes/adminRouter.js';
 
 const app = express();
 
 const loadMiddleware = () => {
   app.use(express.json());
 
-  app.use(morgan("dev"));
-  app.use("/", indexRouter);
-  app.get("/keep-alive", (req, res) => {
+  app.use(morgan('dev'));
+  app.use('/admin', adminRouter);
+  app.get('/keep-alive', (req, res) => {
     res.status(204).send();
   });
 };
@@ -18,12 +17,12 @@ const loadMiddleware = () => {
 loadMiddleware();
 
 app.use((req, res, next) => {
-  next(createHttpError(404, "Missing endpoint."));
+  next(createHttpError(404, 'Missing endpoint.'));
 });
 
 // error handler
 app.use((error, req, res, next) => {
-  let errorMsg = "Unknown error occured!";
+  let errorMsg = 'Unknown error occured!';
   res.status(500).json({ error: errorMsg });
 });
 
