@@ -32,12 +32,12 @@ adminRouter.delete("/admin/:id", deleteAdmin);
 // should be removed in the future
 adminRouter.get("/admin", getAdmins);
 
-adminRouter.get("/admin/task", TaskController.getTask);
+adminRouter.get("/task", TaskController.getTask);
 
-adminRouter.post("/admin/task", TaskController.createTask);
+adminRouter.post("/task", TaskController.createTask);
 
-adminRouter.patch("/admin/task", TaskController.updateTask);
+adminRouter.patch("/task", TaskController.updateTask);
 
-adminRouter.delete("/admin/task", TaskController.deleteTask);
+adminRouter.delete("/task", TaskController.deleteTask);
 
 export default adminRouter;
