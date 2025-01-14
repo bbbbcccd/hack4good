@@ -19,7 +19,7 @@ items (
   quantity INTEGER NOT NULL CHECK (quantity >= 0)
 );
 
-CREATE TYPE TRANSACTION_STATUS AS ENUM ('paid', 'received', 'pre-ordered');
+CREATE TYPE IF NOT EXISTS TRANSACTION_STATUS AS ENUM ('paid', 'received', 'pre-ordered');
 
 CREATE TABLE IF NOT EXISTS
 transactions (
@@ -37,7 +37,7 @@ tasks (
   reward NUMERIC NOT NULL
 );
 
-CREATE TYPE TASK_STATUS AS ENUM ('requested', 'approved', 'rejected');
+CREATE TYPE TASK_STATUS IF NOT EXISTS AS ENUM ('requested', 'approved', 'rejected');
 
 CREATE TABLE IF NOT EXISTS
 task_completions (
