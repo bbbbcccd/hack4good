@@ -223,6 +223,10 @@ export const updateAdmin = async (req, res) => {
     values.push(password);
   }
 
+  if (updatedFields.length === 0) {
+    res.status(400).json({ msg: 'At least one field must be updated.' });
+  }
+
   values.push(id);
 
   await pool
