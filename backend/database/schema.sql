@@ -34,8 +34,7 @@ transactions (
 
 CREATE TABLE IF NOT EXISTS
 tasks (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(256) NOT NULL,
+  name VARCHAR(256) PRIMARY KEY,
   reward NUMERIC NOT NULL
 );
 
