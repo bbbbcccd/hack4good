@@ -47,7 +47,7 @@ tasks (
   reward NUMERIC NOT NULL
 );
 
-CREATE TYPE TASK_STATUS AS ENUM ('requested', 'approved', 'rejected');
+CREATE TYPE TASK_STATUS AS ENUM ('requested', 'approved');
 
 CREATE TABLE IF NOT EXISTS
 task_completions (

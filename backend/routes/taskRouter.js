@@ -12,4 +12,10 @@ taskRouter.patch("/", TaskController.updateTask);
 
 taskRouter.delete("/", TaskController.deleteTask);
 
+taskRouter.post("/complete", TaskController.completeTask);
+
+taskRouter.patch("/approve", TaskController.approveTask);
+
+taskRouter.patch("/reject", TaskController.rejectTask);
+
 export default taskRouter;
