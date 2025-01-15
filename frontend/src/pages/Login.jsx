@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button, TextField, Typography, FormControlLabel, Checkbox, Container, Box, Paper } from '@mui/material';
 
+// NOT TESTED YET: seems like the password encryption is not yet done in backend
 export default function Login() {
+    const navigate = useNavigate();
+
     // enum for formtypes
     const FormTypes = Object.freeze({
         ADMIN: "admin",
@@ -12,27 +16,29 @@ export default function Login() {
     const [formType, setFormType] = useState(FormTypes.RESIDENT);
 
     const initialData = {
-        name: '',
+        username: '',
         password: '',
     };
     const [data, setData] = useState(initialData)
     
     async function loginUser(e) {
         e.preventDefault();
-        const { name, password } = data;
+        const { username, password } = data;
+        // NOT DONE: seems like admin get path not done yet
+        const path = FormTypes.RESIDENT ? '/user' : '/admin';
 
         try {
-            // if admin then how??
-            const { responseData } = await axios.post('/login', { name, password });
-            // check for error depends on response from server
-            if (responseData.error) {
-                // error handling
-                console.error(responseData.error)
+            const response = await axios.get(path, { username, password });
+            console.log(response);
+            if (response.error) {
+                console.log(response.error);
+                console.log(response.msg);
             } else {
                 setData(initialData);
-                // not sure where the use JSON starts (responseData.payload.data?)
-                localStorage.setItem('user', JSON.stringify(responseData.payload));
-                console.log(`Logged in as: ${responseData.payload}`);
+                const userString = JSON.stringify(response.data);
+                localStorage.setItem('user', userString);
+                console.log("Logged in as: " + userString);
+                navigate('/dashboard');
             }
         } catch (error) {
             console.error('Error during login:', error);
@@ -46,8 +52,8 @@ export default function Login() {
             <Box component={Paper} p={10} boxShadow={3} width={400}>
                 <Typography variant="h4" gutterBottom align="center"> Login </Typography>
                 <form onSubmit={loginUser}>
-                <TextField label="Username" variant="outlined" fullWidth margin="normal" required id="name" type="text"
-                    value={data.name} onChange={(e) => setData({ ...data, name: e.target.value })} />
+                <TextField label="Username" variant="outlined" fullWidth margin="normal" required id="username" type="text"
+                    value={data.username} onChange={(e) => setData({ ...data, username: e.target.value })} />
                 <TextField label="Password" variant="outlined" fullWidth margin="normal" required id="password" type="password"
                     value={data.password} onChange={(e) => setData({ ...data, password: e.target.value })} />
                 <FormControlLabel

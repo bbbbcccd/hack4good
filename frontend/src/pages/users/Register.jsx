@@ -24,11 +24,10 @@ export default function Register() {
     async function registerUser(e) {
         e.preventDefault();
         const { username, unhashedPw, phoneNumber } = data;
+        const path = FormTypes.RESIDENT ? '/admin/users' : '/admin/admin';
 
         try {
-            const path = FormTypes.RESIDENT ? '/admin/users' : '/admin/admin';
             const responseData = await axios.post(path, { username, unhashedPw, phoneNumber });
-            // check for error depends on response from server
             if (responseData.error) {
                 console.log(responseData.error);
                 console.log(responseData.msg);
