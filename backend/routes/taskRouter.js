@@ -1,6 +1,7 @@
 import express from "express";
 
 import * as TaskController from "../controllers/taskController.js";
+import * as TaskCompletionController from "../controllers/taskCompletionController.js";
 
 const taskRouter = express.Router();
 
@@ -12,10 +13,10 @@ taskRouter.patch("/", TaskController.updateTask);
 
 taskRouter.delete("/", TaskController.deleteTask);
 
-taskRouter.post("/complete", TaskController.completeTask);
+taskRouter.post("/complete", TaskCompletionController.completeTask);
 
-taskRouter.patch("/approve", TaskController.approveTask);
+taskRouter.patch("/approve", TaskCompletionController.approveTask);
 
-taskRouter.patch("/reject", TaskController.rejectTask);
+taskRouter.patch("/reject", TaskCompletionController.rejectTask);
 
 export default taskRouter;
