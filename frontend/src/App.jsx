@@ -5,6 +5,7 @@ import axios from 'axios';
 // pages
 import Login from './pages/Login';
 import Users from './pages/users/Users';
+import UserDashboard from './pages/UserDashboard';
 
 // components
 
@@ -20,6 +21,7 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login/>}/>
         <Route path='/users' element={<Users/>}/>
+        <Route path='/dashboard' element={<UserDashboard />} />
       </Routes>
     </>
   )
