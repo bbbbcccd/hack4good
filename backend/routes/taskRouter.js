@@ -13,6 +13,8 @@ taskRouter.patch("/", TaskController.updateTask);
 
 taskRouter.delete("/", TaskController.deleteTask);
 
+taskRouter.get("/complete", TaskCompletionController.getTasks);
+
 taskRouter.post("/complete", TaskCompletionController.completeTask);
 
 taskRouter.patch("/approve", TaskCompletionController.approveTask);

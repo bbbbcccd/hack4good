@@ -2,6 +2,19 @@ import pool from "../database/db.js";
 
 // CRUD operations on task_completions
 // At any point in time, each task can only be in requested status up to 1 time for each user
+
+// TODO: Provide filters for getting voucher task completions
+export const getTasks = async (req, res) => {
+  await pool
+    .query("SELECT * FROM task_completions")
+    .then((data) => res.send(data.rows))
+    .catch((err) =>
+      res
+        .status(400)
+        .json({ msg: "Error getting task completions", error: err.message })
+    );
+};
+
 export const completeTask = async (req, res) => {
   const { taskName, username } = req.body;
 
