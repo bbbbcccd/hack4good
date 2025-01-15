@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button, TextField, Typography, FormControlLabel, Checkbox, Container, Box, Paper } from '@mui/material';
 
@@ -62,7 +62,8 @@ export default function Login() {
                 />
                 <Button type="submit" variant="contained" color="primary" fullWidth> Continue </Button>
                 </form>
-                
+
+                <Typography variant='body2' align='center' mt={2} sx={{ textDecoration: 'none', color: 'grey' }} >Don't have an account? <br/> Contact an admin to create one.</Typography>
             </Box>
         </Container>
     );

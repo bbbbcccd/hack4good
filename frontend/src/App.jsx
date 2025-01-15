@@ -9,6 +9,7 @@ import UserDashboard from './pages/UserDashboard';
 import MinimartPage from './pages/MinimartPage'
 
 // components
+import Navbar from './components/Navbar';
 
 import './App.css'
 
@@ -19,12 +20,15 @@ function App() {
 
   return (
     <>
-      <Routes>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/users' element={<Users/>}/>
-        <Route path='/dashboard' element={<UserDashboard />} />
-        <Route path='/minimart' element={<MinimartPage />} />
-      </Routes>
+      <Navbar/>
+      <div>
+        <Routes>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/users' element={<Users/>}/>
+          <Route path='/dashboard' element={<UserDashboard />} />
+          <Route path='/minimart' element={<MinimartPage />} />
+        </Routes>
+      </div>
     </>
   )
 }
