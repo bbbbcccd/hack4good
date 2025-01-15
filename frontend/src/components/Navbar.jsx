@@ -13,6 +13,9 @@ export default function ButtonAppBar() {
             </a>
           </IconButton>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Link to='/users' >
+              <Button sx={{ color: 'white' }} >Users</Button>
+            </Link>
             <Link to='/dashboard' >
               <Button sx={{ color: 'white' }} >Dashboard</Button>
             </Link>
