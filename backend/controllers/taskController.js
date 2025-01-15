@@ -32,7 +32,7 @@ export const getTask = async (req, res) => {
     res.status(400).json({ msg: "Invalid task" });
   }
 
-  res.send(response.rows[0]);
+  res.send(result.rows[0]);
 };
 
 export const updateTask = async (req, res) => {
