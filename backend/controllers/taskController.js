@@ -29,7 +29,7 @@ export const getTask = async (req, res) => {
   ]);
 
   if (result.rows.length != 1) {
-    res.status(400).json({ msg: "Invalid task" });
+    return res.status(400).json({ msg: "Invalid task" });
   }
 
   res.send(result.rows[0]);
@@ -39,37 +39,44 @@ export const updateTask = async (req, res) => {
   const { currentName, newName, newReward } = req.body;
 
   if (!currentName) {
-    res.status(400).json({ msg: "Current task name is required." });
+    return res.status(400).json({ msg: "Current task name is required." });
   }
 
   if (!newName && !newReward) {
-    res.status(400).json({ msg: "At least one field must be updated." });
+    return res.status(400).json({ msg: "At least one field must be updated." });
   }
 
   const currentTask = await pool.query("SELECT * FROM tasks WHERE name = $1", [
     currentName,
   ]);
   if (currentTask.rows.length === 0) {
-    res.status(400).json({ msg: "Task not found" });
+    return res.status(400).json({ msg: "Task not found" });
   }
 
   const { reward } = currentTask.rows[0];
 
-  const result = await pool.query("UPDATE tasks SET $2, $3 WHERE name = $1", [
-    currentName,
-    newName || currentName,
-    newReward || reward,
-  ]);
-
-  console.log(result);
-  res.send(result);
+  await pool
+    .query("UPDATE tasks SET name = $2, reward = $3 WHERE name = $1", [
+      currentName,
+      newName || currentName,
+      newReward || reward,
+    ])
+    .then((data) => res.send("Successfully updated task"))
+    .catch((err) =>
+      res.status(400).json({ msg: "Error updating task", error: err.message })
+    );
 };
 
 export const deleteTask = async (req, res) => {
-  const { name } = req;
+  const { name } = req.body;
 
   if (!name) {
-    res.status(400).json({ msg: "Task name required" });
+    return res.status(400).json({ msg: "Task name required" });
+  }
+
+  const task = await pool.query("SELECT * FROM tasks WHERE name = $1", [name]);
+  if (task.rows.length === 0) {
+    return res.status(400).json({ msg: "Task not found" });
   }
 
   await pool
