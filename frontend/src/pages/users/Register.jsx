@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button, TextField, Typography, FormControlLabel, Checkbox, Container, Box, Paper } from '@mui/material';
 
 export default function Register() {
+    const navigate = useNavigate();
+
     // enum for formtypes
     const FormTypes = Object.freeze({
         ADMIN: "admin",
@@ -31,12 +34,13 @@ export default function Register() {
                 console.log(responseData.msg);
             } else {
                 setData(initialData);
-                localStorage.setItem('user', JSON.stringify(responseData.data));
-                console.log("Logged in as: " + responseData.data);
+                const userString = JSON.stringify(responseData.data);
+                localStorage.setItem('user', userString);
+                console.log("Logged in as: " + userString);
+                navigate('/dashboard');
             }
         } catch (error) {
-            console.log(error.response.data.msg + ": " + error.response.data.error);
-
+            console.log("Error during login: " + error);
         }
     }
 
