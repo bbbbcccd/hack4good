@@ -1,5 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
 import indexRouter from './routes/index.js';
 import userRouter from './routes/userRouter.js';
@@ -7,9 +9,15 @@ import adminRouter from './routes/adminRouter.js';
 import minimartRouter from './routes/minimartRouter.js';
 
 const app = express();
+dotenv.config();
 
 const loadMiddleware = () => {
   app.use(express.json());
+  app.use(cors({
+    origin: process.env.CLIENT_URL,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true
+  }));
 
   app.use(morgan('dev'));
   app.use('/', indexRouter);

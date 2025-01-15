@@ -20,23 +20,23 @@ export default function Register() {
     
     async function registerUser(e) {
         e.preventDefault();
-        const { name, password } = data;
+        const { username, unhashedPw, phoneNumber } = data;
 
         try {
-            const path = FormTypes.RESIDENT ? '/users' : '/admin';
-            const { responseData } = await axios.post(path, { name, password });
+            const path = FormTypes.RESIDENT ? '/admin/users' : '/admin/admin';
+            const responseData = await axios.post(path, { username, unhashedPw, phoneNumber });
             // check for error depends on response from server
             if (responseData.error) {
-                // error handling
-                console.error(responseData.error)
+                console.log(responseData.error);
+                console.log(responseData.msg);
             } else {
                 setData(initialData);
-                // not sure where the use JSON starts (responseData.payload.data?)
-                localStorage.setItem('user', JSON.stringify(responseData.payload.data));
-                console.log(`Logged in as: ${responseData.payload.data}`);
+                localStorage.setItem('user', JSON.stringify(responseData.data));
+                console.log("Logged in as: " + responseData.data);
             }
         } catch (error) {
-            console.error('Error during login:', error);
+            console.log(error.response.data.msg + ": " + error.response.data.error);
+
         }
     }
 
