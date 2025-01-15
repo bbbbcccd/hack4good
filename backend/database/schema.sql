@@ -14,8 +14,7 @@ admins (
 
 CREATE TABLE IF NOT EXISTS
 items (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(256) NOT NULL,
+  name VARCHAR(256) PRIMARY KEY,
   cost NUMERIC NOT NULL CHECK (cost > 0),
   quantity INTEGER NOT NULL CHECK (quantity >= 0)
 );
@@ -27,24 +26,24 @@ transactions (
   status TRANSACTION_STATUS NOT NULL,
   date TIMESTAMP NOT NULL,
   quantity INTEGER NOT NULL CHECK (quantity > 0),
-  item_id INTEGER REFERENCES items (id),
-  username VARCHAR(256) REFERENCES users (username), 
-  PRIMARY KEY (item_id, username)
+  item_name VARCHAR(256) REFERENCES items (name),
+  username VARCHAR(256) REFERENCES users (username),
+  PRIMARY KEY (item_name, username)
 );
 
 CREATE TABLE IF NOT EXISTS
 tasks (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(256) NOT NULL,
+  name VARCHAR(256) PRIMARY KEY,
   reward NUMERIC NOT NULL
 );
 
 CREATE TYPE TASK_STATUS AS ENUM ('requested', 'approved', 'rejected');
 
-CREATE TABLE IF NOT EXISTS 
+CREATE TABLE IF NOT EXISTS
 task_completions (
   status TASK_STATUS NOT NULL,
   date TIMESTAMP NOT NULL,
-  task_id INTEGER REFERENCES tasks (id),
-  username VARCHAR(256) REFERENCES users (username)
+  task_name VARCHAR(256) REFERENCES tasks (name),
+  username VARCHAR(256) REFERENCES users (username),
+  PRIMARY KEY (task_name, username)
 );
