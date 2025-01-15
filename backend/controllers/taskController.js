@@ -1,5 +1,7 @@
 import pool from "../database/db.js";
 
+// CRUD for voucher tasks
+
 export const createTask = async (req, res) => {
   const { name, reward } = req.body;
 
