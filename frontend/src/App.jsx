@@ -3,10 +3,10 @@ import {Routes, Route} from 'react-router-dom';
 import axios from 'axios';
 
 // pages
-import Login from './pages/Login';
+import Login from './pages/users/Login';
 import Users from './pages/users/Users';
-import UserDashboard from './pages/UserDashboard';
-import MinimartPage from './pages/MinimartPage'
+import UserDashboard from './pages/users/UserDashboard';
+import MinimartPage from './pages/users/MinimartPage'
 
 // components
 import Navbar from './components/Navbar';
