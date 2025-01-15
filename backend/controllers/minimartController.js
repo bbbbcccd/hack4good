@@ -29,7 +29,7 @@ export const addItem = async (req, res) => {
   const { name, cost, quantity } = req.body;
 
   if (!name || !cost || !quantity) {
-    res.status(400).json({ msg: 'Name, cost, and quantity are required.' });
+    return res.status(400).json({ msg: 'Name, cost, and quantity are required.' });
   }
 
   await pool
@@ -47,7 +47,7 @@ export const updateItem = async (req, res) => {
   const { name, cost, quantity } = req.body;
 
   if (!id) {
-    res.status(400).json({ msg: 'Item ID (name) is required.' });
+    return res.status(400).json({ msg: 'Item ID (name) is required.' });
   }
 
   const updatedFields = [];
@@ -67,6 +67,10 @@ export const updateItem = async (req, res) => {
   if (quantity) {
     updatedFields.push(`quantity = $${idx++}`);
     values.push(quantity);
+  }
+
+  if (updatedFields.length === 0) {
+    return res.status(400).json({ msg: 'At least one field must be updated.' });
   }
 
   values.push(id);

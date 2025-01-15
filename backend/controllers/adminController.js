@@ -86,9 +86,8 @@ export const updateUser = async (req, res) => {
   const { username, unhashedPw, vouchers, phoneNumber } = req.body;
 
   if (!id) {
-    res.status(400).json({ msg: 'User ID (username) is required.' });
+    return res.status(400).json({ msg: 'User ID (username) is required.' });
   }
-  console.log(id);
 
   const updatedFields = [];
   const values = [];
@@ -113,6 +112,10 @@ export const updateUser = async (req, res) => {
   if (phoneNumber) {
     updatedFields.push(`phone_number = $${idx++}`);
     values.push(phoneNumber);
+  }
+
+  if (updatedFields.length === 0) {
+    return res.status(400).json({ msg: 'At least one field must be updated.' });
   }
 
   values.push(id);
@@ -205,7 +208,7 @@ export const updateAdmin = async (req, res) => {
   const { username, unhashedPw } = req.body;
 
   if (!id) {
-    res.status(400).json({ msg: 'Admin ID (username) is required.' });
+    return res.status(400).json({ msg: 'Admin ID (username) is required.' });
   }
 
   const updatedFields = [];
@@ -224,7 +227,7 @@ export const updateAdmin = async (req, res) => {
   }
 
   if (updatedFields.length === 0) {
-    res.status(400).json({ msg: 'At least one field must be updated.' });
+    return res.status(400).json({ msg: 'At least one field must be updated.' });
   }
 
   values.push(id);
@@ -253,7 +256,7 @@ export const deleteAdmin = async (req, res) => {
   const { id } = req.params;
 
   if (!id) {
-    res.status(400).json({ msg: 'Admin ID (username) is required.' });
+    return res.status(400).json({ msg: 'Admin ID (username) is required.' });
   }
 
   await pool

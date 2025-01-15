@@ -3,10 +3,10 @@ import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-import indexRouter from './routes/index.js';
-import userRouter from './routes/userRouter.js';
-import adminRouter from './routes/adminRouter.js';
-import minimartRouter from './routes/minimartRouter.js';
+import userRouter from "./routes/userRouter.js";
+import adminRouter from "./routes/adminRouter.js";
+import taskRouter from "./routes/taskRouter.js";
+import minimartRouter from "./routes/minimartRouter.js";
 
 const app = express();
 dotenv.config();
@@ -19,12 +19,12 @@ const loadMiddleware = () => {
     credentials: true
   }));
 
-  app.use(morgan('dev'));
-  app.use('/', indexRouter);
-  app.use('/user', userRouter);
-  app.use('/admin', adminRouter);
-  app.use('/minimart', minimartRouter);
-  app.get('/keep-alive', (req, res) => {
+  app.use(morgan("dev"));
+  app.use("/user", userRouter);
+  app.use("/admin", adminRouter);
+  app.use("/task", taskRouter);
+  app.use("/minimart", minimartRouter);
+  app.get("/keep-alive", (req, res) => {
     res.status(204).send();
   });
 };
@@ -32,12 +32,12 @@ const loadMiddleware = () => {
 loadMiddleware();
 
 app.use((req, res, next) => {
-  next(createHttpError(404, 'Missing endpoint.'));
+  next(createHttpError(404, "Missing endpoint."));
 });
 
 // error handler
 app.use((error, req, res, next) => {
-  let errorMsg = 'Unknown error occured!';
+  let errorMsg = "Unknown error occured!";
   res.status(500).json({ error: errorMsg });
 });
 
