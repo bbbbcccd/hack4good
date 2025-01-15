@@ -23,7 +23,7 @@ export default function Register() {
         const { name, password } = data;
 
         try {
-            const path = formType = FormTypes.RESIDENT ? '/users' : '/admin';
+            const path = FormTypes.RESIDENT ? '/users' : '/admin';
             const { responseData } = await axios.post(path, { name, password });
             // check for error depends on response from server
             if (responseData.error) {
