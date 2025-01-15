@@ -16,6 +16,9 @@ export default function ButtonAppBar() {
             <Link to='/dashboard' >
               <Button sx={{ color: 'white' }} >Dashboard</Button>
             </Link>
+            <Link to='/minimart' >
+              <Button sx={{ color: 'white' }} >Minimart</Button>
+            </Link>
             <Link to='/login' >
               <Button sx={{ color: 'white' }} >Login</Button>
             </Link>
