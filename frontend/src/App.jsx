@@ -6,6 +6,7 @@ import axios from 'axios';
 import Login from './pages/Login';
 import Users from './pages/users/Users';
 import UserDashboard from './pages/UserDashboard';
+import MinimartPage from './pages/MinimartPage'
 
 // components
 
@@ -22,6 +23,7 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/users' element={<Users/>}/>
         <Route path='/dashboard' element={<UserDashboard />} />
+        <Route path='/minimart' element={<MinimartPage />} />
       </Routes>
     </>
   )
