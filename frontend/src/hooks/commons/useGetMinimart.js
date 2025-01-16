@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 
-import { axiosPrivate } from '../../util/api.js';
+import { useAxiosPrivate } from '../auth/useAxiosPrivate.jsx';
 import { useMinimartContext } from './useMinimartContext.js';
 
 const useGetMinimart = () => {
+    const axiosPrivate = useAxiosPrivate();
     const { minimartDispatch } = useMinimartContext();
     const [error, setError] = useState(null);
 
@@ -25,7 +26,7 @@ const useGetMinimart = () => {
         };
 
         getMinimartItems();
-    }, [minimartDispatch]);
+    }, [minimartDispatch, axiosPrivate]);
 
     return { error };
 };

@@ -10,10 +10,10 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import CustomAlert from "../components/CustomAlert.jsx";
-import { useLogin } from "../hooks/useLogin.jsx";
+import { useLogin } from "../hooks/auth/useLogin.jsx";
 import { validateCredentialsNotEmpty } from "../util/validator.js";
 import LockIcon from "@mui/icons-material/Lock";
-import { useRandomColorGradient } from "../hooks/useRandomColorGradient.jsx";
+import { useRandomColorGradient } from "../hooks/auth/useRandomColorGradient.jsx";
 
 const Login = () => {
   const [username, setUsername] = useState("");

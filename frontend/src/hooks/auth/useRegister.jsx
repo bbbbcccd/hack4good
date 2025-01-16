@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from './useAuthContext.jsx';
-import { useAxiosPrivate } from './useAxiosPrivate.jsx';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "./useAuthContext.jsx";
+import { useAxiosPrivate } from "./useAxiosPrivate.jsx";
 
 export const useRegister = () => {
   const [error, setError] = useState(null);
@@ -15,7 +15,7 @@ export const useRegister = () => {
     setError(null);
 
     const data =
-      user === 'admin'
+      user === "admin"
         ? { username: username, unhashedPw: password }
         : {
             username: username,
@@ -27,17 +27,19 @@ export const useRegister = () => {
       // conditional selection of the backend endpoint based on user/admin
       .post(`/admin/${user}`, data)
       .then((res) => {
-        navigate('/dashboard');
+        navigate("/dashboard");
       })
       .catch((error) => {
         console.log(error);
 
         if (error.response?.status === 403) {
-          dispatch({ type: 'LOGOUT' });
-          navigate('/login');
+          dispatch({ type: "LOGOUT" });
+          navigate("/login");
         }
 
-        const message = error.response?.data ? `, ${error.response.data.msg}` : '';
+        const message = error.response?.data
+          ? `, ${error.response.data.msg}`
+          : "";
         setError(error.message + message);
       });
 

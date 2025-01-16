@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
-import { axiosPrivate } from '../../util/api.js';
+import { useAxiosPrivate } from '../auth/useAxiosPrivate.jsx';
 import { useTransactionContext } from './useTransactionContext.js';
 
 const usePurchaseMinimartItem = () => {
+    const axiosPrivate = useAxiosPrivate();
     const { transactionDispatch } = useTransactionContext();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);

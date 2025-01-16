@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 
-import { axiosPrivate } from '../../util/api.js';
+import { useAxiosPrivate } from '../auth/useAxiosPrivate.jsx';
 import { useTransactionContext } from './useTransactionContext.js';
 
 const useGetTransaction = () => {
+    const axiosPrivate = useAxiosPrivate();
     const { transactionDispatch } = useTransactionContext();
     const [error, setError] = useState(null);
 
@@ -25,7 +26,7 @@ const useGetTransaction = () => {
         };
 
         getTransactionItems();
-    }, [transactionDispatch]);
+    }, [transactionDispatch, axiosPrivate]);
 
     return { error };
 };

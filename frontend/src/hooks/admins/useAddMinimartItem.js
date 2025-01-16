@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
-import { axiosPrivate } from '../../util/api.js';
+import { useAxiosPrivate } from '../auth/useAxiosPrivate.jsx';
 import { useMinimartContext } from '../commons/useMinimartContext.js';
 
 const useAddMinimartItem = () => {
+    const axiosPrivate = useAxiosPrivate();
     const { minimartDispatch } = useMinimartContext();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
