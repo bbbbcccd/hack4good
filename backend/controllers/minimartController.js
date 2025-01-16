@@ -80,3 +80,39 @@ export const updateItem = async (req, res) => {
     .then((data) => res.send(data.rows[0]))
     .catch((err) => res.status(400).json({ msg: 'Error updating item.', error: err.message }));
 };
+
+export const purchaseItem = async (req, res) => {
+  const { username, itemName, quantity } = req.body;
+
+  if (!username || !itemName || !quantity) {
+    return res.status(400).json({ msg: 'Missing required fields' });
+  }
+
+  if (!Number.isInteger(quantity) || quantity < 0) {
+    return res.status(400).json({ msg: 'Invalid item quantity' });
+  }
+
+  const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+  if (user.rows.length == 0) {
+    return res.status(400).json({ msg: 'Invalid username' });
+  }
+
+  const item = await pool.query('SELECT * FROM items WHERE name = $1', [itemName]);
+  if (item.rows.length == 0) {
+    return res.status(400).json({ msg: 'Invalid item' });
+  }
+  const cost = item.rows[0].cost;
+
+  try {
+    await pool.query('BEGIN')
+    await pool.query("UPDATE items SET quantity = quantity - $1 WHERE name = $2;", [quantity, itemName]);
+    await pool.query("UPDATE users SET vouchers = vouchers - $1 WHERE username = $2;", [quantity * cost, username]);
+    const data = await pool.query("INSERT INTO transactions (status, date, quantity, item_name, username) VALUES ('paid', NOW(), $1, $2, $3) RETURNING *", [quantity, itemName, username]);
+    await pool.query('COMMIT');
+
+    res.send(data.rows[0]);
+  } catch (err) {
+    await pool.query('ROLLBACK');
+    return res.status(400).json({ msg: "Error purchasing item ", error: err.message })
+  }
+};
