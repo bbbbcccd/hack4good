@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button, TextField, Typography, FormControlLabel, Checkbox, Container, Box, Paper } from '@mui/material';
@@ -6,6 +6,13 @@ import { Button, TextField, Typography, FormControlLabel, Checkbox, Container, B
 // NOT TESTED YET: seems like the password encryption is not yet done in backend
 export default function Login() {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        if (user) {
+            navigate('/dashboard');
+        }
+    });
 
     // enum for formtypes
     const FormTypes = Object.freeze({

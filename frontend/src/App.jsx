@@ -14,6 +14,7 @@ import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AdminRequestsPage from './pages/admin/AdminRequestsPage';
 import AdminInventoryPage from './pages/admin/AdminInventoryPage';
 import AdminReportsPage from './pages/admin/AdminReportsPage';
+import VoucherTasksPage from './pages/admin/VoucherTasksPage';
 
 // Components
 import Navbar from './components/Navbar';
@@ -40,7 +41,7 @@ function App() {
 
           {/* Admin Routes */}
           <Route path="/admin/users" element={<AdminUsersPage />} />
-          <Route path="/admin/requests" element={<AdminRequestsPage />} />
+          <Route path="/admin/vouchers" element={<VoucherTasksPage />} />
           <Route path="/admin/inventory" element={<AdminInventoryPage />} />
           <Route path="/admin/reports" element={<AdminReportsPage />} />
         </Routes>
