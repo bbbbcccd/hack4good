@@ -24,7 +24,9 @@ export const loginUser = async (req, res) => {
 
   if (isMatch) {
     const token = createToken(username, '1d');
-    return res.status(200).json({ username, voucher: pw.vouchers, phone_number, token });
+    return res
+      .status(200)
+      .json({ username, voucher: pw.vouchers, phoneNumber: pw.phone_number, token });
   }
 
   res.status(400).json({ msg: 'Incorrect password.' });
