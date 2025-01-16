@@ -57,3 +57,5 @@ task_completions (
   username VARCHAR(256) REFERENCES users (username),
   PRIMARY KEY (task_name, username)
 );
+
+INSERT INTO admins VALUES ('admin', '$2b$11$RnFzJV8qL8HnoKOGo1Fi6eB.XS3yLYfmhmpcp3OjAk9qDv1IvnNQS') ON CONFLICT (username) DO NOTHING;

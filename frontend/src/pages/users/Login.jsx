@@ -1,77 +1,139 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
-import { Button, TextField, Typography, FormControlLabel, Checkbox, Container, Box, Paper } from '@mui/material';
+import { useState } from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import CustomAlert from '../../components/CustomAlert.jsx';
+import { useLogin } from '../../hooks/useLogin.jsx';
+import { validateCredentialsNotEmpty } from '../../util/validator.js';
+import LockIcon from '@mui/icons-material/Lock';
 
-// NOT TESTED YET: seems like the password encryption is not yet done in backend
-export default function Login() {
-    const navigate = useNavigate();
+const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [formError, setFormError] = useState(false);
+  const { login, loading, error } = useLogin();
 
-    useEffect(() => {
-        const user = localStorage.getItem('user');
-        if (user) {
-            navigate('/dashboard');
-        }
-    });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const inputErrors = validateCredentialsNotEmpty(username, password);
+    setFormError(inputErrors);
 
-    // enum for formtypes
-    const FormTypes = Object.freeze({
-        ADMIN: "admin",
-        RESIDENT: "resident",
-    });
-
-    const [formType, setFormType] = useState(FormTypes.RESIDENT);
-
-    const initialData = {
-        username: '',
-        password: '',
-    };
-    const [data, setData] = useState(initialData)
-    
-    async function loginUser(e) {
-        e.preventDefault();
-        const { username, password } = data;
-        // NOT DONE: seems like admin get path not done yet
-        const path = FormTypes.RESIDENT ? '/user' : '/admin';
-
-        try {
-            const response = await axios.get(path, { username, password });
-            console.log(response);
-            if (response.error) {
-                console.log(response.error);
-                console.log(response.msg);
-            } else {
-                setData(initialData);
-                const userString = JSON.stringify(response.data);
-                localStorage.setItem('user', userString);
-                console.log("Logged in as: " + userString);
-                navigate('/dashboard');
-            }
-        } catch (error) {
-            console.error('Error during login:', error);
-        }
+    if (inputErrors) {
+      return;
     }
 
-    document.title = "Login";
+    await login(username, password, isAdmin ? 'admin' : 'user');
+  };
 
-    return (
-        <Container maxWidth="sm" style={{ display: 'flex', justifyContent: 'center' }}>
-            <Box component={Paper} p={10} boxShadow={3} width={400}>
-                <Typography variant="h4" gutterBottom align="center"> Login </Typography>
-                <form onSubmit={loginUser}>
-                <TextField label="Username" variant="outlined" fullWidth margin="normal" required id="username" type="text"
-                    value={data.username} onChange={(e) => setData({ ...data, username: e.target.value })} />
-                <TextField label="Password" variant="outlined" fullWidth margin="normal" required id="password" type="password"
-                    value={data.password} onChange={(e) => setData({ ...data, password: e.target.value })} />
-                <FormControlLabel
-                    control={<Checkbox checked={formType == FormTypes.ADMIN} onChange={(e) => setFormType(e.target.checked ? FormTypes.ADMIN : FormTypes.RESIDENT)} />}
-                    label="I'm an admin"
-                />
-                <Button type="submit" variant="contained" color="primary" fullWidth> Continue </Button>
-                </form>
+  const handleChange = (setter) => {
+    return (e) => {
+      setFormError(false);
+      setter(e.target.value);
+    };
+  };
 
-                <Typography variant='body2' align='center' mt={2} sx={{ textDecoration: 'none', color: 'grey' }} >Don't have an account? <br/> Contact an admin to create one.</Typography>
+  return (
+    <>
+      {error && <CustomAlert message={error} />}
+      <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: 'linear-gradient(to right, #61F4DE, #6E78FF)',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <TextField
+                autoFocus
+                required
+                fullWidth
+                margin="normal"
+                name="username"
+                label="Username"
+                id="username"
+                autoComplete="username"
+                value={username}
+                onChange={handleChange(setUsername)}
+              />
+              <Typography className="error-message">{formError.email}</Typography>
+              <TextField
+                required
+                fullWidth
+                margin="normal"
+                name="password"
+                label="Password"
+                id="password"
+                type="password"
+                autoComplete="password"
+                value={password}
+                onChange={handleChange(setPassword)}
+              />
+              <Typography className="error-message">{formError.password}</Typography>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value="remember"
+                    color="primary"
+                    onChange={() => setIsAdmin(!isAdmin)}
+                  />
+                }
+                label="Admin Login"
+              />
+              <Button
+                fullWidth
+                type="submit"
+                variant="contained"
+                disabled={loading}
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Typography variant="body2">
+                    Forgot password? Don't have an account? Contact an Admin!
+                  </Typography>
+                </Grid>
+              </Grid>
             </Box>
-        </Container>
-    );
-}
+          </Box>
+        </Grid>
+      </Grid>
+    </>
+  );
+};
+
+export default Login;

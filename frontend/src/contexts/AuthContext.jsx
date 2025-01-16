@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React, { createContext, useReducer } from "react";
 import PropTypes from "prop-types";
+=======
+import { createContext, useReducer, useEffect } from 'react';
+import PropTypes from 'prop-types';
+>>>>>>> auth
 
 export const AuthContext = createContext();
 
@@ -23,11 +28,23 @@ export const AuthContextProvider = ({ children }) => {
     user: null,
   });
 
+<<<<<<< HEAD
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>
       {children}
     </AuthContext.Provider>
   );
+=======
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+
+    if (user) {
+      dispatch({ type: 'LOGIN', payload: JSON.parse(user) });
+    }
+  }, []);
+
+  return <AuthContext.Provider value={{ ...state, dispatch }}>{children}</AuthContext.Provider>;
+>>>>>>> auth
 };
 AuthContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
