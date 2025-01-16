@@ -7,12 +7,14 @@ import Login from './pages/users/Login';
 import Users from './pages/users/Users';
 import UserDashboard from './pages/users/UserDashboard';
 import MinimartPage from './pages/users/MinimartPage';
+import MinimartNew from './pages/users/MinimartNew';
 
 // Admin Pages
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AdminRequestsPage from './pages/admin/AdminRequestsPage';
 import AdminInventoryPage from './pages/admin/AdminInventoryPage';
 import AdminReportsPage from './pages/admin/AdminReportsPage';
+import VoucherTasksPage from './pages/admin/VoucherTasksPage';
 
 // Components
 import Navbar from './components/Navbar';
@@ -33,11 +35,12 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/users" element={<Users />} />
           <Route path="/dashboard" element={<UserDashboard />} />
-          <Route path="/minimart" element={<MinimartPage />} />
-
+          <Route path="/minimartold" element={<MinimartPage />} />
+          <Route path="/minimart" element={<MinimartNew />} />
+          
           {/* Admin Routes */}
           <Route path="/admin/users" element={<AdminUsersPage />} />
-          <Route path="/admin/requests" element={<AdminRequestsPage />} />
+          <Route path="/admin/vouchers" element={<VoucherTasksPage />} />
           <Route path="/admin/inventory" element={<AdminInventoryPage />} />
           <Route path="/admin/reports" element={<AdminReportsPage />} />
         </Routes>
