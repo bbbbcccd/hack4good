@@ -16,9 +16,17 @@ const minimartReducer = (minimartState, action) => {
       };
     case "UPDATE_ITEM":
       return {
-        items: minimartState.items.map((item) =>
-          item.id === action.payload.name ? action.payload : item
-        ),
+        items: minimartState.items.map((item) => {
+          if (item.name === action.payload.currentName) {
+            return {
+              name: action.payload.name,
+              cost: action.payload.cost,
+              quantity: action.payload.quantity,
+            };
+          } else {
+            return item;
+          }
+        }),
       };
     default:
       return minimartState;
