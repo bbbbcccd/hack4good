@@ -13,14 +13,27 @@ import {
 } from "@mui/material";
 
 import useGetMinimart from "../../hooks/commons/useGetMinimart.js";
+import useAddMinimartItem from "../../hooks/admins/useAddMinimartItem.js";
+import useDeleteMinimartItem from "../../hooks/admins/useDeleteMinimartItem.js";
+import useUpdateMinimartItem from "../../hooks/admins/useUpdateMinimartItem.js";
 import { useMinimartContext } from "../../hooks/commons/useMinimartContext.js";
 
 export default function MinimartPage() {
   // Get minimart items
   // TODO: Display items based on minimartState
-  const { error } = useGetMinimart();
+  const getItems = useGetMinimart();
   const { minimartState } = useMinimartContext();
   console.log(minimartState); // NOTE: For debugging only. To be removed
+
+  const addItem = useAddMinimartItem();
+  const deleteItem = useDeleteMinimartItem();
+  const updateItem = useUpdateMinimartItem();
+  // TODO: Dummy test button handler for hooks. To be removed.
+  const testButton = async () => {
+    await addItem.addItem("test", 1, 12);
+    await updateItem.updateItem("test", "test1", 12, 1);
+    await deleteItem.deleteItem("test1");
+  };
 
   // Mock data for products
   const mockProducts = [
@@ -63,6 +76,11 @@ export default function MinimartPage() {
           Request available items or preorder out-of-stock products.
         </Typography>
       </Box>
+
+      {/* TODO: Dummy test button for hooks. To be removed */}
+      <Button variant="contained" onClick={() => testButton()}>
+        TEST
+      </Button>
 
       {/* Success Message */}
       {successMessage && (
