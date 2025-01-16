@@ -17,7 +17,7 @@ const useAddMinimartItem = () => {
         };
 
         await axiosPrivate
-            .post('/minimart', data)
+            .post('/admin/minimart', data)
             .then((res) => minimartDispatch({ type: 'ADD_ITEM', payload: res.data }))
             .catch((error) => {
                 console.log(error.response);

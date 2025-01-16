@@ -13,7 +13,7 @@ const useDeleteMinimartItem = () => {
         setLoading(true);
 
         await axiosPrivate
-            .delete(`/minimart/${name}`)
+            .delete(`/admin/minimart/${name}`)
             .then(() => minimartDispatch({ type: 'DELETE_ITEM', payload: { name } }))
             .catch((error) => {
                 console.log(error.response);

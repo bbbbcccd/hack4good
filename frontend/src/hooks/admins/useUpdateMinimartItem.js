@@ -17,7 +17,7 @@ const useUpdateMinimartItem = () => {
         };
 
         await axiosPrivate
-            .patch(`/minimart/${currentName}`, data)
+            .patch(`/admin/minimart/${currentName}`, data)
             .then((res) => {
                 console.log(res.data);
                 minimartDispatch({ type: 'UPDATE_ITEM', payload: { currentName, ...res.data } })
