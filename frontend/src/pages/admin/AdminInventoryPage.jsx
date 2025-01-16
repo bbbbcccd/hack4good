@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   Box,
@@ -19,57 +19,79 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Add, Remove, Search, Save, FilterList } from "@mui/icons-material";
+import useAddMinimartItem from "../../hooks/admins/useAddMinimartItem";
+import useDeleteMinimartItem from "../../hooks/admins/useDeleteMinimartItem";
+import useUpdateMinimartItem from "../../hooks/admins/useUpdateMinimartItem";
+import { axiosPrivate } from "../../util/api";
 
 export default function AdminInventoryPage() {
-  const [inventory, setInventory] = useState([
-    { id: 1, name: "Product A", stock: 10, category: "Electronics" },
-    { id: 2, name: "Product B", stock: 5, category: "Groceries" },
-    { id: 3, name: "Product C", stock: 0, category: "Groceries" },
-  ]);
-  const [newItem, setNewItem] = useState({ name: "", stock: 0, category: "" });
+  const [inventory, setInventory] = useState([]);
+  const [newItem, setNewItem] = useState({ name: "", cost: 0, quantity: 0 });
   const [searchTerm, setSearchTerm] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [filter, setFilter] = useState("All");
 
-  const handleAddItem = () => {
-    setInventory([
-      ...inventory,
-      { id: inventory.length + 1, ...newItem },
-    ]);
-    setNewItem({ name: "", stock: 0, category: "" });
+  const { addItem, loading: adding, error: addError } = useAddMinimartItem();
+  const { deleteItem, loading: deleting, error: deleteError } = useDeleteMinimartItem();
+  const { updateItem, loading: updating, error: updateError } = useUpdateMinimartItem();
+
+  // Fetch inventory on load
+  useEffect(() => {
+    const fetchInventory = async () => {
+      try {
+        const res = await axiosPrivate.get("/minimart");
+        setInventory(res.data);
+      } catch (error) {
+        console.error("Failed to fetch inventory", error);
+      }
+    };
+    fetchInventory();
+  }, []);
+
+  // Add new item
+  const handleAddItem = async () => {
+    await addItem(newItem.name, newItem.cost, newItem.quantity);
+    setInventory([...inventory, newItem]);
+    setNewItem({ name: "", cost: 0, quantity: 0 });
     setDialogOpen(false);
   };
 
-  const handleUpdateStock = (itemId, change) => {
-    setInventory(
-      inventory.map((item) =>
-        item.id === itemId ? { ...item, stock: Math.max(0, item.stock + change) } : item
-      )
-    );
+  // Update stock level
+  const handleUpdateStock = async (itemId, change) => {
+    const item = inventory.find((i) => i.id === itemId);
+    if (item) {
+      const updatedQuantity = Math.max(0, item.quantity + change);
+      await updateItem(item.name, item.name, item.cost, updatedQuantity);
+      setInventory(
+        inventory.map((i) =>
+          i.id === itemId ? { ...i, quantity: updatedQuantity } : i
+        )
+      );
+    }
   };
 
-  const filteredInventory = inventory.filter((item) => {
-    if (filter === "Low Stock") return item.stock > 0 && item.stock <= 5;
-    if (filter === "Out of Stock") return item.stock === 0;
-    return true; // 'All' filter
-  }).filter(
-    (item) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Delete item
+  const handleDeleteItem = async (name) => {
+    await deleteItem(name);
+    setInventory(inventory.filter((item) => item.name !== name));
+  };
+
+  const filteredInventory = inventory
+    .filter((item) => {
+      if (filter === "Low Stock") return item.quantity > 0 && item.quantity <= 5;
+      if (filter === "Out of Stock") return item.quantity === 0;
+      return true; // 'All' filter
+    })
+    .filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.category.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   return (
     <Box sx={{ padding: 4 }}>
-      {/* Header Bubble */}
-      <Box
-        sx={{
-          backgroundColor: "#f0f4ff",
-          borderRadius: "20px",
-          padding: 3,
-          textAlign: "center",
-          marginBottom: 4,
-        }}
-      >
+      {/* Header */}
+      <Box sx={{ backgroundColor: "#f0f4ff", borderRadius: "20px", padding: 3, textAlign: "center", marginBottom: 4 }}>
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           🛠️ Inventory Management
         </Typography>
@@ -82,9 +104,7 @@ export default function AdminInventoryPage() {
           variant="outlined"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          InputProps={{
-            endAdornment: <Search />,
-          }}
+          InputProps={{ endAdornment: <Search /> }}
           sx={{ width: "70%" }}
         />
         <FormControl sx={{ width: "25%" }}>
@@ -115,28 +135,15 @@ export default function AdminInventoryPage() {
                   variant="h3"
                   sx={{
                     fontWeight: "bold",
-                    color:
-                      item.stock === 0
-                        ? "error.main"
-                        : item.stock <= 5
-                        ? "warning.main"
-                        : "success.main",
+                    color: item.quantity === 0 ? "error.main" : item.quantity <= 5 ? "warning.main" : "success.main",
                   }}
                 >
-                  {item.stock}
+                  {item.quantity}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   Stock Level
                 </Typography>
-                <Box
-                  sx={{
-                    mt: 2,
-                    display: "flex",
-                    justifyContent: "center",
-                    gap: 1,
-                  }}
-                >
-                  {/* Decrease Stock Button */}
+                <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 1 }}>
                   <Tooltip title="Decrease Stock">
                     <Box
                       sx={{
@@ -154,7 +161,6 @@ export default function AdminInventoryPage() {
                       <Remove sx={{ fontSize: "24px", color: "error.main" }} />
                     </Box>
                   </Tooltip>
-                  {/* Increase Stock Button */}
                   <Tooltip title="Increase Stock">
                     <Box
                       sx={{
@@ -173,6 +179,14 @@ export default function AdminInventoryPage() {
                     </Box>
                   </Tooltip>
                 </Box>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  sx={{ mt: 2 }}
+                  onClick={() => handleDeleteItem(item.name)}
+                >
+                  Delete
+                </Button>
               </CardContent>
             </Card>
           </Grid>
@@ -204,17 +218,18 @@ export default function AdminInventoryPage() {
           />
           <TextField
             fullWidth
-            label="Stock"
+            label="Cost"
             type="number"
-            value={newItem.stock}
-            onChange={(e) => setNewItem({ ...newItem, stock: Math.max(0, +e.target.value) })}
+            value={newItem.cost}
+            onChange={(e) => setNewItem({ ...newItem, cost: Math.max(0, +e.target.value) })}
             sx={{ mb: 2 }}
           />
           <TextField
             fullWidth
-            label="Category"
-            value={newItem.category}
-            onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
+            label="Quantity"
+            type="number"
+            value={newItem.quantity}
+            onChange={(e) => setNewItem({ ...newItem, quantity: Math.max(0, +e.target.value) })}
             sx={{ mb: 2 }}
           />
         </DialogContent>
@@ -222,7 +237,7 @@ export default function AdminInventoryPage() {
           <Button onClick={() => setDialogOpen(false)} color="secondary">
             Cancel
           </Button>
-          <Button onClick={handleAddItem} color="primary" startIcon={<Save />}>
+          <Button onClick={handleAddItem} color="primary" startIcon={<Save />} disabled={adding}>
             Save
           </Button>
         </DialogActions>

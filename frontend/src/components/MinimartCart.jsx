@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Button, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Typography, CardContent, Badge } from '@mui/material';
+import { Box, Grid, Button, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Typography, CardContent, Badge } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Close, ShoppingCart } from '@mui/icons-material';
 import StyledCard from './StyledCard';
@@ -39,10 +39,18 @@ export default function CustomizedDialogs({ cart }) {
   }
 
   return (
-    <>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open Cart 
-        <Badge badgeContent={cart.length} color="primary" ><ShoppingCart color="action"/></Badge>
+    <Box sx={{ 
+        ml: "1%"
+      }}>
+      <Button variant="outlined" onClick={handleClickOpen} 
+      sx={{
+        "&:hover": {
+          transform: "translateY(-1px)",
+          boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
+        },
+        borderRadius: "50%"
+      }}>
+        <Badge badgeContent={cart.length} color="primary" ><ShoppingCart color="action" shapeRendering='round' sx={{minHeight: 50}}/></Badge>
       </Button>
       <BootstrapDialog
         onClose={handleClose}
@@ -95,6 +103,6 @@ export default function CustomizedDialogs({ cart }) {
           </Button>
         </DialogActions>
       </BootstrapDialog>
-    </>
+    </Box>
   );
 }
