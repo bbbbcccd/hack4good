@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import PropTypes from "prop-types";
 import { MinimartContext } from "./MinimartContext.js";
 
 const minimartReducer = (minimartState, action) => {
@@ -24,7 +25,6 @@ const minimartReducer = (minimartState, action) => {
   }
 };
 
-// eslint-disable-next-line react/prop-types
 export const MinimartContextProvider = ({ children }) => {
   const [minimartState, minimartDispatch] = useReducer(minimartReducer, {
     items: [],
@@ -35,4 +35,7 @@ export const MinimartContextProvider = ({ children }) => {
       {children}
     </MinimartContext.Provider>
   );
+};
+MinimartContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
