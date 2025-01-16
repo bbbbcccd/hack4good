@@ -14,4 +14,6 @@ minimartRouter.patch("/:id", MinimartController.updateItem);
 
 minimartRouter.delete("/:id", MinimartController.deleteItem);
 
+minimartRouter.post("/purchase", MinimartController.purchaseItem);
+
 export default minimartRouter;

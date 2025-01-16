@@ -38,7 +38,7 @@ transactions (
   quantity INTEGER NOT NULL CHECK (quantity > 0),
   item_name VARCHAR(256) REFERENCES items (name),
   username VARCHAR(256) REFERENCES users (username),
-  PRIMARY KEY (item_name, username)
+  PRIMARY KEY (item_name, username, date)
 );
 
 CREATE TABLE IF NOT EXISTS
