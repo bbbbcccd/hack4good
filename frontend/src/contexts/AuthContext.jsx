@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import { createContext, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
 export const AuthContext = createContext();
