@@ -7,6 +7,7 @@ import Login from './pages/users/Login';
 import Users from './pages/users/Users';
 import UserDashboard from './pages/users/UserDashboard';
 import MinimartPage from './pages/users/MinimartPage';
+import MinimartNew from './pages/users/MinimartNew';
 
 // Admin Pages
 import AdminUsersPage from './pages/admin/AdminUsersPage';
@@ -34,6 +35,8 @@ function App() {
           <Route path="/users" element={<Users />} />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/minimart" element={<MinimartPage />} />
+          <Route path="/minimart2" element={<MinimartNew />} />
+          
 
           {/* Admin Routes */}
           <Route path="/admin/users" element={<AdminUsersPage />} />
