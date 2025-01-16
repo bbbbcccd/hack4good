@@ -48,7 +48,7 @@ export const createUser = async (req, res) => {
     return res.status(400).json({ msg: 'Missing required fields' });
   }
 
-  const password = bcrypt.hash(unhashedPw, SALT_RNDS);
+  const password = await bcrypt.hash(unhashedPw, SALT_RNDS);
 
   await pool
     .query('INSERT INTO users VALUES ($1, $2, $3, $4) RETURNING username, vouchers, phone_number', [
@@ -178,7 +178,7 @@ export const createAdmin = async (req, res) => {
     return res.status(400).json({ msg: 'Missing required fields' });
   }
 
-  const password = bcrypt.hash(unhashedPw, SALT_RNDS);
+  const password = await bcrypt.hash(unhashedPw, SALT_RNDS);
 
   await pool
     .query('INSERT INTO admins VALUES ($1, $2) RETURNING username', [username, password])
