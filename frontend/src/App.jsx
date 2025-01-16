@@ -35,10 +35,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/users" element={<Users />} />
           <Route path="/dashboard" element={<UserDashboard />} />
-          <Route path="/minimart" element={<MinimartPage />} />
-          <Route path="/minimart2" element={<MinimartNew />} />
+          <Route path="/minimartold" element={<MinimartPage />} />
+          <Route path="/minimart" element={<MinimartNew />} />
           
-
           {/* Admin Routes */}
           <Route path="/admin/users" element={<AdminUsersPage />} />
           <Route path="/admin/vouchers" element={<VoucherTasksPage />} />

@@ -20,7 +20,7 @@ export default function VoucherTasksPage() {
         setRequests(response.data);
       }
     } catch (error) {
-      console.error('Error fetching listings: ', error);
+      console.error('Error fetching tasks: ', error);
     }
   }
 
