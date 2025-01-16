@@ -51,8 +51,7 @@ const Login = () => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              'url(https://coreldrawdesign.com/resources/previews/preview-happy-love-emoji-3d-wallpaper,-download-free-amazing-high-resolution-backgrounds-images-1636367175.jpg)',
+            backgroundImage: 'linear-gradient(to right, #61F4DE, #6E78FF)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
