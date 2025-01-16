@@ -1,6 +1,6 @@
 // Attach interceptors to axiosPrivate
 import { useEffect } from "react";
-import { axiosPrivate } from "../../util/api/axios";
+import { axiosPrivate } from "../../util/api.js";
 import { useAuthContext } from "./useAuthContext.jsx";
 
 const useAxiosPrivate = () => {
