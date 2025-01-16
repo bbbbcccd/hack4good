@@ -2,6 +2,7 @@ import express from 'express';
 
 import * as UserController from '../controllers/userController.js';
 import * as TaskController from '../controllers/taskController.js';
+import * as TransactionController from '../controllers/transactionController.js';
 import * as TaskCompletionController from '../controllers/taskCompletionController.js';
 import authMiddleware from '../middleware/authMiddleware.js';
 
@@ -14,6 +15,7 @@ userRouter.use(authMiddleware('users'));
 userRouter.get('/', UserController.getUserDetails);
 
 // View transaction history
+userRouter.get('/transaction', TransactionController.getUserTransactions);
 
 // Create transaction
 
