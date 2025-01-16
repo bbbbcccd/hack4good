@@ -16,23 +16,29 @@ import useGetMinimart from "../../hooks/commons/useGetMinimart.js";
 import useAddMinimartItem from "../../hooks/admins/useAddMinimartItem.js";
 import useDeleteMinimartItem from "../../hooks/admins/useDeleteMinimartItem.js";
 import useUpdateMinimartItem from "../../hooks/admins/useUpdateMinimartItem.js";
+import usePurchaseMinimartItem from "../../hooks/users/usePurchaseMinimartItem.js";
 import { useMinimartContext } from "../../hooks/commons/useMinimartContext.js";
+import { useTransactionContext } from "../../hooks/users/useTransactionContext.js";
 
 export default function MinimartPage() {
   // Get minimart items
   // TODO: Display items based on minimartState
   const getItems = useGetMinimart();
   const { minimartState } = useMinimartContext();
-  console.log(minimartState); // NOTE: For debugging only. To be removed
+  const { transactionState } = useTransactionContext();
+  console.log("Minimart state: " + minimartState); // NOTE: For debugging only. To be removed
+  console.log("Transaction state: " + transactionState); // NOTE: For debugging only. To be removed
 
   const addItem = useAddMinimartItem();
   const deleteItem = useDeleteMinimartItem();
   const updateItem = useUpdateMinimartItem();
+  const purchaseItemObj = usePurchaseMinimartItem();
   // TODO: Dummy test button handler for hooks. To be removed.
   const testButton = async () => {
-    await addItem.addItem("test", 1, 12);
-    await updateItem.updateItem("test", "test1", 12, 1);
-    await deleteItem.deleteItem("test1");
+    // await addItem.addItem("test", 1, 12);
+    // await updateItem.updateItem("test", "test1", 12, 1);
+    // await deleteItem.deleteItem("test1");
+    await purchaseItemObj.purchaseItem("usr1", "item1", 5);
   };
 
   // Mock data for products
