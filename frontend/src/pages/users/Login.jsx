@@ -101,9 +101,7 @@ const Login = () => {
               />
               <Typography className="error-message">{formError.password}</Typography>
               <FormControlLabel
-                control={
-                  <Checkbox value="remember" color="primary" onChange={handleChange(setIsAdmin)} />
-                }
+                control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
               <Button

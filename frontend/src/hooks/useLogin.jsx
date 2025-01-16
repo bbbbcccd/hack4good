@@ -6,15 +6,15 @@ import { axiosPrivate } from '../util/api.js';
 export const useLogin = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { authDispatch } = useAuthContext();
+  const { dispatch } = useAuthContext();
   const navigate = useNavigate();
 
-  const login = async (email, password, user) => {
+  const login = async (username, password, user) => {
     setLoading(true);
     setError(null);
 
     const data = {
-      email: email,
+      username: username,
       password: password,
     };
 
@@ -23,7 +23,7 @@ export const useLogin = () => {
       .post(`/auth/${user}`, data)
       .then((res) => {
         localStorage.setItem('user', JSON.stringify(res.data));
-        authDispatch({ type: 'LOGIN', payload: res.data });
+        dispatch({ type: 'LOGIN', payload: res.data });
         navigate('/dashboard');
       })
       .catch((error) => {
