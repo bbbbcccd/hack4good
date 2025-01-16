@@ -58,12 +58,11 @@ export const updateTask = async (req, res) => {
   const { reward } = currentTask.rows[0];
 
   await pool
-    .query("UPDATE tasks SET name = $2, reward = $3 WHERE name = $1", [
-      currentName,
-      newName || currentName,
-      newReward || reward,
-    ])
-    .then((data) => res.send("Successfully updated task"))
+    .query(
+      "UPDATE tasks SET name = $2, reward = $3 WHERE name = $1 RETURNING name, reward",
+      [currentName, newName || currentName, newReward || reward]
+    )
+    .then((data) => res.send(data.rows[0]))
     .catch((err) =>
       res.status(400).json({ msg: "Error updating task", error: err.message })
     );
