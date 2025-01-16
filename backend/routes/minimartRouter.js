@@ -1,13 +1,17 @@
-import express from 'express';
+import express from "express";
 
-import * as MinimartController from '../controllers/minimartController.js';
+import * as MinimartController from "../controllers/minimartController.js";
 
 const minimartRouter = express.Router();
 
-minimartRouter.get('/', MinimartController.getItems);
+minimartRouter.get("/", MinimartController.getItems);
 
-minimartRouter.get('/:id', MinimartController.getItem);
+minimartRouter.get("/:id", MinimartController.getItem);
 
-minimartRouter.patch('/:id', MinimartController.updateItem);
+minimartRouter.post("/", MinimartController.addItem);
+
+minimartRouter.patch("/:id", MinimartController.updateItem);
+
+minimartRouter.delete("/:id", MinimartController.deleteItem);
 
 export default minimartRouter;
