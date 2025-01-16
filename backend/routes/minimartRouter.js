@@ -1,17 +1,18 @@
-import express from "express";
+import express from 'express';
 
-import * as MinimartController from "../controllers/minimartController.js";
+import * as MinimartController from '../controllers/minimartController.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const minimartRouter = express.Router();
 
-minimartRouter.get("/", MinimartController.getItems);
+minimartRouter.get('/', MinimartController.getItems);
 
-minimartRouter.get("/:id", MinimartController.getItem);
+minimartRouter.get('/:id', MinimartController.getItem);
 
-minimartRouter.post("/", MinimartController.addItem);
+minimartRouter.patch('/:id', MinimartController.updateItem);
 
-minimartRouter.patch("/:id", MinimartController.updateItem);
+minimartRouter.delete('/:id', MinimartController.deleteItem);
 
-minimartRouter.delete("/:id", MinimartController.deleteItem);
+minimartRouter.post('/', MinimartController.addItem);
 
 export default minimartRouter;
