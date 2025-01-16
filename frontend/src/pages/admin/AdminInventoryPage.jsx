@@ -19,9 +19,9 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Add, Remove, Search, Save, FilterList } from "@mui/icons-material";
-import { useAddMinimartItem } from "../../hooks/admins/useAddMinimartItem";
-import { useDeleteMinimartItem } from "../../hooks/admins/useDeleteMinimartItem";
-import { useUpdateMinimartItem } from "../../hooks/admins/useUpdateMinimartItem";
+import useAddMinimartItem from "../../hooks/admins/useAddMinimartItem";
+import useDeleteMinimartItem from "../../hooks/admins/useDeleteMinimartItem";
+import useUpdateMinimartItem from "../../hooks/admins/useUpdateMinimartItem";
 import { axiosPrivate } from "../../util/api";
 
 export default function AdminInventoryPage() {
