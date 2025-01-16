@@ -26,7 +26,7 @@ const useGetMinimart = () => {
         };
 
         getMinimartItems();
-    }, []);
+    }, [minimartDispatch]);
 
     return { error };
 };

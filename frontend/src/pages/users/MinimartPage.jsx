@@ -12,11 +12,15 @@ import {
   Alert,
 } from "@mui/material";
 
+import useGetMinimart from "../../hooks/residents/useGetMinimart.js";
 import { useMinimartContext } from "../../hooks/residents/useMinimartContext.js";
 
 export default function MinimartPage() {
+  // Get minimart items
+  // TODO: Display items based on minimartState
+  const { error } = useGetMinimart();
   const { minimartState } = useMinimartContext();
-  console.log(minimartState);
+  console.log(minimartState); // NOTE: For debugging only. To be removed
 
   // Mock data for products
   const mockProducts = [
@@ -59,8 +63,6 @@ export default function MinimartPage() {
           Request available items or preorder out-of-stock products.
         </Typography>
       </Box>
-
-      <Button variant="contained">TEST</Button>
 
       {/* Success Message */}
       {successMessage && (
