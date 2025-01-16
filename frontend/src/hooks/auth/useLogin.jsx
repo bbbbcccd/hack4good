@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from './useAuthContext.jsx';
-import { axiosPrivate } from '../util/api.js';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "./useAuthContext.jsx";
+import { axiosPrivate } from "../../util/api.js";
 
 export const useLogin = () => {
   const [error, setError] = useState(null);
@@ -22,13 +22,15 @@ export const useLogin = () => {
       // conditional selection of the backend endpoint based on user/admin
       .post(`/auth/${user}`, data)
       .then((res) => {
-        localStorage.setItem('user', JSON.stringify(res.data));
-        dispatch({ type: 'LOGIN', payload: res.data });
-        navigate('/dashboard');
+        localStorage.setItem("user", JSON.stringify(res.data));
+        dispatch({ type: "LOGIN", payload: res.data });
+        navigate("/dashboard");
       })
       .catch((error) => {
         console.log(error);
-        const message = error.response?.data ? `, ${error.response.data.msg}` : '';
+        const message = error.response?.data
+          ? `, ${error.response.data.msg}`
+          : "";
         setError(error.message + message);
       });
 
