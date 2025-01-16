@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import CustomAlert from '../../components/CustomAlert.jsx';
 import { useLogin } from '../../hooks/useLogin.jsx';
 import { validateCredentialsNotEmpty } from '../../util/validator.js';
+import LockIcon from '@mui/icons-material/Lock';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -69,7 +70,9 @@ const Login = () => {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>{/* <LockOutlinedIcon /> */}</Avatar>
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockIcon />
+            </Avatar>
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
@@ -101,8 +104,14 @@ const Login = () => {
               />
               <Typography className="error-message">{formError.password}</Typography>
               <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+                control={
+                  <Checkbox
+                    value="remember"
+                    color="primary"
+                    onChange={() => setIsAdmin(!isAdmin)}
+                  />
+                }
+                label="Admin Login"
               />
               <Button
                 fullWidth
