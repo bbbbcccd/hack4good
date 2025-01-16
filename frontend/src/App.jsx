@@ -14,11 +14,10 @@ import MinimartNew from './pages/users/MinimartNew';
 
 // Admin Pages
 import AdminUsersPage from './pages/admin/AdminUsersPage';
-import AdminRequestsPage from './pages/admin/AdminRequestsPage';
 import AdminInventoryPage from './pages/admin/AdminInventoryPage';
 import AdminReportsPage from './pages/admin/AdminReportsPage';
 import VoucherTasksPage from './pages/admin/VoucherTasksPage';
-import Register from './pages/admin/RegisterPage';
+
 // Components
 import Navbar from './components/Navbar';
 import SideMenu from './components/SideMenu/SideMenu';
@@ -33,22 +32,6 @@ function App() {
   return (
     <>
       <Navbar />
-      <div>
-        <Routes>
-          {/* Public/User Routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/dashboard" element={<UserDashboard />} />
-          <Route path="/minimartold" element={<MinimartPage />} />
-          <Route path="/minimart" element={<MinimartNew />} />
-
-          {/* Admin Routes */}
-          <Route path="/admin/users" element={<AdminUsersPage />} />
-          <Route path="/admin/vouchers" element={<VoucherTasksPage />} />
-          <Route path="/admin/inventory" element={<AdminInventoryPage />} />
-          <Route path="/admin/reports" element={<AdminReportsPage />} />
-        </Routes>
-      </div>
       <Box sx={{ display: 'flex', height: '100vh' }}>
         <SideMenu />
         <Box sx={{ flexGrow: 1, marginTop: 5 }}>

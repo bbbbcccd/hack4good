@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Typography,
   Box,
@@ -17,19 +17,19 @@ import {
   FormControl,
   InputLabel,
   Tooltip,
-} from "@mui/material";
-import { Add, Remove, Search, Save, FilterList } from "@mui/icons-material";
-import useAddMinimartItem from "../../hooks/admins/useAddMinimartItem";
-import useDeleteMinimartItem from "../../hooks/admins/useDeleteMinimartItem";
-import useUpdateMinimartItem from "../../hooks/admins/useUpdateMinimartItem";
-import { axiosPrivate } from "../../util/api";
+} from '@mui/material';
+import { Add, Remove, Search, Save, FilterList } from '@mui/icons-material';
+import useAddMinimartItem from '../../hooks/admins/useAddMinimartItem';
+import useDeleteMinimartItem from '../../hooks/admins/useDeleteMinimartItem';
+import useUpdateMinimartItem from '../../hooks/admins/useUpdateMinimartItem';
+import { axiosPrivate } from '../../util/api/axios.js';
 
 export default function AdminInventoryPage() {
   const [inventory, setInventory] = useState([]);
-  const [newItem, setNewItem] = useState({ name: "", cost: 0, quantity: 0 });
-  const [searchTerm, setSearchTerm] = useState("");
+  const [newItem, setNewItem] = useState({ name: '', cost: 0, quantity: 0 });
+  const [searchTerm, setSearchTerm] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState('All');
 
   const { addItem, loading: adding, error: addError } = useAddMinimartItem();
   const { deleteItem, loading: deleting, error: deleteError } = useDeleteMinimartItem();
@@ -39,10 +39,10 @@ export default function AdminInventoryPage() {
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const res = await axiosPrivate.get("/minimart");
+        const res = await axiosPrivate.get('/minimart');
         setInventory(res.data);
       } catch (error) {
-        console.error("Failed to fetch inventory", error);
+        console.error('Failed to fetch inventory', error);
       }
     };
     fetchInventory();
@@ -52,7 +52,7 @@ export default function AdminInventoryPage() {
   const handleAddItem = async () => {
     await addItem(newItem.name, newItem.cost, newItem.quantity);
     setInventory([...inventory, newItem]);
-    setNewItem({ name: "", cost: 0, quantity: 0 });
+    setNewItem({ name: '', cost: 0, quantity: 0 });
     setDialogOpen(false);
   };
 
@@ -63,9 +63,7 @@ export default function AdminInventoryPage() {
       const updatedQuantity = Math.max(0, item.quantity + change);
       await updateItem(item.name, item.name, item.cost, updatedQuantity);
       setInventory(
-        inventory.map((i) =>
-          i.id === itemId ? { ...i, quantity: updatedQuantity } : i
-        )
+        inventory.map((i) => (i.id === itemId ? { ...i, quantity: updatedQuantity } : i)),
       );
     }
   };
@@ -78,37 +76,45 @@ export default function AdminInventoryPage() {
 
   const filteredInventory = inventory
     .filter((item) => {
-      if (filter === "Low Stock") return item.quantity > 0 && item.quantity <= 5;
-      if (filter === "Out of Stock") return item.quantity === 0;
+      if (filter === 'Low Stock') return item.quantity > 0 && item.quantity <= 5;
+      if (filter === 'Out of Stock') return item.quantity === 0;
       return true; // 'All' filter
     })
     .filter(
       (item) =>
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.category.toLowerCase().includes(searchTerm.toLowerCase())
+        item.category.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
   return (
     <Box sx={{ padding: 4 }}>
       {/* Header */}
-      <Box sx={{ backgroundColor: "#f0f4ff", borderRadius: "20px", padding: 3, textAlign: "center", marginBottom: 4 }}>
-        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+      <Box
+        sx={{
+          backgroundColor: '#f0f4ff',
+          borderRadius: '20px',
+          padding: 3,
+          textAlign: 'center',
+          marginBottom: 4,
+        }}
+      >
+        <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
           🛠️ Inventory Management
         </Typography>
       </Box>
 
       {/* Search and Filter Bar */}
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 4, alignItems: "center" }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4, alignItems: 'center' }}>
         <TextField
           label="Search Inventory"
           variant="outlined"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           InputProps={{ endAdornment: <Search /> }}
-          sx={{ width: "70%" }}
+          sx={{ width: '70%' }}
         />
-        <FormControl sx={{ width: "25%" }}>
-          <InputLabel id="filter-label" sx={{ top: "-6px", fontSize: "1rem" }}>
+        <FormControl sx={{ width: '25%' }}>
+          <InputLabel id="filter-label" sx={{ top: '-6px', fontSize: '1rem' }}>
             Filter
           </InputLabel>
           <Select
@@ -128,14 +134,19 @@ export default function AdminInventoryPage() {
       <Grid container spacing={2}>
         {filteredInventory.map((item) => (
           <Grid item xs={12} sm={6} md={4} key={item.id}>
-            <Card sx={{ position: "relative", textAlign: "center", padding: 2 }}>
+            <Card sx={{ position: 'relative', textAlign: 'center', padding: 2 }}>
               <CardContent>
                 <Typography variant="h6">{item.name}</Typography>
                 <Typography
                   variant="h3"
                   sx={{
-                    fontWeight: "bold",
-                    color: item.quantity === 0 ? "error.main" : item.quantity <= 5 ? "warning.main" : "success.main",
+                    fontWeight: 'bold',
+                    color:
+                      item.quantity === 0
+                        ? 'error.main'
+                        : item.quantity <= 5
+                        ? 'warning.main'
+                        : 'success.main',
                   }}
                 >
                   {item.quantity}
@@ -143,39 +154,39 @@ export default function AdminInventoryPage() {
                 <Typography variant="body2" color="textSecondary">
                   Stock Level
                 </Typography>
-                <Box sx={{ mt: 2, display: "flex", justifyContent: "center", gap: 1 }}>
+                <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center', gap: 1 }}>
                   <Tooltip title="Decrease Stock">
                     <Box
                       sx={{
-                        backgroundColor: "#ffd1d1",
-                        borderRadius: "50%",
-                        width: "50px",
-                        height: "50px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        cursor: "pointer",
+                        backgroundColor: '#ffd1d1',
+                        borderRadius: '50%',
+                        width: '50px',
+                        height: '50px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        cursor: 'pointer',
                       }}
                       onClick={() => handleUpdateStock(item.id, -1)}
                     >
-                      <Remove sx={{ fontSize: "24px", color: "error.main" }} />
+                      <Remove sx={{ fontSize: '24px', color: 'error.main' }} />
                     </Box>
                   </Tooltip>
                   <Tooltip title="Increase Stock">
                     <Box
                       sx={{
-                        backgroundColor: "#d1e7ff",
-                        borderRadius: "50%",
-                        width: "50px",
-                        height: "50px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        cursor: "pointer",
+                        backgroundColor: '#d1e7ff',
+                        borderRadius: '50%',
+                        width: '50px',
+                        height: '50px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        cursor: 'pointer',
                       }}
                       onClick={() => handleUpdateStock(item.id, 1)}
                     >
-                      <Add sx={{ fontSize: "24px", color: "primary.main" }} />
+                      <Add sx={{ fontSize: '24px', color: 'primary.main' }} />
                     </Box>
                   </Tooltip>
                 </Box>
@@ -194,7 +205,7 @@ export default function AdminInventoryPage() {
       </Grid>
 
       {/* Add Item Button */}
-      <Box sx={{ textAlign: "center", mt: 4 }}>
+      <Box sx={{ textAlign: 'center', mt: 4 }}>
         <Button
           variant="contained"
           color="primary"

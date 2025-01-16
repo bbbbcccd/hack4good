@@ -1,37 +1,36 @@
 import { useState } from 'react';
 
-import { axiosPrivate } from '../../util/api.js';
+import { axiosPrivate } from '../../util/api/axios.js';
 import { useTransactionContext } from './useTransactionContext.js';
 
 const usePurchaseMinimartItem = () => {
-    const { transactionDispatch } = useTransactionContext();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+  const { transactionDispatch } = useTransactionContext();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    const purchaseItem = async (username, itemName, quantity) => {
-        setError(null);
-        setLoading(true);
+  const purchaseItem = async (username, itemName, quantity) => {
+    setError(null);
+    setLoading(true);
 
-        const data = {
-            username, itemName, quantity
-        };
+    const data = {
+      username,
+      itemName,
+      quantity,
+    };
 
-        await axiosPrivate
-            .post('/minimart/purchase', data)
-            .then((res) => transactionDispatch({ type: 'PURCHASE_ITEM', payload: res.data }))
-            .catch((error) => {
-                console.log(error.response);
-                const message = error.response?.data
-                    ? `, ${error.response.data.error}`
-                    : '';
-                setError(error.message + message);
-            });
+    await axiosPrivate
+      .post('/minimart/purchase', data)
+      .then((res) => transactionDispatch({ type: 'PURCHASE_ITEM', payload: res.data }))
+      .catch((error) => {
+        console.log(error.response);
+        const message = error.response?.data ? `, ${error.response.data.error}` : '';
+        setError(error.message + message);
+      });
 
-        setLoading(false);
-    }
+    setLoading(false);
+  };
 
-    return { error, loading, purchaseItem };
-
+  return { error, loading, purchaseItem };
 };
 
 export default usePurchaseMinimartItem;
