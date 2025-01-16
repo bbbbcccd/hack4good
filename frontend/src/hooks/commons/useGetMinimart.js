@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { axiosPrivate } from '../../util/api.js';
 import { useMinimartContext } from './useMinimartContext.js';
 
-// TODO: Add resident auth context
 const useGetMinimart = () => {
     const { minimartDispatch } = useMinimartContext();
     const [error, setError] = useState(null);

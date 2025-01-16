@@ -12,8 +12,8 @@ import {
   Alert,
 } from "@mui/material";
 
-import useGetMinimart from "../../hooks/residents/useGetMinimart.js";
-import { useMinimartContext } from "../../hooks/residents/useMinimartContext.js";
+import useGetMinimart from "../../hooks/commons/useGetMinimart.js";
+import { useMinimartContext } from "../../hooks/commons/useMinimartContext.js";
 
 export default function MinimartPage() {
   // Get minimart items
