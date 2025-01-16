@@ -1,16 +1,19 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
+import { AuthContextProvider } from "./contexts/AuthContext.js";
 import { MinimartContextProvider } from "./context/MinimartContext.jsx";
-import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <MinimartContextProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </MinimartContextProvider>
+    <AuthContextProvider>
+      <MinimartContextProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </MinimartContextProvider>
+    </AuthContextProvider>
   </StrictMode>
 );
