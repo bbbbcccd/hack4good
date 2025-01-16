@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Container,
   Typography,
@@ -10,21 +10,26 @@ import {
   Divider,
   Snackbar,
   Alert,
-} from '@mui/material';
+} from "@mui/material";
+
+import { useMinimartContext } from "../../hooks/residents/useMinimartContext.js";
 
 export default function MinimartPage() {
+  const { minimartState } = useMinimartContext();
+  console.log(minimartState);
+
   // Mock data for products
   const mockProducts = [
-    { id: 1, name: 'Product A', price: 20, inStock: true },
-    { id: 2, name: 'Product B', price: 30, inStock: false },
-    { id: 3, name: 'Product C', price: 50, inStock: true },
-    { id: 4, name: 'Product D', price: 15, inStock: false },
-    { id: 5, name: 'Product E', price: 25, inStock: true },
+    { id: 1, name: "Product A", price: 20, inStock: true },
+    { id: 2, name: "Product B", price: 30, inStock: false },
+    { id: 3, name: "Product C", price: 50, inStock: true },
+    { id: 4, name: "Product D", price: 15, inStock: false },
+    { id: 5, name: "Product E", price: 25, inStock: true },
   ];
 
   const [products, setProducts] = useState(mockProducts);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Handle item requests or preorders
   const handleRequest = (productId, isPreorder = false) => {
@@ -35,7 +40,7 @@ export default function MinimartPage() {
         : `Requested ${product.name} successfully!`;
       setSuccessMessage(message);
     } else {
-      setErrorMessage('Product not found.');
+      setErrorMessage("Product not found.");
     }
   };
 
@@ -46,7 +51,7 @@ export default function MinimartPage() {
         <Typography
           variant="h3"
           gutterBottom
-          sx={{ fontWeight: 'bold', color: '#4caf50' }}
+          sx={{ fontWeight: "bold", color: "#4caf50" }}
         >
           Minimart
         </Typography>
@@ -55,12 +60,14 @@ export default function MinimartPage() {
         </Typography>
       </Box>
 
+      <Button variant="contained">TEST</Button>
+
       {/* Success Message */}
       {successMessage && (
         <Snackbar
           open={!!successMessage}
           autoHideDuration={6000}
-          onClose={() => setSuccessMessage('')}
+          onClose={() => setSuccessMessage("")}
         >
           <Alert severity="success">{successMessage}</Alert>
         </Snackbar>
@@ -71,7 +78,7 @@ export default function MinimartPage() {
         <Snackbar
           open={!!errorMessage}
           autoHideDuration={6000}
-          onClose={() => setErrorMessage('')}
+          onClose={() => setErrorMessage("")}
         >
           <Alert severity="error">{errorMessage}</Alert>
         </Snackbar>
@@ -81,9 +88,12 @@ export default function MinimartPage() {
       <Grid container spacing={3}>
         {products.map((product) => (
           <Grid item xs={12} sm={6} md={4} key={product.id}>
-            <Card elevation={6} sx={{ backgroundColor: '#fff3e0', color: '#f57c00' }}>
+            <Card
+              elevation={6}
+              sx={{ backgroundColor: "#fff3e0", color: "#f57c00" }}
+            >
               <CardContent>
-                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                <Typography variant="h6" sx={{ fontWeight: "bold" }}>
                   {product.name}
                 </Typography>
                 <Typography variant="body1" gutterBottom>
@@ -92,30 +102,26 @@ export default function MinimartPage() {
                 <Typography
                   variant="body2"
                   sx={{
-                    color: product.inStock ? '#4caf50' : '#f44336',
-                    fontWeight: 'bold',
+                    color: product.inStock ? "#4caf50" : "#f44336",
+                    fontWeight: "bold",
                   }}
                 >
-                  {product.inStock ? 'In Stock' : 'Out of Stock'}
+                  {product.inStock ? "In Stock" : "Out of Stock"}
                 </Typography>
                 <Divider sx={{ my: 2 }} />
                 <Button
                   variant="contained"
                   fullWidth
                   sx={{
-                    backgroundColor: product.inStock ? '#4caf50' : '#ff9800',
-                    color: '#fff',
-                    '&:hover': {
-                      backgroundColor: product.inStock
-                        ? '#43a047'
-                        : '#ef6c00',
+                    backgroundColor: product.inStock ? "#4caf50" : "#ff9800",
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: product.inStock ? "#43a047" : "#ef6c00",
                     },
                   }}
-                  onClick={() =>
-                    handleRequest(product.id, !product.inStock)
-                  }
+                  onClick={() => handleRequest(product.id, !product.inStock)}
                 >
-                  {product.inStock ? 'Request' : 'Preorder'}
+                  {product.inStock ? "Request" : "Preorder"}
                 </Button>
               </CardContent>
             </Card>
