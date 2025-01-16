@@ -1,29 +1,52 @@
-import express from "express";
+import express from 'express';
 
-import * as AdminController from "../controllers/adminController.js";
-import * as MinimartController from "../controllers/minimartController.js";
+import * as AdminController from '../controllers/adminController.js';
+import * as MinimartController from '../controllers/minimartController.js';
+import * as TaskCompletionController from '../controllers/taskCompletionController.js';
+import * as TaskController from '../controllers/taskController.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const adminRouter = express.Router();
 
-adminRouter.get("/users", AdminController.getUsers);
+adminRouter.use(authMiddleware('admins'));
 
-adminRouter.post("/users", AdminController.createUser);
+// ******** user functions **********
+adminRouter.get('/users', AdminController.getUsers);
 
-adminRouter.patch("/users/:id", AdminController.updateUser);
+adminRouter.post('/users', AdminController.createUser);
 
-adminRouter.delete("/users/:id", AdminController.deleteUser);
+adminRouter.patch('/users/:id', AdminController.updateUser);
 
-adminRouter.post("/admin", AdminController.createAdmin);
+adminRouter.delete('/users/:id', AdminController.deleteUser);
+// **********************************
 
-adminRouter.patch("/admin/:id", AdminController.updateAdmin);
+// ******* admin functions **********
+adminRouter.post('/admin', AdminController.createAdmin);
 
-adminRouter.delete("/admin/:id", AdminController.deleteAdmin);
+adminRouter.patch('/admin/:id', AdminController.updateAdmin);
 
+adminRouter.delete('/admin/:id', AdminController.deleteAdmin);
 // should be removed in the future
-adminRouter.get("/admin", AdminController.getAdmins);
+adminRouter.get('/admin', AdminController.getAdmins);
+// **********************************
 
-adminRouter.post("/admin/minimart", MinimartController.addItem);
+// ******* minimart functions *******
+adminRouter.post('/admin/minimart', MinimartController.addItem);
 
-adminRouter.delete("/admin/minimart/:id", MinimartController.deleteItem);
+adminRouter.delete('/admin/minimart/:id', MinimartController.deleteItem);
 
+adminRouter.patch('/admin/minimart/:id', MinimartController.updateItem);
+// **********************************
+
+// ******** task functions **********
+adminRouter.patch('/admin/task/approve', TaskCompletionController.approveTask);
+
+adminRouter.patch('/admin/task/reject', TaskCompletionController.rejectTask);
+
+adminRouter.post('/admin/tasks', TaskController.createTask);
+
+adminRouter.patch('/admin/tasks', TaskController.updateTask);
+
+adminRouter.delete('/admin/tasks', TaskController.deleteTask);
+// **********************************
 export default adminRouter;

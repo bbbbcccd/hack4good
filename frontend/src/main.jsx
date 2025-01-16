@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
-import { AuthContextProvider } from "./contexts/AuthContext.jsx";
+import { AuthContextProvider } from "./contexts/AuthContext.jsxx";
 import { MinimartContextProvider } from "./context/MinimartContext.jsx";
 import { TransactionContextProvider } from "./context/users/TransactionContext.jsx";
 

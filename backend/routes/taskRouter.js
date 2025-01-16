@@ -1,24 +1,11 @@
-import express from "express";
+import express from 'express';
 
-import * as TaskController from "../controllers/taskController.js";
-import * as TaskCompletionController from "../controllers/taskCompletionController.js";
+import * as TaskController from '../controllers/taskController.js';
 
 const taskRouter = express.Router();
 
-taskRouter.get("/", TaskController.getTask);
+taskRouter.get('/task', TaskController.getTask);
 
-taskRouter.post("/", TaskController.createTask);
-
-taskRouter.patch("/", TaskController.updateTask);
-
-taskRouter.delete("/", TaskController.deleteTask);
-
-taskRouter.get("/complete", TaskCompletionController.getTasks);
-
-taskRouter.post("/complete", TaskCompletionController.completeTask);
-
-taskRouter.patch("/approve", TaskCompletionController.approveTask);
-
-taskRouter.patch("/reject", TaskCompletionController.rejectTask);
+taskRouter.get('/tasks', TaskController.getTasks);
 
 export default taskRouter;
