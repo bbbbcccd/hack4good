@@ -43,20 +43,20 @@ export default function AdminReportsPage() {
     summary: [{ total: 10 }],
     details: {
       approved: [
-        { name: "Oliver", task: "Quantity requested for Product A" },
-        { name: "Mason", task: "Quantity requested for Product B" },
-        { name: "Logan", task: "Quantity requested for Product C" },
-        { name: "Elijah", task: "Quantity requested for Product D" },
-        { name: "Alexander", task: "Quantity requested for Product E" },
+        { name: "Oliver", task: "Requested for Product A" },
+        { name: "Mason", task: "Requested for Product B" },
+        { name: "Logan", task: "Requested for Product C" },
+        { name: "Elijah", task: "Requested for Product D" },
+        { name: "Alexander", task: "Requested for Product E" },
       ],
       rejected: [
-        { name: "Michael", task: "Quantity requested for Product F" },
-        { name: "Daniel", task: "Quantity requested for Product G" },
+        { name: "Michael", task: "Requested for Product F" },
+        { name: "Daniel", task: "Requested for Product G" },
       ],
       pending: [
-        { name: "Matthew", task: "Quantity requested for Product H" },
-        { name: "Joseph", task: "Quantity requested for Product I" },
-        { name: "Samuel", task: "Quantity requested for Product J" },
+        { name: "Matthew", task: "Requested for Product H" },
+        { name: "Joseph", task: "Requested for Product I" },
+        { name: "Samuel", task: "Requested for Product J" },
       ],
     },
   };
