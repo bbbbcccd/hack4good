@@ -6,15 +6,18 @@ import App from "./App.jsx";
 import { AuthContextProvider } from "./contexts/AuthContext.jsx";
 import { MinimartContextProvider } from "./context/MinimartContext.jsx";
 import { TransactionContextProvider } from "./context/users/TransactionContext.jsx";
+import { UsersContextProvider } from "./context/admin/UsersContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthContextProvider>
       <TransactionContextProvider>
         <MinimartContextProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
+          <UsersContextProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </UsersContextProvider>
         </MinimartContextProvider>
       </TransactionContextProvider>
     </AuthContextProvider>
