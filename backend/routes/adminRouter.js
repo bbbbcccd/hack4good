@@ -1,29 +1,32 @@
-import express from "express";
+import express from 'express';
 
-import * as AdminController from "../controllers/adminController.js";
-import * as MinimartController from "../controllers/minimartController.js";
+import * as AdminController from '../controllers/adminController.js';
+import * as MinimartController from '../controllers/minimartController.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const adminRouter = express.Router();
 
-adminRouter.get("/users", AdminController.getUsers);
+adminRouter.use(authMiddleware('admins'));
 
-adminRouter.post("/users", AdminController.createUser);
+adminRouter.get('/users', AdminController.getUsers);
 
-adminRouter.patch("/users/:id", AdminController.updateUser);
+adminRouter.post('/users', AdminController.createUser);
 
-adminRouter.delete("/users/:id", AdminController.deleteUser);
+adminRouter.patch('/users/:id', AdminController.updateUser);
 
-adminRouter.post("/admin", AdminController.createAdmin);
+adminRouter.post('/admin', AdminController.createAdmin);
 
-adminRouter.patch("/admin/:id", AdminController.updateAdmin);
+adminRouter.delete('/users/:id', AdminController.deleteUser);
 
-adminRouter.delete("/admin/:id", AdminController.deleteAdmin);
+adminRouter.patch('/admin/:id', AdminController.updateAdmin);
+
+adminRouter.delete('/admin/:id', AdminController.deleteAdmin);
 
 // should be removed in the future
-adminRouter.get("/admin", AdminController.getAdmins);
+adminRouter.get('/admin', AdminController.getAdmins);
 
-adminRouter.post("/admin/minimart", MinimartController.addItem);
+adminRouter.post('/admin/minimart', MinimartController.addItem);
 
-adminRouter.delete("/admin/minimart/:id", MinimartController.deleteItem);
+adminRouter.delete('/admin/minimart/:id', MinimartController.deleteItem);
 
 export default adminRouter;

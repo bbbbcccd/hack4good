@@ -1,13 +1,15 @@
-import express from "express";
+import express from 'express';
 
-import * as UserController from "../controllers/userController.js";
+import * as UserController from '../controllers/userController.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const userRouter = express.Router();
 
 // Add auth middleware
+userRouter.use(authMiddleware('users'));
 
 // Get user details
-userRouter.get("/", UserController.getUserDetails);
+userRouter.get('/', UserController.getUserDetails);
 
 // View transaction history
 
