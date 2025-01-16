@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 
 // User Pages
-import Login from './pages/users/Login';
+import Login from './pages/Login';
 import Users from './pages/users/Users';
 import UserDashboard from './pages/users/UserDashboard';
 import MinimartPage from './pages/users/MinimartPage';
@@ -15,7 +15,7 @@ import AdminRequestsPage from './pages/admin/AdminRequestsPage';
 import AdminInventoryPage from './pages/admin/AdminInventoryPage';
 import AdminReportsPage from './pages/admin/AdminReportsPage';
 import VoucherTasksPage from './pages/admin/VoucherTasksPage';
-
+import Register from './pages/admin/RegisterPage';
 // Components
 import Navbar from './components/Navbar';
 
@@ -37,7 +37,7 @@ function App() {
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/minimartold" element={<MinimartPage />} />
           <Route path="/minimart" element={<MinimartNew />} />
-          
+
           {/* Admin Routes */}
           <Route path="/admin/users" element={<AdminUsersPage />} />
           <Route path="/admin/vouchers" element={<VoucherTasksPage />} />

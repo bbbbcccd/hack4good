@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 
-import Register from './Register';
+import Register from '../admin/RegisterPage.jsx';
 
 export default function Users() {
     const WindowTypes = Object.freeze({

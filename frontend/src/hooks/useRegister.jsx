@@ -1,33 +1,42 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from './useAuthContext.jsx';
-import { axiosPrivate } from '../util/api/axios.js';
+import { useAxiosPrivate } from './useAxiosPrivate.jsx';
 
-export const useLogin = () => {
+export const useRegister = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { dispatch } = useAuthContext();
   const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
 
-  const login = async (username, password, user) => {
+  const register = async (username, password, user, phoneNumber) => {
     setLoading(true);
     setError(null);
 
-    const data = {
-      username: username,
-      password: password,
-    };
+    const data =
+      user === 'admin'
+        ? { username: username, unhashedPw: password }
+        : {
+            username: username,
+            unhashedPw: password,
+            phoneNumber: phoneNumber,
+          };
 
     await axiosPrivate
       // conditional selection of the backend endpoint based on user/admin
-      .post(`/auth/${user}`, data)
+      .post(`/admin/${user}`, data)
       .then((res) => {
-        localStorage.setItem('user', JSON.stringify(res.data));
-        dispatch({ type: 'LOGIN', payload: res.data });
         navigate('/dashboard');
       })
       .catch((error) => {
         console.log(error);
+
+        if (error.response?.status === 403) {
+          dispatch({ type: 'LOGOUT' });
+          navigate('/login');
+        }
+
         const message = error.response?.data ? `, ${error.response.data.msg}` : '';
         setError(error.message + message);
       });
@@ -35,5 +44,5 @@ export const useLogin = () => {
     setLoading(false);
   };
 
-  return { login, loading, error };
+  return { register, loading, error };
 };

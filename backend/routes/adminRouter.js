@@ -11,13 +11,13 @@ const adminRouter = express.Router();
 adminRouter.use(authMiddleware('admins'));
 
 // ******** user functions **********
-adminRouter.get('/users', AdminController.getUsers);
+adminRouter.get('/user', AdminController.getUsers);
 
-adminRouter.post('/users', AdminController.createUser);
+adminRouter.post('/user', AdminController.createUser);
 
-adminRouter.patch('/users/:id', AdminController.updateUser);
+adminRouter.patch('/user/:id', AdminController.updateUser);
 
-adminRouter.delete('/users/:id', AdminController.deleteUser);
+adminRouter.delete('/user/:id', AdminController.deleteUser);
 // **********************************
 
 // ******* admin functions **********

@@ -10,27 +10,41 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import CustomAlert from '../../components/CustomAlert.jsx';
-import { useLogin } from '../../hooks/useLogin.jsx';
 import { validateCredentialsNotEmpty } from '../../util/validator.js';
 import LockIcon from '@mui/icons-material/Lock';
+import { useRandomColorGradient } from '../../hooks/useRandomColorGradient.jsx';
+import { useRegister } from '../../hooks/useRegister.jsx';
 
-const Login = () => {
+const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
-  const [formError, setFormError] = useState(false);
-  const { login, loading, error } = useLogin();
+  const [formError, setFormError] = useState({ username: '', password: '', phoneNumber: '' });
+  const { register, loading, error } = useRegister();
+  const { color, direction } = useRandomColorGradient();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const inputErrors = validateCredentialsNotEmpty(username, password);
     setFormError(inputErrors);
 
-    if (inputErrors) {
+    if (inputErrors.username || inputErrors.password) {
       return;
     }
 
-    await login(username, password, isAdmin ? 'admin' : 'user');
+    if (!isAdmin) {
+      if (!/^\d+$/.test(phoneNumber)) {
+        setFormError({ ...formError, phoneNumber: 'Phone number must be a number' });
+        return;
+      }
+    }
+
+    if (isAdmin) {
+      await register(username, password, 'admin');
+    } else {
+      await register(username, password, 'user', phoneNumber);
+    }
   };
 
   const handleChange = (setter) => {
@@ -45,20 +59,6 @@ const Login = () => {
       {error && <CustomAlert message={error} />}
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: 'linear-gradient(to right, #61F4DE, #6E78FF)',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
@@ -73,7 +73,7 @@ const Login = () => {
               <LockIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Register
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -88,7 +88,9 @@ const Login = () => {
                 value={username}
                 onChange={handleChange(setUsername)}
               />
-              <Typography className="error-message">{formError.email}</Typography>
+              <Typography className="error-message" color="error">
+                {formError.username}
+              </Typography>
               <TextField
                 required
                 fullWidth
@@ -101,7 +103,28 @@ const Login = () => {
                 value={password}
                 onChange={handleChange(setPassword)}
               />
-              <Typography className="error-message">{formError.password}</Typography>
+              <Typography className="error-message" color="error">
+                {formError.password}
+              </Typography>
+              {!isAdmin && (
+                <>
+                  <TextField
+                    required
+                    fullWidth
+                    margin="normal"
+                    name="phoneNumber"
+                    label="Phone Number"
+                    id="phoneNumber"
+                    type="text"
+                    autoComplete="phoneNumber"
+                    value={phoneNumber}
+                    onChange={handleChange(setPhoneNumber)}
+                  />
+                  <Typography className="error-message" color="error">
+                    {formError.phoneNumber}
+                  </Typography>
+                </>
+              )}
               <FormControlLabel
                 control={
                   <Checkbox
@@ -110,7 +133,7 @@ const Login = () => {
                     onChange={() => setIsAdmin(!isAdmin)}
                   />
                 }
-                label="Admin Login"
+                label="Register new admin"
               />
               <Button
                 fullWidth
@@ -119,21 +142,35 @@ const Login = () => {
                 disabled={loading}
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Submit
               </Button>
               <Grid container>
                 <Grid item xs>
                   <Typography variant="body2">
-                    Forgot password? Don't have an account? Contact an Admin!
+                    To sign in instead click the login button in the navbar
                   </Typography>
                 </Grid>
               </Grid>
             </Box>
           </Box>
         </Grid>
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: `linear-gradient(${direction}, #103783, ${color})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
       </Grid>
     </>
   );
 };
 
-export default Login;
+export default Register;
