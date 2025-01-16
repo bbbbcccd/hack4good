@@ -148,6 +148,10 @@ export default function AdminInventoryPage() {
                         justifyContent: "center",
                         alignItems: "center",
                         cursor: "pointer",
+                        "&:hover": {
+                          transform: "translateY(-1px)",
+                          boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
+                        },
                       }}
                       onClick={() => handleUpdateStock(item.id, -1)}
                     >
@@ -166,6 +170,10 @@ export default function AdminInventoryPage() {
                         justifyContent: "center",
                         alignItems: "center",
                         cursor: "pointer",
+                        "&:hover": {
+                          transform: "translateY(-1px)",
+                          boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
+                        },
                       }}
                       onClick={() => handleUpdateStock(item.id, 1)}
                     >

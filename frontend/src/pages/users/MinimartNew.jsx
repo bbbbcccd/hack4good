@@ -10,6 +10,7 @@ import {
   Button,
   IconButton,
   Skeleton,
+  InputAdornment
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { Add, Remove, Search } from '@mui/icons-material';
@@ -21,7 +22,9 @@ const QuantityControl = styled(Box)({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  gap: 1
+  gap: 1,
+  backgroundColor: "lightblue",
+  borderRadius: 5,
 });
 
 const ShopItemList = () => {
@@ -139,7 +142,7 @@ const ShopItemList = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Box sx={{ mb: 4 }}>
+      <Box sx={{ mb: 4, display: "flex", flexDirection: "row" }}>
         <TextField
           fullWidth
           variant="outlined"
@@ -147,7 +150,16 @@ const ShopItemList = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           InputProps={{
-            startAdornment: <Search size={20} style={{ marginRight: 8 }} />
+            startAdornment: (<InputAdornment position="start"><Search size={20} style={{ marginRight: 8 }} /></InputAdornment>
+            ),
+            sx: {
+              height: '100%'
+            }
+          }}
+          sx={{"&:hover": {
+              transform: "translateY(-4px)",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.1)"
+            },
           }}
         />
         <MinimartCart cart={cart} />
@@ -164,7 +176,7 @@ const ShopItemList = () => {
                   e.target.src = "https://images.unsplash.com/photo-1595246140520-c89b3b0a0b80";
                 }}
               /> : <Skeleton variant="rectangular" />} */}
-              <CardContent>
+              <CardContent >
                 <Typography variant="h6" gutterBottom>
                   {item.name}
                 </Typography>
@@ -180,7 +192,7 @@ const ShopItemList = () => {
                     onClick={() => handleDecrease(item.name)}
                     disabled={item.selectedQuantity <= 0}
                   >
-                    <Remove />
+                    <Remove sx={{ color: item.selectedQuantity > 0 ? "error.main" : "grey" }} />
                   </IconButton>
                   <Typography variant="h6">{item.selectedQuantity}</Typography>
                   <IconButton
@@ -188,7 +200,7 @@ const ShopItemList = () => {
                     onClick={() => handleIncrease(item.name)}
                     // disabled={item.quantity === 0 || item.selectedQuantity === item.quantity}
                   >
-                    <Add />
+                    <Add sx={{ color: "limegreen" }}/>
                   </IconButton>
                 </QuantityControl>
               </CardContent>
