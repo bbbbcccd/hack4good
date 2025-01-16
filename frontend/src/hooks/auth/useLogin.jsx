@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "./useAuthContext.jsx";
-import { axiosPrivate } from "../../util/api.js";
+import { axiosPrivate } from "../util/api/axios.js";
 
 export const useLogin = () => {
   const [error, setError] = useState(null);

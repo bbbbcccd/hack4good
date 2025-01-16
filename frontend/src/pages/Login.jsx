@@ -9,24 +9,26 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import CustomAlert from "../../components/CustomAlert.jsx";
-import { useLogin } from "../../hooks/auth/useLogin.jsx";
-import { validateCredentialsNotEmpty } from "../../util/validator.js";
+import CustomAlert from "../components/CustomAlert.jsx";
+import { useLogin } from "../hooks/useLogin.jsx";
+import { validateCredentialsNotEmpty } from "../util/validator.js";
 import LockIcon from "@mui/icons-material/Lock";
+import { useRandomColorGradient } from "../hooks/useRandomColorGradient.jsx";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
-  const [formError, setFormError] = useState(false);
+  const [formError, setFormError] = useState({ username: "", password: "" });
   const { login, loading, error } = useLogin();
+  const { color, direction } = useRandomColorGradient();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const inputErrors = validateCredentialsNotEmpty(username, password);
     setFormError(inputErrors);
 
-    if (inputErrors) {
+    if (inputErrors.username || inputErrors.password) {
       return;
     }
 
@@ -35,7 +37,7 @@ const Login = () => {
 
   const handleChange = (setter) => {
     return (e) => {
-      setFormError(false);
+      setFormError({ username: "", password: "" });
       setter(e.target.value);
     };
   };
@@ -51,7 +53,7 @@ const Login = () => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "linear-gradient(to right, #61F4DE, #6E78FF)",
+            backgroundImage: `linear-gradient(${direction}, #61F4DE, ${color})`,
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -95,8 +97,8 @@ const Login = () => {
                 value={username}
                 onChange={handleChange(setUsername)}
               />
-              <Typography className="error-message">
-                {formError.email}
+              <Typography className="error-message" color="error">
+                {formError.username}
               </Typography>
               <TextField
                 required
@@ -110,7 +112,7 @@ const Login = () => {
                 value={password}
                 onChange={handleChange(setPassword)}
               />
-              <Typography className="error-message">
+              <Typography className="error-message" color="error">
                 {formError.password}
               </Typography>
               <FormControlLabel
