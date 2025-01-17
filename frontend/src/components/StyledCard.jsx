@@ -5,7 +5,7 @@ const StyledCard = styled(Card)(({ theme, outofstock }) => ({
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    opacity: outofstock ? 0.6 : 1,
+    opacity: outofstock == "true" ? 0.6 : 1,
     transition: "all 0.3s ease",
     "&:hover": {
       transform: "translateY(-5px)",

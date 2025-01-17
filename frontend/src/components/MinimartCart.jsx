@@ -6,6 +6,7 @@ import StyledCard from './StyledCard';
 
 import { useAuthContext } from '../hooks/auth/useAuthContext';
 import usePurchaseMinimartItem from '../hooks/users/usePurchaseMinimartItem';
+import useGetMinimart from '../hooks/commons/useGetMinimart';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -16,7 +17,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function CustomizedDialogs({ cart }) {
+export default function CustomizedDialogs({ cart, setCart, fetchItems }) {
   const [open, setOpen] = React.useState(false);
   const { error, loading, purchaseItem } = usePurchaseMinimartItem();
   const { user } = useAuthContext();
@@ -34,6 +35,9 @@ export default function CustomizedDialogs({ cart }) {
       purchaseItem(username, item.name, item.selectedQuantity);
       if (error) console.log(error);
     });
+    fetchItems();
+    setCart([]);
+    handleClose();
   }
 
   return (
@@ -92,7 +96,7 @@ export default function CustomizedDialogs({ cart }) {
             </StyledCard>
           </Grid>
         ))
-        : <Typography variant="h6" gutterBottom color="text.secondary">No items in cart</Typography>}
+        : <Typography variant="h6" gutterBottom color="text.secondary" sx={{ml: "5%", mt: "5%", mb: "5%", mr: "5%"}}>No items in cart</Typography>}
         </Grid>
         </DialogContent>
         <DialogActions>

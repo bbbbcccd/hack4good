@@ -34,8 +34,8 @@ export default function MenuContent() {
         <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
             {user && user.role == "user" && <List dense>
                 {userListItems.map((item, index) => (
-                    <Link to={item.path} style={{color: 'grey'}}>
-                        <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+                    <Link key={index} to={item.path} style={{color: 'grey'}}>
+                        <ListItem disablePadding sx={{ display: 'block' }}>
                             <ListItemButton selected={item.path==location.pathname}>
                                 <ListItemIcon>{item.icon}</ListItemIcon>
                                 <ListItemText primary={item.text} />

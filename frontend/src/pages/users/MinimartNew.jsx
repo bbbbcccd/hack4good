@@ -16,7 +16,7 @@ import { styled } from "@mui/system";
 import { Add, Remove, Search } from '@mui/icons-material';
 import MinimartCart from '../../components/MinimartCart';
 import StyledCard from "../../components/StyledCard";
-import axios from "axios";
+import { axiosPrivate } from "../../util/api/axios";
 
 const QuantityControl = styled(Box)({
   display: "flex",
@@ -34,7 +34,7 @@ const ShopItemList = () => {
 
   const fetchItems = async () => {
     try {
-      const response = await axios.get('/minimart');
+      const response = await axiosPrivate.get('/minimart');
 
       if (response.status != 200) {
         console.log('Error retrieving items: ', response.status, response.data);
@@ -129,13 +129,13 @@ const ShopItemList = () => {
             },
           }}
         />
-        <MinimartCart cart={cart} />
+        <MinimartCart cart={cart} setCart={setCart} fetchItems={fetchItems} />
       </Box>
 
       <Grid container spacing={3}>
-        {filteredItems.map((item, idx) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={idx}>
-            <StyledCard outofstock={item.quantity === 0}>
+        {filteredItems.map((item) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={item}>
+            <StyledCard outofstock={(item.quantity === 0).toString()}>
               {/* {item.image ? <StyledImage
                 src={item.image}
                 alt={item.name}
@@ -165,9 +165,9 @@ const ShopItemList = () => {
                   <IconButton
                     aria-label="increase quantity"
                     onClick={() => handleIncrease(item.name)}
-                    // disabled={item.quantity === 0 || item.selectedQuantity === item.quantity}
+                    disabled={item.quantity <= 0}
                   >
-                    <Add sx={{ color: "limegreen" }}/>
+                    <Add sx={{ color: item.quantity <= 0 ? "grey" : "limegreen" }}/>
                   </IconButton>
                 </QuantityControl>
               </CardContent>
