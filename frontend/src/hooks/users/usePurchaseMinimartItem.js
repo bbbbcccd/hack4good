@@ -20,7 +20,7 @@ const usePurchaseMinimartItem = () => {
     };
 
     await axiosPrivate
-      .post('/minimart/purchase', data)
+      .post('/user/purchase', data)
       .then((res) => transactionDispatch({ type: 'PURCHASE_ITEM', payload: res.data }))
       .catch((error) => {
         console.log(error.response);
