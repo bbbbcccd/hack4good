@@ -1,15 +1,19 @@
+// Dependencies
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import Avatar from '@mui/material/Avatar';
 import MuiDrawer, { drawerClasses } from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+// Local components
 import MenuContent from './MenuContent';
 import LogoutButton from './LogoutButton';
-import { useAuthContext } from '../../hooks/auth/useAuthContext';
 import StringAvatar from './StringAvatar';
+import MHWIcon from '../MHWIcon';
+// Hooks
+import { useAuthContext } from '../../hooks/auth/useAuthContext';
+
 
 const drawerWidth = 240;
 
@@ -42,8 +46,10 @@ export default function SideMenu() {
           display: 'flex',
           mt: 'calc(var(--template-frame-height, 0px) + 4px)',
           p: 1.5,
+          alignItems: 'center'
         }}
       >
+        <MHWIcon/>
       </Box>
       <Divider />
       <Box
