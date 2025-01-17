@@ -129,12 +129,12 @@ const ShopItemList = () => {
             },
           }}
         />
-        <MinimartCart cart={cart} />
+        <MinimartCart cart={cart} setCart={setCart} fetchItems={fetchItems} />
       </Box>
 
       <Grid container spacing={3}>
-        {filteredItems.map((item, idx) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={idx}>
+        {filteredItems.map((item) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={item}>
             <StyledCard outofstock={item.quantity === 0}>
               {/* {item.image ? <StyledImage
                 src={item.image}
@@ -165,9 +165,9 @@ const ShopItemList = () => {
                   <IconButton
                     aria-label="increase quantity"
                     onClick={() => handleIncrease(item.name)}
-                    // disabled={item.quantity === 0 || item.selectedQuantity === item.quantity}
+                    disabled={item.quantity <= 0}
                   >
-                    <Add sx={{ color: "limegreen" }}/>
+                    <Add sx={{ color: item.quantity <= 0 ? "grey" : "limegreen" }}/>
                   </IconButton>
                 </QuantityControl>
               </CardContent>
