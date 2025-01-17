@@ -8,6 +8,7 @@ import { Box } from '@mui/material';
 import Login from './pages/Login';
 import UserDashboard from './pages/users/UserDashboard';
 import MinimartNew from './pages/users/MinimartNew';
+import UserVouchers from './pages/users/UserVouchers';
 
 // Admin Pages
 import AdminUsersPage from './pages/admin/AdminUsersPage';
@@ -40,6 +41,7 @@ function App() {
             <Route element={<ProtectedRoutes allowedRole={'user'} />}>
               <Route path="/dashboard" element={<UserDashboard />} />
               <Route path="/minimart" element={<MinimartNew />} />
+              <Route path="/vouchers" element={<UserVouchers />} />
             </Route>
 
             {/* Admin Routes */}

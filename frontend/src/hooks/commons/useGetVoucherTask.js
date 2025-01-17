@@ -13,11 +13,11 @@ const useGetVoucherTask = () => {
             await axiosPrivate
                 .get('/task/tasks')
                 .then((data) => {
-                    console.log(data);
+                    console.log("Retrieved tasks: ", data);
                     voucherTaskDispatch({ type: 'GET_TASKS', payload: data.data });
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.log("Error retrieving tasks: ", error);
                     const message = error.response?.data
                         ? `, ${error.response.data.error}`
                         : '';

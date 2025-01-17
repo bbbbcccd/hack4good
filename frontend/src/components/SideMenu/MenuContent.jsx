@@ -17,6 +17,7 @@ import { useAuthContext } from '../../hooks/auth/useAuthContext';
 const userListItems = [
   { text: 'Dashboard', icon: <SpaceDashboardIcon />, path: '/dashboard' },
   { text: 'Minimart', icon: <StoreIcon />, path: '/minimart' },
+  { text: 'Voucher Tasks', icon: <ConfirmationNumberIcon />, path: '/vouchers' },
 ];
 
 const adminListItems = [
@@ -28,7 +29,7 @@ const adminListItems = [
 
 export default function MenuContent() {
     const location = useLocation();
-    const { user, dispatch } = useAuthContext();
+    const { user } = useAuthContext();
 
     // Amazing Arrowhead code design!!!!!
     return (

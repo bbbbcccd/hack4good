@@ -4,7 +4,7 @@ import { useAxiosPrivate } from '../auth/useAxiosPrivate.jsx';
 
 const useCompleteTask = () => {
     const axiosPrivate = useAxiosPrivate();
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const completeTask = async (username, taskName) => {
@@ -17,7 +17,7 @@ const useCompleteTask = () => {
 
         // TODO: Add context for voucher task completions
         await axiosPrivate
-            .post('/user/task/complete', data)
+            .post('/user/complete', data)
             .catch((error) => {
                 console.log(error.response);
                 const message = error.response?.data
