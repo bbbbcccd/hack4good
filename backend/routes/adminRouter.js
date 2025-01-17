@@ -31,22 +31,22 @@ adminRouter.get('/admin', AdminController.getAdmins);
 // **********************************
 
 // ******* minimart functions *******
-adminRouter.post('/admin/minimart', MinimartController.addItem);
+adminRouter.post('/minimart', MinimartController.addItem);
 
-adminRouter.delete('/admin/minimart/:id', MinimartController.deleteItem);
+adminRouter.delete('/minimart/:id', MinimartController.deleteItem);
 
-adminRouter.patch('/admin/minimart/:id', MinimartController.updateItem);
+adminRouter.patch('/minimart/:id', MinimartController.updateItem);
 // **********************************
 
 // ******** task functions **********
-adminRouter.patch('/admin/task/approve', TaskCompletionController.approveTask);
+adminRouter.patch('/task/approve', TaskCompletionController.approveTask);
 
-adminRouter.patch('/admin/task/reject', TaskCompletionController.rejectTask);
+adminRouter.patch('/task/reject', TaskCompletionController.rejectTask);
 
-adminRouter.post('/admin/tasks', TaskController.createTask);
+adminRouter.post('/tasks', TaskController.createTask);
 
-adminRouter.patch('/admin/tasks', TaskController.updateTask);
+adminRouter.patch('/tasks', TaskController.updateTask);
 
-adminRouter.delete('/admin/tasks', TaskController.deleteTask);
+adminRouter.delete('/tasks', TaskController.deleteTask);
 // **********************************
 export default adminRouter;

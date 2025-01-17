@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App.jsx";
 import { AuthContextProvider } from "./contexts/AuthContext.jsx";
 import { MinimartContextProvider } from "./context/MinimartContext.jsx";
+import { VoucherTaskContextProvider } from "./context/VoucherTaskContext.jsx";
 import { TransactionContextProvider } from "./context/users/TransactionContext.jsx";
 import { UsersContextProvider } from "./context/admin/UsersContext.jsx";
 import { AdminsContextProvider } from "./context/admin/AdminsContext.jsx";
@@ -14,13 +15,15 @@ createRoot(document.getElementById("root")).render(
     <AuthContextProvider>
       <TransactionContextProvider>
         <MinimartContextProvider>
-          <UsersContextProvider>
-            <AdminsContextProvider>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
-            </AdminsContextProvider>
-          </UsersContextProvider>
+          <VoucherTaskContextProvider>
+            <UsersContextProvider>
+              <AdminsContextProvider>
+                <BrowserRouter>
+                  <App />
+                </BrowserRouter>
+              </AdminsContextProvider>
+            </UsersContextProvider>
+          </VoucherTaskContextProvider>
         </MinimartContextProvider>
       </TransactionContextProvider>
     </AuthContextProvider>
