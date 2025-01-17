@@ -12,6 +12,7 @@ import AnalyticsRoundedIcon from '@mui/icons-material/AnalyticsRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import { useAuthContext } from '../../hooks/auth/useAuthContext';
 
 const userListItems = [
   { text: 'Dashboard', icon: <SpaceDashboardIcon />, path: '/dashboard' },
@@ -27,10 +28,11 @@ const adminListItems = [
 
 export default function MenuContent() {
     const location = useLocation();
+    const { user, dispatch } = useAuthContext();
 
     return (
         <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
-            <List dense>
+            {user && user.role == "user" && <List dense>
                 {userListItems.map((item, index) => (
                     <Link to={item.path} style={{color: 'grey'}}>
                         <ListItem key={index} disablePadding sx={{ display: 'block' }}>
@@ -41,8 +43,8 @@ export default function MenuContent() {
                         </ListItem>
                     </Link>
                 ))}
-            </List>
-            <List dense>
+            </List>}
+            {user && user.role == "admin" && <List dense>
                 {adminListItems.map((item, index) => (
                 <Link to={item.path} style={{color: 'grey'}}>
                     <ListItem key={index} disablePadding sx={{ display: 'block' }}>
@@ -53,7 +55,7 @@ export default function MenuContent() {
                     </ListItem>
                 </Link>
                 ))}
-            </List>
+            </List>}
         </Stack>
     );
 }

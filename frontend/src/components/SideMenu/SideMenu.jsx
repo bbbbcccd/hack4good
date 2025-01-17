@@ -6,9 +6,10 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import MenuContent from './MenuContent';
-import { useLogout } from '../../hooks/auth/useLogout';
+import LogoutButton from './LogoutButton';
+import { useAuthContext } from '../../hooks/auth/useAuthContext';
+import StringAvatar from './StringAvatar';
 
 const drawerWidth = 240;
 
@@ -24,7 +25,7 @@ const Drawer = styled(MuiDrawer)({
 });
 
 export default function SideMenu() {
-  const { logout } = useLogout();
+  const { user, dispatch } = useAuthContext();
 
   return (
     <Drawer
@@ -66,27 +67,21 @@ export default function SideMenu() {
         }}
       >
         <Stack direction="row" sx={{ gap: 1, alignItems: 'center', width: '100%' }}>
-          <Avatar
+          {/* <Avatar
             sizes="small"
             alt="Riley Carter"
             src="/static/images/avatar/7.jpg"
             sx={{ width: 36, height: 36 }}
-          />
+          /> */}
+          {user && <>
+          <StringAvatar name={user.username} />
           <Box sx={{ mr: 'auto' }}>
             <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
-              Riley Carter
+              {user.username}
             </Typography>
-          </Box>
+          </Box></>}
         </Stack>
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={logout}
-          sx={{ mt: 1 }}
-        >
-          Logout
-        </Button>
+        {user && <LogoutButton/>}
       </Stack>
     </Drawer>
   );
