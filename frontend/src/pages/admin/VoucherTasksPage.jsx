@@ -9,7 +9,7 @@ import {
   Typography,
   Box,
 } from '@mui/material';
-import useGetVoucherTaskCompletion from '../../hooks/users/useGetVoucherTaskCompletion';
+import useGetVoucherTaskCompletion from '../../hooks/admins/useGetVoucherTaskCompletion';
 import useApproveTask from '../../hooks/admins/useApproveTask';
 import useRejectTask from '../../hooks/admins/useRejectTask';
 import { useVoucherTaskCompletionContext } from '../../hooks/commons/useVoucherTaskCompletionContext';
@@ -28,23 +28,28 @@ export default function VoucherTasksPage() {
     { status: "requested", date: "2025-01-14", task_name: "Teach english lesson", username: "charlie" },
   ]
 
-  const fetchTasks = async () => {
-    setRequests(voucherTaskCompletionState.tasks);
-  };
+  // const fetchTasks = async () => {
+  //   setRequests(voucherTaskCompletionState.tasks);
+  // };
 
   useEffect(() => {
-    fetchTasks();
-  }, []);
+    // fetchTasks();
+    if (voucherTaskCompletionState) setRequests(voucherTaskCompletionState.tasks);
+  }, [voucherTaskCompletionState]);
 
   const handleApprove = async (taskName, username) => {
     approveTask(username, taskName);
-    fetchTasks();
+    // fetchTasks();
   };
 
-  const handleReject = async (taskName, username) => {
-    rejectTask(username, taskName);
-    fetchTasks();
-  };
+  // const handleReject = async (taskName, username) => {
+  //   rejectTask(username, taskName);
+  //   // fetchTasks();
+  // };
+  function formatTimestampToDate(timestamp) {
+    const createdAt = new Date(timestamp);
+    return `${createdAt.toLocaleDateString()} at ${createdAt.toLocaleTimeString()}`;
+  }
 
   return (
     <Box>
@@ -72,11 +77,11 @@ export default function VoucherTasksPage() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {mockData.map((request, idx) => (
+          {requests.map((request, idx) => (
             <TableRow key={idx} sx={{backgroundColor: request.status == "completed" ? "lawngreen" : "ghostwhite" }}>
               <TableCell>{++idx}</TableCell>
               <TableCell>{request.status}</TableCell>
-              <TableCell>{request.date}</TableCell>
+              <TableCell>{formatTimestampToDate(request.date)}</TableCell>
               <TableCell>{request.task_name}</TableCell>
               <TableCell>{request.username}</TableCell>
               <TableCell>
