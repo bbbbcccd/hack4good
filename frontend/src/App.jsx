@@ -7,9 +7,7 @@ import { Box } from '@mui/material';
 
 // User Pages
 import Login from './pages/Login';
-import Users from './pages/users/Users';
 import UserDashboard from './pages/users/UserDashboard';
-import MinimartPage from './pages/users/MinimartPage';
 import MinimartNew from './pages/users/MinimartNew';
 
 // Admin Pages
