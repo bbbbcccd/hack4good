@@ -39,6 +39,7 @@ export default function AdminUsersPage() {
   };
 
   const suspendUser = (user) => {
+    console.log(user);
     if (user.role === 'admin') {
       deleteAdmin(user.username);
     } else {
@@ -115,7 +116,7 @@ export default function AdminUsersPage() {
               <TableCell>{user.username}</TableCell>
               <TableCell>{user.role}</TableCell>
               <TableCell>
-                <Button disabled={deleteUserLoading} onClick={() => suspendUser(user.id)}>
+                <Button disabled={deleteUserLoading} onClick={() => suspendUser(user)}>
                   Suspend
                 </Button>
                 <Button onClick={() => handleUpdate(user)}>Update</Button>
