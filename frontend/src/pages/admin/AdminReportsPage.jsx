@@ -111,18 +111,18 @@ export default function AdminReportsPage() {
                   padding: "12px",
                   marginBottom: "8px",
                   borderRadius: "8px",
-                  backgroundColor: "#f9f9f9",
+                  backgroundColor: "#eef4fd", // Subtle contrast background
                   boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
                 }}
               >
                 <ListItemText
                   primary={
-                    <Typography sx={{ fontWeight: "bold", fontSize: "16px" }}>
+                    <Typography sx={{ fontWeight: "bold", fontSize: "16px", color: "#333" }}>
                       {item.name}
                     </Typography>
                   }
                   secondary={item.task}
-                  secondaryTypographyProps={{ color: "textSecondary" }}
+                  secondaryTypographyProps={{ color: "#555" }} // Darker gray for secondary text
                 />
               </ListItem>
             ))}

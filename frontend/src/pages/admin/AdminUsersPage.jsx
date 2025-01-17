@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Table,
   TableHead,
@@ -8,103 +7,83 @@ import {
   Button,
   Typography,
   Box,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
+} from '@mui/material';
+import { useUsersContext } from '../../hooks/admins/useUsersContext';
+import { useAdminsContext } from '../../hooks/admins/useAdminsContext';
+import useGetAdmins from '../../hooks/admins/useGetAdmins';
+import useGetUsers from '../../hooks/admins/useGetUsers';
+import useDeleteUser from '../../hooks/admins/useDeleteUser';
+import useDeleteAdmin from '../../hooks/admins/useDeleteAdmin';
+import { useNavigate } from 'react-router-dom';
+import CustomAlert from '../../components/CustomAlert';
 
 export default function AdminUsersPage() {
   // Mock data for users
-  const [users, setUsers] = useState([
-    { id: 1, username: "john_doe", role: "resident", suspended: false },
-    { id: 2, username: "admin_user", role: "admin", suspended: false },
-    { id: 3, username: "jane_smith", role: "resident", suspended: true },
-  ]);
-
-  const [newUser, setNewUser] = useState({ username: "", role: "resident" });
-  const [open, setOpen] = useState(false);
+  const { usersState } = useUsersContext();
+  const { adminsState } = useAdminsContext();
+  const navigate = useNavigate();
+  const { error: adminErrors } = useGetAdmins();
+  const { error: userErrors } = useGetUsers();
+  const { deleteUser, error: deleteUserError, loading: deleteUserLoading } = useDeleteUser();
+  const { deleteAdmin, error: deleteAdminError, loading: deleteAdminLoading } = useDeleteAdmin();
 
   const handleAddUser = () => {
-    setUsers([...users, { id: users.length + 1, ...newUser, suspended: false }]);
-    setNewUser({ username: "", role: "resident" });
-    setOpen(false);
+    navigate('/admin/register');
   };
 
-  const suspendUser = (userId) => {
-    setUsers(
-      users.map((user) =>
-        user.id === userId ? { ...user, suspended: !user.suspended } : user
-      )
-    );
+  const suspendUser = (user) => {
+    if (user.role === 'admin') {
+      deleteAdmin(user.username);
+    } else {
+      deleteUser(user.username);
+    }
   };
 
-  const resetPassword = (userId) => {
+  const update = (userId) => {
     alert(`Password reset for user ID: ${userId}`);
   };
 
   return (
     <Box>
+      {adminErrors && <CustomAlert severity="error" message={adminErrors} />}
+      {userErrors && <CustomAlert severity="error" message={userErrors} />}
+      {deleteAdminError && <CustomAlert severity="error" message={deleteAdminError} />}
+      {deleteUserError && <CustomAlert severity="error" message={deleteUserError} />}
       <Typography variant="h4" gutterBottom>
         Manage Users
       </Typography>
-      <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
+      <Button variant="contained" color="primary" onClick={handleAddUser}>
         Add User
       </Button>
-      <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Add New User</DialogTitle>
-        <DialogContent>
-          <TextField
-            label="Username"
-            fullWidth
-            margin="normal"
-            value={newUser.username}
-            onChange={(e) =>
-              setNewUser({ ...newUser, username: e.target.value })
-            }
-          />
-          <TextField
-            label="Role"
-            fullWidth
-            margin="normal"
-            value={newUser.role}
-            onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleAddUser} color="primary">
-            Add
-          </Button>
-          <Button onClick={() => setOpen(false)} color="secondary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>Username</TableCell>
             <TableCell>Role</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((user) => (
-            <TableRow key={user.id}>
+          {adminsState.admins.map((user) => (
+            <TableRow key={user.username}>
               <TableCell>{user.username}</TableCell>
               <TableCell>{user.role}</TableCell>
               <TableCell>
-                {user.suspended ? "Suspended" : "Active"}
+                <Button disabled={deleteAdminLoading} onClick={() => suspendUser(user)}>
+                  Suspend
+                </Button>
+                <Button onClick={() => update(user.id)}>Update</Button>
               </TableCell>
+            </TableRow>
+          ))}
+          {usersState.users.map((user) => (
+            <TableRow key={user.username}>
+              <TableCell>{user.username}</TableCell>
+              <TableCell>{user.role}</TableCell>
               <TableCell>
-                <Button onClick={() => suspendUser(user.id)}>
-                  {user.suspended ? "Unsuspend" : "Suspend"}
+                <Button disabled={deleteUserLoading} onClick={() => suspendUser(user.id)}>
+                  Suspend
                 </Button>
-                <Button onClick={() => resetPassword(user.id)}>
-                  Reset Password
-                </Button>
+                <Button onClick={() => update(user.id)}>Update</Button>
               </TableCell>
             </TableRow>
           ))}
