@@ -11,14 +11,14 @@ import {
 } from '@mui/material';
 import useGetVoucherTaskCompletion from '../../hooks/admins/useGetVoucherTaskCompletion';
 import useApproveTask from '../../hooks/admins/useApproveTask';
-import useRejectTask from '../../hooks/admins/useRejectTask';
+// import useRejectTask from '../../hooks/admins/useRejectTask';
 import { useVoucherTaskCompletionContext } from '../../hooks/commons/useVoucherTaskCompletionContext';
 
 export default function VoucherTasksPage() {
   const [requests, setRequests] = useState([]);
   useGetVoucherTaskCompletion();
   const { approveTask } = useApproveTask();
-  const { rejectTask } = useRejectTask();
+  // const { rejectTask } = useRejectTask();
   const { voucherTaskCompletionState } = useVoucherTaskCompletionContext();
 
   const mockData = [
@@ -34,7 +34,7 @@ export default function VoucherTasksPage() {
 
   useEffect(() => {
     // fetchTasks();
-    if (voucherTaskCompletionState) setRequests(voucherTaskCompletionState.tasks);
+    if (voucherTaskCompletionState) setRequests(voucherTaskCompletionState.taskCompletions);
   }, [voucherTaskCompletionState]);
 
   const handleApprove = async (taskName, username) => {

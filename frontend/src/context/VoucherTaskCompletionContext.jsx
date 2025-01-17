@@ -5,9 +5,9 @@ import { VoucherTaskCompletionContext } from "./VoucherTaskCompletionContext.js"
 const voucherTaskCompletionReducer = (voucherTaskCompletionState, action) => {
   switch (action.type) {
     case "GET_TASK_COMPLETIONS":
-      return { tasks: action.payload };
+      return { taskCompletions: action.payload };
     case "ADD_TASK_COMPLETION":
-      return { tasks: [action.payload, ...voucherTaskCompletionState.tasks] };
+      return { taskCompletions: [action.payload, ...voucherTaskCompletionState.taskCompletions] };
     case "UPDATE_TASK_COMPLETION":
       return {
         tasks: voucherTaskCompletionState.tasks.map((taskCompletion) => {

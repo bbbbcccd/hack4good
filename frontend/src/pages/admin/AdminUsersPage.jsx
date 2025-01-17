@@ -1,5 +1,6 @@
 import {
   Table,
+  TableContainer,
   TableHead,
   TableRow,
   TableCell,
@@ -91,40 +92,58 @@ export default function AdminUsersPage() {
       <Button variant="contained" color="primary" onClick={handleAddUser}>
         Add User
       </Button>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Username</TableCell>
-            <TableCell>Role</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {adminsState.admins.map((user) => (
-            <TableRow key={user.username}>
-              <TableCell>{user.username}</TableCell>
-              <TableCell>{user.role}</TableCell>
-              <TableCell>
-                <Button disabled={deleteAdminLoading} onClick={() => suspendUser(user)}>
-                  Suspend
-                </Button>
-                <Button onClick={() => handleUpdate(user)}>Update</Button>
-              </TableCell>
+      <TableContainer sx={{ mt: "2%" }} >
+        <Typography>Admins</Typography>
+        <Table sx={{ mb: "2%" }}>
+          <TableHead>
+            <TableRow sx ={{ backgroundColor: "lightgrey" }}>
+              <TableCell>Username</TableCell>
+              <TableCell>Role</TableCell>
+              <TableCell/>
+              <TableCell/>
             </TableRow>
-          ))}
-          {usersState.users.map((user) => (
-            <TableRow key={user.username}>
-              <TableCell>{user.username}</TableCell>
-              <TableCell>{user.role}</TableCell>
-              <TableCell>
-                <Button disabled={deleteUserLoading} onClick={() => suspendUser(user)}>
-                  Suspend
-                </Button>
-                <Button onClick={() => handleUpdate(user)}>Update</Button>
-              </TableCell>
+          </TableHead>
+          <TableBody>
+            {adminsState.admins.map((user) => (
+              <TableRow key={user.username}>
+                <TableCell>{user.username}</TableCell>
+                <TableCell>{user.role}</TableCell>
+                <TableCell>
+                  <Button disabled={deleteUserLoading} onClick={() => suspendUser(user)}>
+                    Suspend
+                  </Button>
+                  <Button onClick={() => handleUpdate(user)}>Update</Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <Typography>Users</Typography>
+        <Table>
+          <TableHead>
+            <TableRow sx ={{ backgroundColor: "lightgrey" }}>
+              <TableCell>Username</TableCell>
+              <TableCell>Role</TableCell>
+              <TableCell/>
+              <TableCell/>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {usersState.users.map((user) => (
+              <TableRow key={user.username}>
+                <TableCell>{user.username}</TableCell>
+                <TableCell>{user.role}</TableCell>
+                <TableCell>
+                  <Button disabled={deleteUserLoading} onClick={() => suspendUser(user)}>
+                    Suspend
+                  </Button>
+                  <Button onClick={() => handleUpdate(user)}>Update</Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   );
 }
