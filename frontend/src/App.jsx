@@ -26,8 +26,6 @@ import { useAuthContext } from './hooks/auth/useAuthContext';
 
 function App() {
   console.log('Server hosted at: ' + import.meta.env.VITE_SERVER_URL);
-  axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
-  axios.defaults.withCredentials = true;
   const { user } = useAuthContext();
   console.log(user);
 
