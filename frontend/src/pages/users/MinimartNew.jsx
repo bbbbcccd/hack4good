@@ -4,12 +4,9 @@ import {
   Container,
   Grid,
   TextField,
-  Card,
   CardContent,
   Typography,
-  Button,
   IconButton,
-  Skeleton,
   InputAdornment
 } from "@mui/material";
 import { styled } from "@mui/system";
@@ -17,6 +14,7 @@ import { Add, Remove, Search } from '@mui/icons-material';
 import MinimartCart from '../../components/MinimartCart';
 import StyledCard from "../../components/StyledCard";
 import { axiosPrivate } from "../../util/api/axios";
+import { ToastContainer, toast} from 'react-toastify';
 
 const QuantityControl = styled(Box)({
   display: "flex",
@@ -31,6 +29,7 @@ const ShopItemList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [items, setItems] = useState([]);
   const [cart, setCart] = useState([]);
+  const notify = () => toast.success("Purchase complete!");
 
   const fetchItems = async () => {
     try {
@@ -108,7 +107,9 @@ const ShopItemList = () => {
   );
 
   return (
+
     <Container maxWidth="lg" sx={{ py: 4 }}>
+      <ToastContainer />
       <Box sx={{ mb: 4, display: "flex", flexDirection: "row" }}>
         <TextField
           fullWidth
@@ -129,7 +130,7 @@ const ShopItemList = () => {
             },
           }}
         />
-        <MinimartCart cart={cart} setCart={setCart} fetchItems={fetchItems} />
+        <MinimartCart cart={cart} setCart={setCart} fetchItems={fetchItems} notifySuccess={notify} />
       </Box>
 
       <Grid container spacing={3}>

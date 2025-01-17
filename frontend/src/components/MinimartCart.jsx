@@ -17,7 +17,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function CustomizedDialogs({ cart, setCart, fetchItems }) {
+export default function CustomizedDialogs({ cart, setCart, fetchItems, notifySuccess }) {
   const [open, setOpen] = React.useState(false);
   const { error, loading, purchaseItem } = usePurchaseMinimartItem();
   const { user } = useAuthContext();
@@ -38,6 +38,7 @@ export default function CustomizedDialogs({ cart, setCart, fetchItems }) {
     fetchItems();
     setCart([]);
     handleClose();
+    notifySuccess();
   }
 
   return (
