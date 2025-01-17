@@ -15,9 +15,9 @@ const useApproveTask = () => {
             username, taskName
         };
 
+        // TODO: Add context for voucher task completions
         await axiosPrivate
-            .post('/admin/task/approve', data)
-            .then((res) => usersDispatch({ type: 'ADD_USER', payload: res.data }))
+            .patch('/admin/task/approve', data)
             .catch((error) => {
                 console.log(error.response);
                 const message = error.response?.data
@@ -29,8 +29,8 @@ const useApproveTask = () => {
         setLoading(false);
     }
 
-    return { error, loading, addUser };
+    return { error, loading, approveTask };
 
 };
 
-export default useAddUser;
+export default useApproveTask;
