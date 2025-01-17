@@ -1,20 +1,18 @@
-import { useReducer } from "react";
-import PropTypes from "prop-types";
-import { UsersContext } from "./UsersContext.js";
+import { useReducer } from 'react';
+import PropTypes from 'prop-types';
+import { UsersContext } from './UsersContext.js';
 
 const usersReducer = (usersState, action) => {
   switch (action.type) {
-    case "GET_USERS":
+    case 'GET_USERS':
       return { users: action.payload };
-    case "ADD_USER":
+    case 'ADD_USER':
       return { users: [action.payload, ...usersState.users] };
-    case "DELETE_USER":
+    case 'DELETE_USER':
       return {
-        users: usersState.users.filter(
-          (user) => user.username !== action.payload.username
-        ),
+        users: usersState.users.filter((user) => user.username !== action.payload.username),
       };
-    case "UPDATE_USER":
+    case 'UPDATE_USER':
       return {
         users: usersState.users.map((user) => {
           if (user.username === action.payload.currentUsername) {
@@ -22,6 +20,7 @@ const usersReducer = (usersState, action) => {
               username: action.payload.username,
               vouchers: action.payload.vouchers,
               phone_number: action.payload.phone_number,
+              role: 'user',
             };
           } else {
             return user;
@@ -39,9 +38,7 @@ export const UsersContextProvider = ({ children }) => {
   });
 
   return (
-    <UsersContext.Provider value={{ usersState, usersDispatch }}>
-      {children}
-    </UsersContext.Provider>
+    <UsersContext.Provider value={{ usersState, usersDispatch }}>{children}</UsersContext.Provider>
   );
 };
 UsersContextProvider.propTypes = {

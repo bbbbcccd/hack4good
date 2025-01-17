@@ -1,12 +1,14 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useAuthContext } from '../hooks/auth/useAuthContext';
 
-const ProtectedRoutes = ({ user }) => {
-  console.log(user.role);
-  return user ? <Outlet /> : <Navigate to="/login" replace />;
+const ProtectedRoutes = ({ allowedRole }) => {
+  const { user } = useAuthContext();
+  console.log(user);
+  return user && user.role === allowedRole ? <Outlet /> : <Navigate to="/login" />;
 };
 ProtectedRoutes.propTypes = {
-  user: PropTypes.bool.isRequired,
+  allowedRole: PropTypes.string.isRequired,
 };
 
 export default ProtectedRoutes;

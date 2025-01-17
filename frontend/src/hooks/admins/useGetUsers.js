@@ -16,6 +16,8 @@ const useGetUsers = () => {
           const item = data.data.map((user) => {
             return {
               username: user.username,
+              phone_number: user.phone_number,
+              vouchers: user.vouchers,
               role: 'user',
             };
           });

@@ -1,15 +1,12 @@
 // Dependencies
-import { Routes, Route, Navigate } from 'react-router-dom';
-import axios from 'axios';
+import { Routes, Route, Navigate, BrowserRouter as Router } from 'react-router-dom';
 
 // Layout
 import { Box } from '@mui/material';
 
 // User Pages
 import Login from './pages/Login';
-import Users from './pages/users/Users';
 import UserDashboard from './pages/users/UserDashboard';
-import MinimartPage from './pages/users/MinimartPage';
 import MinimartNew from './pages/users/MinimartNew';
 
 // Admin Pages
@@ -20,7 +17,6 @@ import VoucherTasksPage from './pages/admin/VoucherTasksPage';
 import Register from './pages/admin/RegisterPage';
 
 // Components
-import Navbar from './components/Navbar';
 import SideMenu from './components/SideMenu/SideMenu';
 import ProtectedRoutes from './components/ProtectedRoute';
 
@@ -29,31 +25,25 @@ import { useAuthContext } from './hooks/auth/useAuthContext';
 
 function App() {
   console.log('Server hosted at: ' + import.meta.env.VITE_SERVER_URL);
-  axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
-  axios.defaults.withCredentials = true;
   const { user } = useAuthContext();
   console.log(user);
 
   return (
-    <>
-      {/* <Navbar /> */}
+    <Router>
       <Box sx={{ display: 'flex', height: '100vh' }}>
-        <SideMenu />
+        {user && <SideMenu />}
         <Box sx={{ flexGrow: 1 }}>
           <Routes>
             <Route path="/login" element={user ? <Navigate to={'/'} replace /> : <Login />} />
 
             {/* User Routes */}
-            <Route element={<ProtectedRoutes user={user?.role === 'user'} />}>
-              {/* TODO: the /users path should be for admins but ima leave it here for now*/}
-              <Route path="/users" element={<Users />} />
+            <Route element={<ProtectedRoutes allowedRole={'user'} />}>
               <Route path="/dashboard" element={<UserDashboard />} />
-              <Route path="/minimartold" element={<MinimartPage />} />
               <Route path="/minimart" element={<MinimartNew />} />
             </Route>
 
             {/* Admin Routes */}
-            <Route element={<ProtectedRoutes user={user?.role === 'admin'} />}>
+            <Route element={<ProtectedRoutes allowedRole={'admin'} />}>
               <Route path="/admin/register" element={<Register />} />
               <Route path="/admin/users" element={<AdminUsersPage />} />
               <Route path="/admin/vouchers" element={<VoucherTasksPage />} />
@@ -63,7 +53,7 @@ function App() {
           </Routes>
         </Box>
       </Box>
-    </>
+    </Router>
   );
 }
 

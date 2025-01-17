@@ -28,7 +28,7 @@ export const useLogin = () => {
         };
         console.log(item);
         localStorage.setItem('user', JSON.stringify(item));
-        dispatch({ type: 'LOGIN', payload: res.data });
+        dispatch({ type: 'LOGIN', payload: item });
         if (user === 'admin') {
           navigate('/admin/users');
         } else {
