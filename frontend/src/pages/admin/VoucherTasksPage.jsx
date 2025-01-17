@@ -67,18 +67,19 @@ export default function VoucherTasksPage() {
         </Typography>
       </Box>
       <Table>
-        <TableHead>
+        <TableHead sx={{ backgroundColor: "lightgrey", boxShadow: 1 }} >
           <TableRow>
             <TableCell>Index</TableCell>
             <TableCell>Status</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Task Name</TableCell>
             <TableCell>Username</TableCell>
+            <TableCell/>
           </TableRow>
         </TableHead>
         <TableBody>
           {requests.map((request, idx) => (
-            <TableRow key={idx} sx={{backgroundColor: request.status == "completed" ? "lawngreen" : "ghostwhite" }}>
+            <TableRow key={idx} sx={{backgroundColor: request.status == "requested" ? "lemonchiffon" : "ghostwhite" }}>
               <TableCell>{++idx}</TableCell>
               <TableCell>{request.status}</TableCell>
               <TableCell>{formatTimestampToDate(request.date)}</TableCell>
@@ -89,7 +90,8 @@ export default function VoucherTasksPage() {
                   <>
                     <Button
                       onClick={() => handleApprove(request.task_name, request.username)}
-                      color="primary"
+                      variant="contained"
+                      sx={{ backgroundColor: "olivedrab" }}
                     >
                       Approve
                     </Button>

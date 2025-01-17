@@ -46,7 +46,8 @@ export default function SideMenu() {
           display: 'flex',
           mt: 'calc(var(--template-frame-height, 0px) + 4px)',
           p: 1.5,
-          alignItems: 'center'
+          alignItems: 'center',
+          backgroundColor: "#f0f4ff"
         }}
       >
         <MHWIcon/>
@@ -70,6 +71,7 @@ export default function SideMenu() {
           alignItems: 'center',
           borderTop: '1px solid',
           borderColor: 'divider',
+          backgroundColor: '#f0f4ff',
         }}
       >
         <Stack direction="row" sx={{ gap: 1, alignItems: 'center', width: '100%' }}>
