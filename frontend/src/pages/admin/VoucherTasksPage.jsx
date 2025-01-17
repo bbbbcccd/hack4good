@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Box } from "@mui/material";
-import axios from 'axios';
-import useGetVoucherTask from "../../hooks/commons/useGetVoucherTask";
+import { useEffect, useState } from 'react';
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Button,
+  Typography,
+  Box,
+} from '@mui/material';
+import useGetVoucherTask from '../../hooks/commons/useGetVoucherTask';
 import useApproveTask from '../../hooks/admins/useApproveTask';
 import useRejectTask from '../../hooks/admins/useRejectTask';
-import { useVoucherTaskContext } from "../../hooks/commons/useVoucherTaskContext";
+import { useVoucherTaskContext } from '../../hooks/commons/useVoucherTaskContext';
 
 export default function VoucherTasksPage() {
   const [requests, setRequests] = useState([]);
@@ -14,63 +22,38 @@ export default function VoucherTasksPage() {
   const { voucherTaskState } = useVoucherTaskContext();
 
   const fetchTasks = async () => {
-    // try {
-    //   const response = await axios.get('/task/complete');
-
-    //   if (response.status != 200) {
-    //     console.log('Error retrieving tasks: ', response.status, response.data);
-    //   } else {
-    //     setRequests(response.data);
-    //   }
-    // } catch (error) {
-    //   console.error('Error fetching tasks: ', error);
-    // }
     setRequests(voucherTaskState.tasks);
-  }
+  };
 
   useEffect(() => {
     fetchTasks();
   }, []);
 
-  // useEffect(() => {
-  //   setRequests(voucherTaskState.tasks);
-  // }, [voucherTaskState.tasks]);
-
   const handleApprove = async (taskName, username) => {
-    // try {
-    //   const response = await axios.patch('/task/approve', { taskName, username });
-    //   if (response.status != 200) {
-    //     console.log('Error approving task: ', response.data);
-    //   } else {
-    //     fetchTasks();
-    //   }
-    // } catch (error) {
-    //   console.error("Error approving task: ", error);
-    // }
     approveTask(username, taskName);
     fetchTasks();
   };
 
   const handleReject = async (taskName, username) => {
-    // try {
-    //   const response = await axios.patch('/task/reject', { taskName, username });
-    //   if (response.status != 200) {
-    //     console.log('Error rejecting task: ', response.data);
-    //   } else {
-    //     fetchTasks();
-    //   }
-    // } catch (error) {
-    //   console.error("Error rejecting task: ", error);
-    // }
     rejectTask(username, taskName);
     fetchTasks();
   };
 
   return (
     <Box>
-      <Typography variant="h4" gutterBottom>
-        Manage Requests
-      </Typography>
+      <Box
+        sx={{
+          backgroundColor: '#f0f4ff',
+          borderRadius: '20px',
+          padding: 3,
+          textAlign: 'center',
+          margin: 3,
+        }}
+      >
+        <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'salmon' }}>
+          📊 Manage Requests
+        </Typography>
+      </Box>
       <Table>
         <TableHead>
           <TableRow>
@@ -90,12 +73,18 @@ export default function VoucherTasksPage() {
               <TableCell>{request.task_name}</TableCell>
               <TableCell>{request.username}</TableCell>
               <TableCell>
-                {request.status === "requested" && (
+                {request.status === 'requested' && (
                   <>
-                    <Button onClick={() => handleApprove(request.task_name, request.username)} color="primary">
+                    <Button
+                      onClick={() => handleApprove(request.task_name, request.username)}
+                      color="primary"
+                    >
                       Approve
                     </Button>
-                    <Button onClick={() => handleReject(request.task_name, request.username)} color="secondary">
+                    <Button
+                      onClick={() => handleReject(request.task_name, request.username)}
+                      color="secondary"
+                    >
                       Reject
                     </Button>
                   </>

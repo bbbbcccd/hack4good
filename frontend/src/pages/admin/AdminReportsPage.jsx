@@ -141,7 +141,7 @@ export default function AdminReportsPage() {
           marginBottom: 4,
         }}
       >
-        <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
+        <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'salmon' }}>
           📊 Weekly Reports
         </Typography>
       </Box>

@@ -73,8 +73,8 @@ export default function AdminUsersPage() {
           margin: 3,
         }}
       >
-        <Typography variant="h4" sx={{ fontWeight: 'bold' }} color={'purple'}>
-          📊 Manage Users
+        <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'salmon' }}>
+          👤 Manage Users
         </Typography>
       </Box>
       <CustomModal

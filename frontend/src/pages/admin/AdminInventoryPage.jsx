@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Typography,
   Box,
@@ -11,7 +11,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  IconButton,
   MenuItem,
   Select,
   FormControl,
@@ -98,7 +97,7 @@ export default function AdminInventoryPage() {
           marginBottom: 4,
         }}
       >
-        <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
+        <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'salmon' }}>
           🛠️ Inventory Management
         </Typography>
       </Box>
