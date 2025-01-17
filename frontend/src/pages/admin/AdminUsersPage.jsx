@@ -100,7 +100,6 @@ export default function AdminUsersPage() {
               <TableCell>Username</TableCell>
               <TableCell>Role</TableCell>
               <TableCell/>
-              <TableCell/>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -108,7 +107,7 @@ export default function AdminUsersPage() {
               <TableRow key={user.username}>
                 <TableCell>{user.username}</TableCell>
                 <TableCell>{user.role}</TableCell>
-                <TableCell>
+                <TableCell align='right'>
                   <Button disabled={deleteUserLoading} onClick={() => suspendUser(user)}>
                     Suspend
                   </Button>
@@ -125,7 +124,6 @@ export default function AdminUsersPage() {
               <TableCell>Username</TableCell>
               <TableCell>Role</TableCell>
               <TableCell/>
-              <TableCell/>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -133,7 +131,7 @@ export default function AdminUsersPage() {
               <TableRow key={user.username}>
                 <TableCell>{user.username}</TableCell>
                 <TableCell>{user.role}</TableCell>
-                <TableCell>
+                <TableCell align='right'>
                   <Button disabled={deleteUserLoading} onClick={() => suspendUser(user)}>
                     Suspend
                   </Button>
