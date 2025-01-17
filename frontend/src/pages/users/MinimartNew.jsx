@@ -16,7 +16,7 @@ import { styled } from "@mui/system";
 import { Add, Remove, Search } from '@mui/icons-material';
 import MinimartCart from '../../components/MinimartCart';
 import StyledCard from "../../components/StyledCard";
-import axios from "axios";
+import { axiosPrivate } from "../../util/api/axios";
 
 const QuantityControl = styled(Box)({
   display: "flex",
@@ -34,7 +34,7 @@ const ShopItemList = () => {
 
   const fetchItems = async () => {
     try {
-      const response = await axios.get('/minimart');
+      const response = await axiosPrivate.get('/minimart');
 
       if (response.status != 200) {
         console.log('Error retrieving items: ', response.status, response.data);
