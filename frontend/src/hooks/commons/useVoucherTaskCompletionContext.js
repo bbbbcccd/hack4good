@@ -1,7 +1,7 @@
 
 import { useContext } from 'react';
 
-import { VoucherTaskCompletionContext } from '../../context/VoucherTaskContext.js';
+import { VoucherTaskCompletionContext } from '../../context/VoucherTaskCompletionContext.js';
 
 export const useVoucherTaskCompletionContext = () => {
     const context = useContext(VoucherTaskCompletionContext);

@@ -135,7 +135,7 @@ const ShopItemList = () => {
 
       <Grid container spacing={3}>
         {filteredItems.map((item) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={item}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={item.name}>
             <StyledCard outofstock={(item.quantity === 0).toString()}>
               {/* {item.image ? <StyledImage
                 src={item.image}

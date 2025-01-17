@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { useAxiosPrivate } from '../auth/useAxiosPrivate.jsx';
-import { useVoucherTaskCompletionContext } from './useVoucherTaskCompletionContext.js';
+import { useVoucherTaskCompletionContext } from '../commons/useVoucherTaskCompletionContext.js';
 
 const useGetVoucherTaskCompletion = () => {
     const axiosPrivate = useAxiosPrivate();

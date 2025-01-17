@@ -9,17 +9,17 @@ import {
   Typography,
   Box,
 } from '@mui/material';
-import useGetVoucherTask from '../../hooks/commons/useGetVoucherTask';
+import useGetVoucherTaskCompletion from '../../hooks/users/useGetVoucherTaskCompletion';
 import useApproveTask from '../../hooks/admins/useApproveTask';
 import useRejectTask from '../../hooks/admins/useRejectTask';
-import { useVoucherTaskContext } from '../../hooks/commons/useVoucherTaskContext';
+import { useVoucherTaskCompletionContext } from '../../hooks/commons/useVoucherTaskCompletionContext';
 
 export default function VoucherTasksPage() {
   const [requests, setRequests] = useState([]);
-  useGetVoucherTask();
+  useGetVoucherTaskCompletion();
   const { approveTask } = useApproveTask();
   const { rejectTask } = useRejectTask();
-  const { voucherTaskState } = useVoucherTaskContext();
+  const { voucherTaskCompletionState } = useVoucherTaskCompletionContext();
 
   const mockData = [
     { status: "requested", date: "2025-01-12", task_name: "Volunteer at kitchen", username: "resident" },
@@ -29,7 +29,7 @@ export default function VoucherTasksPage() {
   ]
 
   const fetchTasks = async () => {
-    setRequests(voucherTaskState.tasks);
+    setRequests(voucherTaskCompletionState.tasks);
   };
 
   useEffect(() => {

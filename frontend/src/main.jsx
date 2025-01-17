@@ -5,7 +5,7 @@ import App from "./App.jsx";
 import { AuthContextProvider } from "./context/auth/AuthContext.jsx";
 import { MinimartContextProvider } from "./context/MinimartContext.jsx";
 import { VoucherTaskContextProvider } from "./context/VoucherTaskContext.jsx";
-import { VoucherTaskCompletionContextProvider } from "./context/VoucherTaskContext.jsx";
+import { VoucherTaskCompletionContextProvider } from "./context/VoucherTaskCompletionContext.jsx";
 import { TransactionContextProvider } from "./context/users/TransactionContext.jsx";
 import { UsersContextProvider } from "./context/admin/UsersContext.jsx";
 import { AdminsContextProvider } from "./context/admin/AdminsContext.jsx";
