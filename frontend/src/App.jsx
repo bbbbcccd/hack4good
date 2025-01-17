@@ -1,6 +1,5 @@
 // Dependencies
-import { Routes, Route, Navigate } from 'react-router-dom';
-import axios from 'axios';
+import { Routes, Route, Navigate, BrowserRouter as Router } from 'react-router-dom';
 
 // Layout
 import { Box } from '@mui/material';
@@ -30,7 +29,7 @@ function App() {
   console.log(user);
 
   return (
-    <>
+    <Router>
       <Box sx={{ display: 'flex', height: '100vh' }}>
         {user && <SideMenu />}
         <Box sx={{ flexGrow: 1 }}>
@@ -38,13 +37,13 @@ function App() {
             <Route path="/login" element={user ? <Navigate to={'/'} replace /> : <Login />} />
 
             {/* User Routes */}
-            <Route element={<ProtectedRoutes user={user?.role === 'user'} />}>
+            <Route element={<ProtectedRoutes allowedRole={'user'} />}>
               <Route path="/dashboard" element={<UserDashboard />} />
               <Route path="/minimart" element={<MinimartNew />} />
             </Route>
 
             {/* Admin Routes */}
-            <Route element={<ProtectedRoutes user={user?.role === 'admin'} />}>
+            <Route element={<ProtectedRoutes allowedRole={'admin'} />}>
               <Route path="/admin/register" element={<Register />} />
               <Route path="/admin/users" element={<AdminUsersPage />} />
               <Route path="/admin/vouchers" element={<VoucherTasksPage />} />
@@ -54,7 +53,7 @@ function App() {
           </Routes>
         </Box>
       </Box>
-    </>
+    </Router>
   );
 }
 
