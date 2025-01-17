@@ -38,7 +38,7 @@ function App() {
       <Navbar />
       <Box sx={{ display: "flex", height: "100vh" }}>
         <SideMenu />
-        <Box sx={{ flexGrow: 1, marginTop: 5 }}>
+        <Box sx={{ flexGrow: 1 }}>
           <Routes>
             <Route
               path="/login"

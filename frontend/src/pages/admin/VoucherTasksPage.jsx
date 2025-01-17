@@ -1,57 +1,69 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Box } from "@mui/material";
 import axios from 'axios';
+import useGetVoucherTask from "../../hooks/commons/useGetVoucherTask";
+import useApproveTask from '../../hooks/admins/useApproveTask';
+import useRejectTask from '../../hooks/admins/useRejectTask';
+import { useVoucherTaskContext } from "../../hooks/commons/useVoucherTaskContext";
 
 export default function VoucherTasksPage() {
-  // Mock data for requests
-  const [requests, setRequests] = useState([
-    // { id: 1, type: "Voucher", details: "Request 50 points", status: "Pending" },
-    // { id: 2, type: "Product", details: "Request for Product A", status: "Pending" },
-    // { id: 3, type: "Voucher", details: "Request 100 points", status: "Approved" },
-  ]);
+  const [requests, setRequests] = useState([]);
+  useGetVoucherTask();
+  const { approveTask } = useApproveTask();
+  const { rejectTask } = useRejectTask();
+  const { voucherTaskState } = useVoucherTaskContext();
 
   const fetchTasks = async () => {
-    try {
-      const response = await axios.get('/task/complete');
+    // try {
+    //   const response = await axios.get('/task/complete');
 
-      if (response.status != 200) {
-        console.log('Error retrieving tasks: ', response.status, response.data);
-      } else {
-        setRequests(response.data);
-      }
-    } catch (error) {
-      console.error('Error fetching tasks: ', error);
-    }
+    //   if (response.status != 200) {
+    //     console.log('Error retrieving tasks: ', response.status, response.data);
+    //   } else {
+    //     setRequests(response.data);
+    //   }
+    // } catch (error) {
+    //   console.error('Error fetching tasks: ', error);
+    // }
+    setRequests(voucherTaskState.tasks);
   }
 
   useEffect(() => {
     fetchTasks();
   }, []);
 
+  // useEffect(() => {
+  //   setRequests(voucherTaskState.tasks);
+  // }, [voucherTaskState.tasks]);
+
   const handleApprove = async (taskName, username) => {
-    try {
-      const response = await axios.patch('/task/approve', { taskName, username });
-      if (response.status != 200) {
-        console.log('Error approving task: ', response.data);
-      } else {
-        fetchTasks();
-      }
-    } catch (error) {
-      console.error("Error approving task: ", error);
-    }
+    // try {
+    //   const response = await axios.patch('/task/approve', { taskName, username });
+    //   if (response.status != 200) {
+    //     console.log('Error approving task: ', response.data);
+    //   } else {
+    //     fetchTasks();
+    //   }
+    // } catch (error) {
+    //   console.error("Error approving task: ", error);
+    // }
+    approveTask(username, taskName);
+    fetchTasks();
   };
 
   const handleReject = async (taskName, username) => {
-    try {
-      const response = await axios.patch('/task/reject', { taskName, username });
-      if (response.status != 200) {
-        console.log('Error rejecting task: ', response.data);
-      } else {
-        fetchTasks();
-      }
-    } catch (error) {
-      console.error("Error rejecting task: ", error);
-    }
+    // try {
+    //   const response = await axios.patch('/task/reject', { taskName, username });
+    //   if (response.status != 200) {
+    //     console.log('Error rejecting task: ', response.data);
+    //   } else {
+    //     fetchTasks();
+    //   }
+    // } catch (error) {
+    //   console.error("Error rejecting task: ", error);
+    // }
+    rejectTask(username, taskName);
+    fetchTasks();
   };
 
   return (
