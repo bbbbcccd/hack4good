@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "./useAuthContext.jsx";
-import { axiosPrivate } from "../../util/api/axios.js";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from './useAuthContext.jsx';
+import { axiosPrivate } from '../../util/api/axios.js';
 
 export const useLogin = () => {
   const [error, setError] = useState(null);
@@ -27,19 +27,17 @@ export const useLogin = () => {
           role: user,
         };
         console.log(item);
-        localStorage.setItem("user", JSON.stringify(item));
-        dispatch({ type: "LOGIN", payload: res.data });
-        if (user === "admin") {
-          navigate("/admin/users");
+        localStorage.setItem('user', JSON.stringify(item));
+        dispatch({ type: 'LOGIN', payload: res.data });
+        if (user === 'admin') {
+          navigate('/admin/users');
         } else {
-          navigate("/dashboard");
+          navigate('/dashboard');
         }
       })
       .catch((error) => {
         console.log(error);
-        const message = error.response?.data
-          ? `, ${error.response.data.msg}`
-          : "";
+        const message = error.response?.data ? `, ${error.response.data.msg}` : '';
         setError(error.message + message);
       });
 
