@@ -4,31 +4,29 @@ import { useAxiosPrivate } from '../auth/useAxiosPrivate.jsx';
 import { useMinimartContext } from './useMinimartContext.js';
 
 const useGetMinimart = () => {
-    const axiosPrivate = useAxiosPrivate();
-    const { minimartDispatch } = useMinimartContext();
-    const [error, setError] = useState(null);
+  const axiosPrivate = useAxiosPrivate();
+  const { minimartDispatch } = useMinimartContext();
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const getMinimartItems = async () => {
-            await axiosPrivate
-                .get('/minimart')
-                .then((data) => {
-                    console.log(data);
-                    minimartDispatch({ type: 'GET_ITEMS', payload: data.data });
-                })
-                .catch((error) => {
-                    console.log(error);
-                    const message = error.response?.data
-                        ? `, ${error.response.data.error}`
-                        : '';
-                    setError(error.message + message);
-                });
-        };
+  useEffect(() => {
+    const getMinimartItems = async () => {
+      await axiosPrivate
+        .get('/minimart')
+        .then((data) => {
+          console.log(data);
+          minimartDispatch({ type: 'GET_ITEMS', payload: data.data });
+        })
+        .catch((error) => {
+          console.log(error);
+          const message = error.response?.data ? `, ${error.response.data.error}` : '';
+          setError(error.message + message);
+        });
+    };
 
-        getMinimartItems();
-    }, [minimartDispatch, axiosPrivate]);
+    getMinimartItems();
+  }, [minimartDispatch, axiosPrivate]);
 
-    return { error };
+  return { error };
 };
 
 export default useGetMinimart;

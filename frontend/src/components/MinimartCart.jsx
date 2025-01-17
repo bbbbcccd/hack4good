@@ -39,10 +39,18 @@ export default function CustomizedDialogs({ cart }) {
   }
 
   return (
-    <Box sx={{ marginTop: 5 }}>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open Cart 
-        <Badge badgeContent={cart.length} color="primary" ><ShoppingCart color="action"/></Badge>
+    <Box sx={{ 
+        ml: "1%"
+      }}>
+      <Button variant="outlined" onClick={handleClickOpen} 
+      sx={{
+        "&:hover": {
+          transform: "translateY(-1px)",
+          boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
+        },
+        borderRadius: "50%"
+      }}>
+        <Badge badgeContent={cart.length} color="primary" ><ShoppingCart color="action" shapeRendering='round' sx={{minHeight: 50}}/></Badge>
       </Button>
       <BootstrapDialog
         onClose={handleClose}

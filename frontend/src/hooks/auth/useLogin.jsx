@@ -22,9 +22,18 @@ export const useLogin = () => {
       // conditional selection of the backend endpoint based on user/admin
       .post(`/auth/${user}`, data)
       .then((res) => {
-        localStorage.setItem("user", JSON.stringify(res.data));
+        const item = {
+          ...res.data,
+          role: user,
+        };
+        console.log(item);
+        localStorage.setItem("user", JSON.stringify(item));
         dispatch({ type: "LOGIN", payload: res.data });
-        navigate("/dashboard");
+        if (user === "admin") {
+          navigate("/admin/users");
+        } else {
+          navigate("/dashboard");
+        }
       })
       .catch((error) => {
         console.log(error);

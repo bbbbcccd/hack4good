@@ -10,7 +10,8 @@ const StyledCard = styled(Card)(({ theme, outofstock }) => ({
     "&:hover": {
       transform: "translateY(-5px)",
       boxShadow: "0 4px 20px rgba(0,0,0,0.1)"
-    }
+    },
+    backgroundColor: "aliceblue"
 }));
 
 export default StyledCard;
