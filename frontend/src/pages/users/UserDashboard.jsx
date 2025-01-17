@@ -12,13 +12,13 @@ import {
 } from "@mui/material";
 import useGetTransaction from "../../hooks/users/useGetTransaction";
 import { useTransactionContext } from "../../hooks/users/useTransactionContext";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
 
 export default function UserDashboard() {
-  // Mock data for designing the dashboard
-  const voucherBalance = 150;
   const { error } = useGetTransaction();
   const { transactionState } = useTransactionContext();
   const transactionHistory = transactionState.transactions;
+  const { user } = useAuthContext();
 
   const products = [
     { id: 1, name: "Item A", price: 20 },
@@ -60,7 +60,7 @@ export default function UserDashboard() {
               </Typography>
             </Box>
             <Typography variant="h3" sx={{ fontWeight: "bold" }}>
-              {voucherBalance} Points
+              {`${user.voucher} Point${user.voucher == "1" ? '' : 's'}`}
             </Typography>
           </CardContent>
         </Card>
@@ -81,18 +81,19 @@ export default function UserDashboard() {
         >
           <CardContent>
             <List>
-              {transactionHistory.map((txn, index) => (
-                <ListItem key={index} sx={{ justifyContent: "space-between" }}>
-                  <span>
-                    {new Date(txn.date).getUTCDate()}-
-                    {new Date(txn.date).getUTCMonth() + 1}-
-                    {new Date(txn.date).getUTCFullYear()} - Purchased{" "}
-                    <b>{txn.item_name}</b>
-                  </span>
-                  <span style={{ fontWeight: "bold" }}>
-                    Quantity: {txn.quantity}
-                  </span>
-                </ListItem>
+              {transactionHistory.length <= 0 ? <Typography variant="h6" color="fff">No past transactions.</Typography>
+                : transactionHistory.map((txn, index) => (
+                  <ListItem key={index} sx={{ justifyContent: "space-between" }}>
+                    <span>
+                      {new Date(txn.date).getUTCDate()}-
+                      {new Date(txn.date).getUTCMonth() + 1}-
+                      {new Date(txn.date).getUTCFullYear()} - Purchased{" "}
+                      <b>{txn.item_name}</b>
+                    </span>
+                    <span style={{ fontWeight: "bold" }}>
+                      Quantity: {txn.quantity}
+                    </span>
+                  </ListItem>
               ))}
             </List>
           </CardContent>
