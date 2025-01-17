@@ -35,7 +35,7 @@ export default function UserVouchers() {
   useEffect(() => {
     setFilteredTasks(voucherTaskState.tasks.filter(task =>
         task.name.toLowerCase().includes(searchTerm.toLowerCase())));
-  }, [voucherTaskState]);
+  }, [voucherTaskState, searchTerm]);
 
   useEffect(() => {
     if (!loading && error) {
