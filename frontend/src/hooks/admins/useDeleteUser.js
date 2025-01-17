@@ -15,7 +15,7 @@ const useDeleteUser = () => {
 
         await axiosPrivate
             .delete(`/admin/user/${username}`)
-            .then(() => usersDispatch({ type: 'DELETE_user', payload: { username } }))
+            .then(() => usersDispatch({ type: 'DELETE_USER', payload: { username } }))
             .catch((error) => {
                 console.log(error.response);
                 const message = error.response?.data
