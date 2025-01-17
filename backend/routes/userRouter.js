@@ -9,7 +9,7 @@ import authMiddleware from '../middleware/authMiddleware.js';
 const userRouter = express.Router();
 
 // Add auth middleware
-// userRouter.use(authMiddleware('users'));
+userRouter.use(authMiddleware('users'));
 
 // Get user details
 userRouter.get('/', UserController.getUserDetails);
