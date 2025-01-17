@@ -24,7 +24,7 @@ userRouter.get('/transaction', TransactionController.getUserTransactions);
 userRouter.post('/complete', TaskCompletionController.completeTask);
 
 // View task completion history
-userRouter.get('/complete', TaskCompletionController.getTasks);
+userRouter.get('/complete', TaskCompletionController.getUserTaskCompletions);
 
 // Purchase item
 userRouter.post('/purchase', MinimartController.purchaseItem);
