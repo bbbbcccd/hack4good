@@ -1,15 +1,15 @@
-import React, { createContext, useReducer, useEffect } from "react";
-import PropTypes from "prop-types";
+import { createContext, useReducer, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 export const AuthContext = createContext();
 
 export const authReducer = (state, action) => {
   switch (action.type) {
-    case "LOGIN":
+    case 'LOGIN':
       return {
         user: action.payload,
       };
-    case "LOGOUT":
+    case 'LOGOUT':
       return {
         user: null,
       };
@@ -25,10 +25,12 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const user = localStorage.getItem('user');
+    console.log(JSON.parse(user));
 
     if (user) {
       dispatch({ type: 'LOGIN', payload: JSON.parse(user) });
     }
+    console.log(JSON.parse(user));
   }, []);
 
   return <AuthContext.Provider value={{ ...state, dispatch }}>{children}</AuthContext.Provider>;
