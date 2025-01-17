@@ -39,6 +39,8 @@ adminRouter.patch('/minimart/:id', MinimartController.updateItem);
 // **********************************
 
 // ******** task functions **********
+adminRouter.get('/task/completion', TaskCompletionController.getTaskCompletions);
+
 adminRouter.patch('/task/approve', TaskCompletionController.approveTask);
 
 adminRouter.patch('/task/reject', TaskCompletionController.rejectTask);

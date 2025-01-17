@@ -9,20 +9,27 @@ import {
   Typography,
   Box,
 } from '@mui/material';
-import useGetVoucherTask from '../../hooks/commons/useGetVoucherTask';
+import useGetVoucherTaskCompletion from '../../hooks/users/useGetVoucherTaskCompletion';
 import useApproveTask from '../../hooks/admins/useApproveTask';
 import useRejectTask from '../../hooks/admins/useRejectTask';
-import { useVoucherTaskContext } from '../../hooks/commons/useVoucherTaskContext';
+import { useVoucherTaskCompletionContext } from '../../hooks/commons/useVoucherTaskCompletionContext';
 
 export default function VoucherTasksPage() {
   const [requests, setRequests] = useState([]);
-  useGetVoucherTask();
+  useGetVoucherTaskCompletion();
   const { approveTask } = useApproveTask();
   const { rejectTask } = useRejectTask();
-  const { voucherTaskState } = useVoucherTaskContext();
+  const { voucherTaskCompletionState } = useVoucherTaskCompletionContext();
+
+  const mockData = [
+    { status: "requested", date: "2025-01-12", task_name: "Volunteer at kitchen", username: "resident" },
+    { status: "completed", date: "2025-01-13", task_name: "Clean up after event", username: "alice" },
+    { status: "completed", date: "2025-01-13", task_name: "Set up function", username: "bob" },
+    { status: "requested", date: "2025-01-14", task_name: "Teach english lesson", username: "charlie" },
+  ]
 
   const fetchTasks = async () => {
-    setRequests(voucherTaskState.tasks);
+    setRequests(voucherTaskCompletionState.tasks);
   };
 
   useEffect(() => {
@@ -65,8 +72,8 @@ export default function VoucherTasksPage() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {requests.map((request, idx) => (
-            <TableRow key={idx}>
+          {mockData.map((request, idx) => (
+            <TableRow key={idx} sx={{backgroundColor: request.status == "completed" ? "lawngreen" : "ghostwhite" }}>
               <TableCell>{++idx}</TableCell>
               <TableCell>{request.status}</TableCell>
               <TableCell>{request.date}</TableCell>
@@ -81,12 +88,12 @@ export default function VoucherTasksPage() {
                     >
                       Approve
                     </Button>
-                    <Button
+                    {/* <Button
                       onClick={() => handleReject(request.task_name, request.username)}
                       color="secondary"
                     >
                       Reject
-                    </Button>
+                    </Button> */}
                   </>
                 )}
               </TableCell>
