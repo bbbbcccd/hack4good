@@ -29,4 +29,7 @@ userRouter.get('/complete', TaskCompletionController.getTasks);
 // Purchase item
 userRouter.post('/purchase', MinimartController.purchaseItem);
 
+// View task completion history
+userRouter.get('/completion', TaskCompletionController.getUserTaskCompletions);
+
 export default userRouter;
