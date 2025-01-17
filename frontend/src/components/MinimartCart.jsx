@@ -96,7 +96,7 @@ export default function CustomizedDialogs({ cart, setCart, fetchItems }) {
             </StyledCard>
           </Grid>
         ))
-        : <Typography variant="h6" gutterBottom color="text.secondary">No items in cart</Typography>}
+        : <Typography variant="h6" gutterBottom color="text.secondary" sx={{ml: "5%", mt: "5%", mb: "5%", mr: "5%"}}>No items in cart</Typography>}
         </Grid>
         </DialogContent>
         <DialogActions>
