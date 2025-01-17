@@ -43,7 +43,6 @@ const CustomModal = ({ open, onClose, onSubmit, user }) => {
           label="Username"
           name="username"
           value={username}
-          defaultValue={''}
           onChange={handleChange(setUsername)}
           margin="normal"
         />

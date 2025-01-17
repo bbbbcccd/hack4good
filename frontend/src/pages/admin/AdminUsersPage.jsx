@@ -19,7 +19,7 @@ import useUpdateAdmin from '../../hooks/admins/useUpdateAdmin';
 import useUpdateUser from '../../hooks/admins/useUpdateUser';
 import { useNavigate } from 'react-router-dom';
 import CustomAlert from '../../components/CustomAlert';
-import CustomModal from '../../components/EditModal';
+import CustomModal from '../../components/CustomModal';
 import { useState } from 'react';
 
 export default function AdminUsersPage() {
