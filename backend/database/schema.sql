@@ -38,7 +38,7 @@ transactions (
   quantity INTEGER NOT NULL CHECK (quantity > 0),
   item_name VARCHAR(256) REFERENCES items (name),
   username VARCHAR(256) REFERENCES users (username),
-  PRIMARY KEY (item_name, username)
+  PRIMARY KEY (item_name, username, date)
 );
 
 CREATE TABLE IF NOT EXISTS
@@ -57,3 +57,5 @@ task_completions (
   username VARCHAR(256) REFERENCES users (username),
   PRIMARY KEY (task_name, username)
 );
+
+INSERT INTO admins VALUES ('admin', '$2b$11$RnFzJV8qL8HnoKOGo1Fi6eB.XS3yLYfmhmpcp3OjAk9qDv1IvnNQS') ON CONFLICT (username) DO NOTHING;
