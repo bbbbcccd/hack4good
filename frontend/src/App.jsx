@@ -38,7 +38,7 @@ function App() {
     <>
       {/* <Navbar /> */}
       <Box sx={{ display: 'flex', height: '100vh' }}>
-        <SideMenu />
+        {user && <SideMenu />}
         <Box sx={{ flexGrow: 1 }}>
           <Routes>
             <Route path="/login" element={user ? <Navigate to={'/'} replace /> : <Login />} />
