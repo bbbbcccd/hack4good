@@ -11,7 +11,7 @@ const useGetVoucherTaskCompletion = () => {
     useEffect(() => {
         const getVoucherTaskCompletions = async () => {
             await axiosPrivate
-                .get('/admin/completion')
+                .get('/admin/task/completion')
                 .then((data) => {
                     console.log(data);
                     voucherTaskCompletionDispatch({ type: 'GET_TASK_COMPLETIONS', payload: data.data });
