@@ -14,11 +14,14 @@ import useGetAdmins from '../../hooks/admins/useGetAdmins';
 import useGetUsers from '../../hooks/admins/useGetUsers';
 import useDeleteUser from '../../hooks/admins/useDeleteUser';
 import useDeleteAdmin from '../../hooks/admins/useDeleteAdmin';
+import useUpdateAdmin from '../../hooks/admins/useUpdateAdmin';
+import useUpdateUser from '../../hooks/admins/useUpdateUser';
 import { useNavigate } from 'react-router-dom';
 import CustomAlert from '../../components/CustomAlert';
+import CustomModal from '../../components/EditModal';
+import { useState } from 'react';
 
 export default function AdminUsersPage() {
-  // Mock data for users
   const { usersState } = useUsersContext();
   const { adminsState } = useAdminsContext();
   const navigate = useNavigate();
@@ -26,6 +29,10 @@ export default function AdminUsersPage() {
   const { error: userErrors } = useGetUsers();
   const { deleteUser, error: deleteUserError, loading: deleteUserLoading } = useDeleteUser();
   const { deleteAdmin, error: deleteAdminError, loading: deleteAdminLoading } = useDeleteAdmin();
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [currUser, setCurrUser] = useState({});
+  const { updateAdmin } = useUpdateAdmin();
+  const { updateUser } = useUpdateUser();
 
   const handleAddUser = () => {
     navigate('/admin/register');
@@ -39,19 +46,47 @@ export default function AdminUsersPage() {
     }
   };
 
-  const update = (userId) => {
-    alert(`Password reset for user ID: ${userId}`);
+  const handleUpdate = (user) => {
+    setIsOpenEdit(true);
+    setCurrUser(user);
+  };
+
+  const update = (user) => {
+    return (newUsername, newPassword, phoneNumber, vouchers) => {
+      if (user.role === 'admin') {
+        updateAdmin(user.username, newUsername, newPassword);
+      } else {
+        updateUser(user.username, newUsername, newPassword, vouchers, phoneNumber);
+      }
+      setIsOpenEdit(false);
+    };
   };
 
   return (
     <Box>
+      <Box
+        sx={{
+          backgroundColor: '#f0f4ff',
+          borderRadius: '20px',
+          padding: 3,
+          textAlign: 'center',
+          margin: 3,
+        }}
+      >
+        <Typography variant="h4" sx={{ fontWeight: 'bold' }} color={'purple'}>
+          📊 Manage Users
+        </Typography>
+      </Box>
+      <CustomModal
+        open={isOpenEdit}
+        onClose={() => setIsOpenEdit(false)}
+        onSubmit={update(currUser)}
+        user={currUser}
+      />
       {adminErrors && <CustomAlert severity="error" message={adminErrors} />}
       {userErrors && <CustomAlert severity="error" message={userErrors} />}
       {deleteAdminError && <CustomAlert severity="error" message={deleteAdminError} />}
       {deleteUserError && <CustomAlert severity="error" message={deleteUserError} />}
-      <Typography variant="h4" gutterBottom>
-        Manage Users
-      </Typography>
       <Button variant="contained" color="primary" onClick={handleAddUser}>
         Add User
       </Button>
@@ -71,7 +106,7 @@ export default function AdminUsersPage() {
                 <Button disabled={deleteAdminLoading} onClick={() => suspendUser(user)}>
                   Suspend
                 </Button>
-                <Button onClick={() => update(user.id)}>Update</Button>
+                <Button onClick={() => handleUpdate(user)}>Update</Button>
               </TableCell>
             </TableRow>
           ))}
@@ -83,7 +118,7 @@ export default function AdminUsersPage() {
                 <Button disabled={deleteUserLoading} onClick={() => suspendUser(user.id)}>
                   Suspend
                 </Button>
-                <Button onClick={() => update(user.id)}>Update</Button>
+                <Button onClick={() => handleUpdate(user)}>Update</Button>
               </TableCell>
             </TableRow>
           ))}
