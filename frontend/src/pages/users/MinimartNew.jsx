@@ -29,40 +29,7 @@ const QuantityControl = styled(Box)({
 
 const ShopItemList = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [items, setItems] = useState([
-    // {
-    //   id: 1,
-    //   name: "Premium Headphones",
-    //   cost: 199.99,
-    //   quantity: 5,
-    //   selectedQuantity: 0,
-    //   image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e"
-    // },
-    // {
-    //   id: 2,
-    //   name: "Wireless Speaker",
-    //   cost: 149.99,
-    //   quantity: 0,
-    //   selectedQuantity: 0,
-    //   image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1"
-    // },
-    // {
-    //   id: 3,
-    //   name: "Smart Watch",
-    //   cost: 299.99,
-    //   quantity: 8,
-    //   selectedQuantity: 0,
-    //   image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30"
-    // },
-    // {
-    //   id: 4,
-    //   name: "Wireless Earbuds",
-    //   cost: 129.99,
-    //   quantity: 3,
-    //   selectedQuantity: 0,
-    //   image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df"
-    // }
-  ]);
+  const [items, setItems] = useState([]);
   const [cart, setCart] = useState([]);
 
   const fetchItems = async () => {

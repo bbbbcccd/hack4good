@@ -4,6 +4,9 @@ import { styled } from '@mui/material/styles';
 import { Close, ShoppingCart } from '@mui/icons-material';
 import StyledCard from './StyledCard';
 
+import { useAuthContext } from '../hooks/auth/useAuthContext';
+import usePurchaseMinimartItem from '../hooks/users/usePurchaseMinimartItem';
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
@@ -15,6 +18,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function CustomizedDialogs({ cart }) {
   const [open, setOpen] = React.useState(false);
+  const { error, loading, purchaseItem } = usePurchaseMinimartItem();
+  const { user } = useAuthContext();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,18 +29,11 @@ export default function CustomizedDialogs({ cart }) {
   };
 
   const handlePurchase = async () => {
-    //TODO
-    try {
-      const response = await axios.get('/minimart');
-
-      if (response.status != 200) {
-        console.log('Error retrieving items: ', response.status, response.data);
-      } else {
-        setItems(response.data.map(item => {return {...item, selectedQuantity: 0}}));
-      }
-    } catch (error) {
-      console.error('Error fetching items: ', error);
-    }
+    const username = user.username;
+    cart.map(item => {
+      purchaseItem(username, item.name, item.selectedQuantity);
+      if (error) console.log(error);
+    });
   }
 
   return (
