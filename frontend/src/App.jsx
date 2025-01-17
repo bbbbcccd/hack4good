@@ -20,7 +20,6 @@ import VoucherTasksPage from './pages/admin/VoucherTasksPage';
 import Register from './pages/admin/RegisterPage';
 
 // Components
-import Navbar from './components/Navbar';
 import SideMenu from './components/SideMenu/SideMenu';
 import ProtectedRoutes from './components/ProtectedRoute';
 
@@ -36,7 +35,6 @@ function App() {
 
   return (
     <>
-      {/* <Navbar /> */}
       <Box sx={{ display: 'flex', height: '100vh' }}>
         {user && <SideMenu />}
         <Box sx={{ flexGrow: 1 }}>
@@ -45,10 +43,7 @@ function App() {
 
             {/* User Routes */}
             <Route element={<ProtectedRoutes user={user?.role === 'user'} />}>
-              {/* TODO: the /users path should be for admins but ima leave it here for now*/}
-              <Route path="/users" element={<Users />} />
               <Route path="/dashboard" element={<UserDashboard />} />
-              <Route path="/minimartold" element={<MinimartPage />} />
               <Route path="/minimart" element={<MinimartNew />} />
             </Route>
 
