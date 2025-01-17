@@ -137,7 +137,7 @@ export default function AdminInventoryPage() {
         {/* Inventory Cards */}
         <Grid container spacing={2}>
           {filteredInventory.map((item) => (
-            <Grid item xs={12} sm={6} md={4} key={item.id}>
+            <Grid item xs={12} sm={6} md={4} key={item.name}>
               <Card sx={{ position: 'relative', textAlign: 'center', padding: 2 }}>
                 <CardContent>
                   <Typography variant="h6">{item.name}</Typography>
