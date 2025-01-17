@@ -30,11 +30,12 @@ export default function MenuContent() {
     const location = useLocation();
     const { user, dispatch } = useAuthContext();
 
+    // Amazing Arrowhead code design!!!!!
     return (
         <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
             {user && user.role == "user" && <List dense>
-                {userListItems.map((item, index) => (
-                    <Link key={index} to={item.path} style={{color: 'grey'}}>
+                {userListItems.map(item => (
+                    <Link key={item.text} to={item.path} style={{color: 'grey'}}>
                         <ListItem disablePadding sx={{ display: 'block' }}>
                             <ListItemButton selected={item.path==location.pathname}>
                                 <ListItemIcon>{item.icon}</ListItemIcon>
@@ -45,9 +46,9 @@ export default function MenuContent() {
                 ))}
             </List>}
             {user && user.role == "admin" && <List dense>
-                {adminListItems.map((item, index) => (
-                <Link to={item.path} style={{color: 'grey'}}>
-                    <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+                {adminListItems.map(item => (
+                <Link key={item.text} to={item.path} style={{color: 'grey'}}>
+                    <ListItem disablePadding sx={{ display: 'block' }}>
                         <ListItemButton selected={item.path==location.pathname}>
                             <ListItemIcon>{item.icon}</ListItemIcon>
                             <ListItemText primary={item.text} />
