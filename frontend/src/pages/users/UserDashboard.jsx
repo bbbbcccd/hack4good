@@ -2,32 +2,45 @@ import {
   Container,
   Typography,
   Box,
+  Button,
   Card,
   CardContent,
-  Grid,
   List,
   ListItem,
-  Button,
-  Divider,
+  ListItemText,
 } from "@mui/material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { useState } from "react";
+import CustomAlert from "../../components/CustomAlert";
 import useGetTransaction from "../../hooks/users/useGetTransaction";
 import { useTransactionContext } from "../../hooks/users/useTransactionContext";
-import { useAuthContext } from "../../hooks/auth/useAuthContext";
+import useGetUserDetails from "../../hooks/users/useGetUserDetails";
+import { useUserDetailsContext } from "../../hooks/users/useUserDetailsContext";
 
 export default function UserDashboard() {
-  const { error } = useGetTransaction();
+  const getTransactionObj = useGetTransaction();
   const { transactionState } = useTransactionContext();
   const transactionHistory = transactionState.transactions;
-  const { user } = useAuthContext();
 
-  const products = [
-    { id: 1, name: "Item A", price: 20 },
-    { id: 2, name: "Item B", price: 30 },
-    { id: 3, name: "Item C", price: 50 },
-  ];
+  const getUserDetailsObj = useGetUserDetails();
+  const { userDetailsState } = useUserDetailsContext();
+  const userDetails = userDetailsState.user;
+
+  const [expanded, setExpanded] = useState(false);
+
+  const toggleExpand = () => {
+    setExpanded((prev) => !prev);
+  };
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      {getTransactionObj.error && (
+        <CustomAlert message={getTransactionObj.error} />
+      )}
+      {getUserDetailsObj.error && (
+        <CustomAlert message={getUserDetailsObj.error} />
+      )}
+
       {/* Dashboard Title */}
       <Box mb={4} textAlign="center">
         <Typography
@@ -38,8 +51,7 @@ export default function UserDashboard() {
           User Dashboard
         </Typography>
         <Typography variant="h6" color="fff">
-          Manage your vouchers, track your activity, and explore available
-          products.
+          Manage your vouchers, track your activity
         </Typography>
       </Box>
 
@@ -60,87 +72,79 @@ export default function UserDashboard() {
               </Typography>
             </Box>
             <Typography variant="h3" sx={{ fontWeight: "bold" }}>
-              {`${user.voucher} Point${user.voucher == "1" ? '' : 's'}`}
+              {`${userDetails.vouchers} Point${
+                userDetails.vouchers == "1" ? "" : "s"
+              }`}
             </Typography>
           </CardContent>
         </Card>
       </Box>
 
-      {/* Transaction History Section */}
-      <Box mb={4}>
+      {/* Purchase History Section */}
+      <Box sx={{ marginBottom: 4 }}>
         <Typography
           variant="h5"
           gutterBottom
           sx={{ fontWeight: "bold", color: "#2196f3" }}
         >
-          📜 Transaction History
+          📜 Purchase History
         </Typography>
-        <Card
-          elevation={6}
-          sx={{ backgroundColor: "#e3f2fd", color: "#1976d2" }}
-        >
-          <CardContent>
-            <List>
-              {transactionHistory.length <= 0 ? <Typography variant="h6" color="fff">No past transactions.</Typography>
-                : transactionHistory.map((txn, index) => (
-                  <ListItem key={index} sx={{ justifyContent: "space-between" }}>
-                    <span>
-                      {new Date(txn.date).getUTCDate()}-
-                      {new Date(txn.date).getUTCMonth() + 1}-
-                      {new Date(txn.date).getUTCFullYear()} - Purchased{" "}
-                      <b>{txn.item_name}</b>
-                    </span>
-                    <span style={{ fontWeight: "bold" }}>
-                      Quantity: {txn.quantity}
-                    </span>
-                  </ListItem>
+        {transactionHistory.length <= 0 ? (
+          <Typography variant="h6" color="fff">
+            No past transactions.
+          </Typography>
+        ) : (
+          <List>
+            {transactionHistory
+              .slice(0, expanded ? transactionHistory.length : 3)
+              .map((item, index) => (
+                <ListItem
+                  key={index}
+                  sx={{
+                    padding: "12px",
+                    marginBottom: "8px",
+                    borderRadius: "8px",
+                    backgroundColor: "#eef4fd", // Subtle contrast background
+                    boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <ListItemText
+                    primary={
+                      <Typography
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: "16px",
+                          color: "#1976d2",
+                        }}
+                      >
+                        Purchased {item.item_name}
+                      </Typography>
+                    }
+                    secondary={"Quantity: " + item.quantity}
+                  />
+                  <Typography style={{ fontWeight: "bold", color: "1976d2" }}>
+                    {new Date(item.date).getUTCDate() +
+                      "-" +
+                      new Date(item.date).getUTCMonth() +
+                      1 +
+                      "-" +
+                      new Date(item.date).getUTCFullYear()}
+                  </Typography>
+                </ListItem>
               ))}
-            </List>
-          </CardContent>
-        </Card>
-      </Box>
-
-      {/* Available Products Section */}
-      <Box mb={4}>
-        <Typography
-          variant="h5"
-          gutterBottom
-          sx={{ fontWeight: "bold", color: "#f57c00" }}
-        >
-          🛒 Available Products
-        </Typography>
-        <Grid container spacing={3}>
-          {products.map((product) => (
-            <Grid item xs={12} sm={6} md={4} key={product.id}>
-              <Card
-                elevation={6}
-                sx={{ backgroundColor: "#fff3e0", color: "#f57c00" }}
+            {transactionHistory.length > 3 && (
+              <Button
+                onClick={() => toggleExpand()}
+                size="small"
+                sx={{ textTransform: "none", marginTop: 1 }}
+                startIcon={expanded ? <ExpandLess /> : <ExpandMore />}
               >
-                <CardContent>
-                  <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                    {product.name}
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    Price: {product.price} points
-                  </Typography>
-                  <Divider sx={{ my: 2 }} />
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    sx={{
-                      backgroundColor: "#f57c00",
-                      color: "#fff",
-                      "&:hover": { backgroundColor: "#ef6c00" },
-                    }}
-                    onClick={() => console.log(`Requested: ${product.name}`)}
-                  >
-                    Request
-                  </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+                {expanded ? "Show Less" : "Show More"}
+              </Button>
+            )}
+          </List>
+        )}
       </Box>
     </Container>
   );
