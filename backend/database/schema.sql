@@ -55,7 +55,7 @@ task_completions (
   date TIMESTAMP NOT NULL,
   task_name VARCHAR(256),
   username VARCHAR(256) REFERENCES users (username) ON UPDATE CASCADE,
-  PRIMARY KEY (task_name, username)
+  PRIMARY KEY (task_name, username, date)
 );
 
 INSERT INTO admins VALUES ('admin', '$2b$11$RnFzJV8qL8HnoKOGo1Fi6eB.XS3yLYfmhmpcp3OjAk9qDv1IvnNQS') ON CONFLICT (username) DO NOTHING;
