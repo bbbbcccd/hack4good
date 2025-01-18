@@ -19,7 +19,7 @@ const useGetVoucherTask = () => {
                 .catch((error) => {
                     console.log("Error retrieving tasks: ", error);
                     const message = error.response?.data
-                        ? `, ${error.response.data.error}`
+                        ? `, ${error.response.data.msg}`
                         : '';
                     setError(error.message + message);
                 });

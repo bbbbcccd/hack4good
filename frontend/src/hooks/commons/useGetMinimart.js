@@ -18,7 +18,7 @@ const useGetMinimart = () => {
         })
         .catch((error) => {
           console.log(error);
-          const message = error.response?.data ? `, ${error.response.data.error}` : '';
+          const message = error.response?.data ? `, ${error.response.data.msg}` : '';
           setError(error.message + message);
         });
     };

@@ -20,7 +20,7 @@ const useDeleteTask = () => {
       .then(() => voucherTaskDispatch({ type: "DELETE_TASK", payload: { name } }))
       .catch((error) => {
         console.log(error.response);
-        const message = error.response?.data ? `, ${error.response.data.error}` : "";
+        const message = error.response?.data ? `, ${error.response.data.msg}` : "";
         setError(error.message + message);
       });
 

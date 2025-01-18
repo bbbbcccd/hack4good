@@ -24,7 +24,7 @@ const usePurchaseMinimartItem = () => {
       .then((res) => transactionDispatch({ type: 'PURCHASE_ITEM', payload: res.data }))
       .catch((error) => {
         console.log(error.response);
-        const message = error.response?.data ? `, ${error.response.data.error}` : '';
+        const message = error.response?.data ? `, ${error.response.data.msg}` : '';
         setError(error.message + message);
       });
 

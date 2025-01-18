@@ -21,7 +21,7 @@ const useCompleteTask = () => {
             .catch((error) => {
                 console.log(error.response);
                 const message = error.response?.data
-                    ? `, ${error.response.data.error}`
+                    ? `, ${error.response.data.msg}`
                     : '';
                 setError(error.message + message);
             });

@@ -19,7 +19,7 @@ const useGetVoucherTaskCompletion = () => {
                 .catch((error) => {
                     console.log(error);
                     const message = error.response?.data
-                        ? `, ${error.response.data.error}`
+                        ? `, ${error.response.data.msg}`
                         : '';
                     setError(error.message + message);
                 });
