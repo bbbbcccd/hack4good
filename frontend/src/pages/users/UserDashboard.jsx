@@ -8,15 +8,12 @@ import {
   ListItem,
 } from "@mui/material";
 import CustomAlert from "../../components/CustomAlert";
-import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import useGetTransaction from "../../hooks/users/useGetTransaction";
 import { useTransactionContext } from "../../hooks/users/useTransactionContext";
 import useGetUserDetails from "../../hooks/users/useGetUserDetails";
 import { useUserDetailsContext } from "../../hooks/users/useUserDetailsContext";
 
 export default function UserDashboard() {
-  useAuthContext();
-
   const getTransactionObj = useGetTransaction();
   const { transactionState } = useTransactionContext();
   const transactionHistory = transactionState.transactions;
