@@ -10,7 +10,7 @@ DROP TYPE IF EXISTS TASK_STATUS CASCADE;
 
 CREATE TABLE IF NOT EXISTS
   users (
-    username VARCHAR(256) PRIMARY KEY ON UPDATE CASCADE,
+    username VARCHAR(256) PRIMARY KEY,
     password VARCHAR(256) NOT NULL,
     vouchers NUMERIC NOT NULL,
     phone_number NUMERIC NOT NULL
@@ -18,13 +18,13 @@ CREATE TABLE IF NOT EXISTS
 
 CREATE TABLE IF NOT EXISTS
 admins (
-  username VARCHAR(256) PRIMARY KEY ON UPDATE CASCADE,
+  username VARCHAR(256) PRIMARY KEY,
   password VARCHAR(256) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS
 items (
-  name VARCHAR(256) PRIMARY KEY ON UPDATE CASCADE,
+  name VARCHAR(256) PRIMARY KEY,
   cost NUMERIC NOT NULL CHECK (cost > 0),
   quantity INTEGER NOT NULL CHECK (quantity >= 0)
 );
@@ -36,8 +36,8 @@ transactions (
   status TRANSACTION_STATUS NOT NULL,
   date TIMESTAMP NOT NULL,
   quantity INTEGER NOT NULL CHECK (quantity > 0),
-  item_name VARCHAR(256) REFERENCES items (name),
-  username VARCHAR(256) REFERENCES users (username),
+  item_name VARCHAR(256) REFERENCES items (name) ON UPDATE CASCADE,
+  username VARCHAR(256) REFERENCES users (username) ON UPDATE CASCADE,
   PRIMARY KEY (item_name, username, date)
 );
 
@@ -54,7 +54,7 @@ task_completions (
   status TASK_STATUS NOT NULL,
   date TIMESTAMP NOT NULL,
   task_name VARCHAR(256),
-  username VARCHAR(256) REFERENCES users (username),
+  username VARCHAR(256) REFERENCES users (username) ON UPDATE CASCADE,
   PRIMARY KEY (task_name, username)
 );
 
