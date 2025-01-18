@@ -15,9 +15,10 @@ import useGetVoucherTask from "../../hooks/commons/useGetVoucherTask";
 import useApproveTask from "../../hooks/admins/useApproveTask";
 import { useVoucherTaskCompletionContext } from "../../hooks/commons/useVoucherTaskCompletionContext";
 import CustomrAlert from "../../components/CustomAlert";
-import AddVoucherModal from "../../components/Vouchers/AddVoucher";
+import AddVoucherModal from "../../components/Vouchers/AddVoucherTask";
 import useAddTask from "../../hooks/admins/useAddTask";
 import useDeleteTask from "../../hooks/admins/useDeleteTask";
+import useUpdateTask from "../../hooks/admins/useUpdateTask";
 import { useVoucherTaskContext } from "../../hooks/commons/useVoucherTaskContext";
 
 export default function VoucherTasksPage() {
@@ -27,10 +28,13 @@ export default function VoucherTasksPage() {
   const { approveTask } = useApproveTask();
   const { voucherTaskCompletionState } = useVoucherTaskCompletionContext();
   const [isOpenAdd, setIsOpenAdd] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
   const { error: addTaskError, loading: addTaskLoading, addTask } = useAddTask();
   const { error: deleteTaskError, loading: deleteTaskLoading, deleteTask } = useDeleteTask();
+  const { error: updateTaskError, loading: updateTaskLoading, updateTask } = useUpdateTask();
   const { voucherTaskState } = useVoucherTaskContext();
   const tasks = voucherTaskState.tasks;
+  const [currTaskName, setCurrTaskName] = useState("");
 
   useEffect(() => {
     if (voucherTaskCompletionState) setRequests(voucherTaskCompletionState.taskCompletions);
@@ -42,6 +46,10 @@ export default function VoucherTasksPage() {
 
   const handleAddTask = (taskName, reward) => {
     addTask(taskName, reward);
+  };
+
+  const handleEditTask = (name, reward) => {
+    updateTask(currTaskName, name, reward);
   };
 
   const handleDeleteTask = (name) => {
@@ -57,8 +65,8 @@ export default function VoucherTasksPage() {
     <Box sx={{ p: 3 }}>
       {getTaskCompletionError && <CustomrAlert message={getTaskCompletionError} />}
       {getTasksError && <CustomrAlert message={getTasksError} />}
+      {deleteTaskError && <CustomrAlert message={deleteTaskError} />}
       {addTaskError && <CustomrAlert message={addTaskError} />}
-
       <Box
         sx={{
           backgroundColor: "#f0f4ff",
@@ -90,6 +98,12 @@ export default function VoucherTasksPage() {
         onSubmit={handleAddTask}
       />
 
+      <AddVoucherModal
+        open={isOpenEdit}
+        onClose={() => setIsOpenEdit(false)}
+        onSubmit={handleEditTask}
+      />
+
       <Paper sx={{ mb: 4, overflow: "hidden", borderRadius: 3 }}>
         <Typography variant="h6" sx={{ p: 2, backgroundColor: "aliceblue", color: "seagreen" }}>
           Available Tasks
@@ -109,12 +123,24 @@ export default function VoucherTasksPage() {
                 <TableCell>{task.name}</TableCell>
                 <TableCell>{task.reward}</TableCell>
                 <TableCell>
-                  <Button variant="outlined" color="info">
+                  <Button
+                    variant="outlined"
+                    color="info"
+                    onClick={() => {
+                      setIsOpenEdit(true);
+                      setCurrTaskName(task.name);
+                    }}
+                  >
                     Edit
                   </Button>
                 </TableCell>
                 <TableCell>
-                  <Button variant="outlined" color="warning" onClick={handleDeleteTask(task.name)}>
+                  <Button
+                    variant="outlined"
+                    color="warning"
+                    disabled={deleteTaskLoading}
+                    onClick={handleDeleteTask(task.name)}
+                  >
                     Delete
                   </Button>
                 </TableCell>
