@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Table,
   TableHead,
@@ -116,8 +116,9 @@ export default function VoucherTasksPage() {
             <TableRow sx={{ backgroundColor: "#fafafa" }}>
               <TableCell sx={{ fontWeight: "bold" }}>Task Name</TableCell>
               <TableCell sx={{ fontWeight: "bold" }}>Reward</TableCell>
-              <TableCell />
-              <TableCell />
+              <TableCell align="right" sx={{ fontWeight: "bold" }}>
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -125,7 +126,9 @@ export default function VoucherTasksPage() {
               <TableRow key={idx} sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}>
                 <TableCell>{task.name}</TableCell>
                 <TableCell>{task.reward}</TableCell>
-                <TableCell>
+                <TableCell align="right" sx={{ pr: 1 }}>
+                  {" "}
+                  {/* Added right padding */}
                   <Button
                     variant="outlined"
                     color="info"
@@ -134,11 +137,10 @@ export default function VoucherTasksPage() {
                       setIsOpenEdit(true);
                       setCurrTaskName(task.name);
                     }}
+                    sx={{ mr: 1 }}
                   >
                     Edit
                   </Button>
-                </TableCell>
-                <TableCell>
                   <Button
                     variant="outlined"
                     color="warning"
