@@ -1,17 +1,12 @@
 import pool from "../database/db.js";
 
 export const getUserDetails = async (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
+  if (!req.userId) {
     return res.status(400).json({ msg: "Missing required fields" });
   }
 
   await pool
-    .query("SELECT * FROM users WHERE username = $1 AND password = $2", [
-      username,
-      password,
-    ])
+    .query("SELECT username, vouchers FROM users WHERE username = $1", [req.userId])
     .then((data) => {
       if (data.rows.length != 1) {
         return res.status(400).json({ msg: "Invalid user" });
