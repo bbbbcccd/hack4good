@@ -8,6 +8,7 @@ import {
   Button,
   Typography,
   Box,
+  Paper,
 } from "@mui/material";
 import { useUsersContext } from "../../hooks/admins/useUsersContext";
 import { useAdminsContext } from "../../hooks/admins/useAdminsContext";
@@ -40,7 +41,6 @@ export default function AdminUsersPage() {
   };
 
   const suspendUser = (user) => {
-    console.log(user);
     if (user.role === "admin") {
       deleteAdmin(user.username);
     } else {
@@ -65,83 +65,116 @@ export default function AdminUsersPage() {
   };
 
   return (
-    <Box>
+    <Box sx={{ p: 3 }}>
       <Box
         sx={{
           backgroundColor: "#f0f4ff",
           borderRadius: "20px",
           padding: 3,
           textAlign: "center",
-          margin: 3,
+          marginBottom: 4,
         }}
       >
         <Typography variant="h4" sx={{ fontWeight: "bold", color: "salmon" }}>
           👤 Manage Users
         </Typography>
       </Box>
+
       <CustomModal
         open={isOpenEdit}
         onClose={() => setIsOpenEdit(false)}
         onSubmit={update(currUser)}
         user={currUser}
       />
+
       {adminErrors && <CustomAlert severity="error" message={adminErrors} />}
       {userErrors && <CustomAlert severity="error" message={userErrors} />}
       {deleteAdminError && <CustomAlert severity="error" message={deleteAdminError} />}
       {deleteUserError && <CustomAlert severity="error" message={deleteUserError} />}
-      <Button variant="contained" color="primary" onClick={handleAddUser}>
-        Add User
-      </Button>
-      <TableContainer sx={{ mt: "2%" }}>
-        <Typography>Admins</Typography>
-        <Table sx={{ mb: "2%" }}>
+
+      <Box sx={{ mb: 4 }}>
+        <Button variant="contained" color="primary" onClick={handleAddUser}>
+          Add User
+        </Button>
+      </Box>
+
+      {/* Admins Table */}
+      <Paper sx={{ mb: 4, overflow: "hidden" }}>
+        <Typography variant="h6" sx={{ p: 2, backgroundColor: "aliceblue", fontWeight: "bold" }}>
+          Administrators
+        </Typography>
+        <Table>
           <TableHead>
-            <TableRow sx={{ backgroundColor: "lightgrey" }}>
-              <TableCell>Username</TableCell>
-              <TableCell>Role</TableCell>
-              <TableCell />
+            <TableRow sx={{ backgroundColor: "#fafafa" }}>
+              <TableCell sx={{ fontWeight: "bold" }}>Username</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Role</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="right">
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {adminsState.admins.map((user) => (
-              <TableRow key={user.username}>
+              <TableRow key={user.username} sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}>
                 <TableCell>{user.username}</TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell align="right">
-                  <Button disabled={deleteAdminLoading} onClick={() => suspendUser(user)}>
+                  <Button
+                    disabled={deleteAdminLoading}
+                    onClick={() => suspendUser(user)}
+                    color="error"
+                    sx={{ mr: 1 }}
+                  >
                     Suspend
                   </Button>
-                  <Button onClick={() => handleUpdate(user)}>Update</Button>
+                  <Button onClick={() => handleUpdate(user)} color="primary">
+                    Update
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        <Typography>Users</Typography>
+      </Paper>
+
+      {/* Users Table */}
+      <Paper sx={{ overflow: "hidden" }}>
+        <Typography variant="h6" sx={{ p: 2, backgroundColor: "aliceblue", fontWeight: "bold" }}>
+          Users
+        </Typography>
         <Table>
           <TableHead>
-            <TableRow sx={{ backgroundColor: "lightgrey" }}>
-              <TableCell>Username</TableCell>
-              <TableCell>Role</TableCell>
-              <TableCell />
+            <TableRow sx={{ backgroundColor: "#fafafa" }}>
+              <TableCell sx={{ fontWeight: "bold" }}>Username</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Role</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }} align="right">
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {usersState.users.map((user) => (
-              <TableRow key={user.username}>
+              <TableRow key={user.username} sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}>
                 <TableCell>{user.username}</TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell align="right">
-                  <Button disabled={deleteUserLoading} onClick={() => suspendUser(user)}>
+                  <Button
+                    disabled={deleteUserLoading}
+                    onClick={() => suspendUser(user)}
+                    color="error"
+                    sx={{ mr: 1 }}
+                  >
                     Suspend
                   </Button>
-                  <Button onClick={() => handleUpdate(user)}>Update</Button>
+                  <Button onClick={() => handleUpdate(user)} color="primary">
+                    Update
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </Paper>
     </Box>
   );
 }
