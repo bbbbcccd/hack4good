@@ -91,6 +91,7 @@ export const approveTask = async (req, res) => {
   if (task.rows.length == 0) {
     return res.status(400).json({ msg: "Invalid task" });
   }
+  const taskReward = task.rows[0].reward;
 
   const completedTasks = await pool.query(
     "SELECT * FROM task_completions WHERE task_name = $1 AND username = $2 AND status = 'requested'",
@@ -101,15 +102,22 @@ export const approveTask = async (req, res) => {
     return res.status(400).json({ msg: "Task completion not found" });
   }
 
-  await pool
-    .query(
-      "UPDATE task_completions SET status = 'approved' WHERE task_name = $1 AND username = $2 RETURNING status, task_name, username",
-      [taskName, username]
-    )
-    .then((data) => res.send(data.rows[0]))
-    .catch((err) =>
-      res.status(400).json({ msg: "Error completing task", error: err.message })
-    );
+  // insert into task_completion, increase user balance by task reward
+  try {
+    await pool.query('BEGIN')
+    await pool.query("UPDATE users SET vouchers = vouchers + $1 WHERE username = $2;", [taskReward, username]);
+    const data = await pool
+      .query(
+        "UPDATE task_completions SET status = 'approved' WHERE task_name = $1 AND username = $2 RETURNING status, task_name, username",
+        [taskName, username]
+      )
+    await pool.query('COMMIT');
+
+    res.send(data.rows[0]);
+  } catch (err) {
+    await pool.query('ROLLBACK');
+    return res.status(400).json({ msg: "Error approving task", error: err.message })
+  }
 };
 
 // TODO: Notify users when task is rejected
