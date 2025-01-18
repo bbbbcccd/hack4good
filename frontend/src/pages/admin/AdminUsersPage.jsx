@@ -8,19 +8,19 @@ import {
   Button,
   Typography,
   Box,
-} from '@mui/material';
-import { useUsersContext } from '../../hooks/admins/useUsersContext';
-import { useAdminsContext } from '../../hooks/admins/useAdminsContext';
-import useGetAdmins from '../../hooks/admins/useGetAdmins';
-import useGetUsers from '../../hooks/admins/useGetUsers';
-import useDeleteUser from '../../hooks/admins/useDeleteUser';
-import useDeleteAdmin from '../../hooks/admins/useDeleteAdmin';
-import useUpdateAdmin from '../../hooks/admins/useUpdateAdmin';
-import useUpdateUser from '../../hooks/admins/useUpdateUser';
-import { useNavigate } from 'react-router-dom';
-import CustomAlert from '../../components/CustomAlert';
-import CustomModal from '../../components/CustomModal';
-import { useState } from 'react';
+} from "@mui/material";
+import { useUsersContext } from "../../hooks/admins/useUsersContext";
+import { useAdminsContext } from "../../hooks/admins/useAdminsContext";
+import useGetAdmins from "../../hooks/admins/useGetAdmins";
+import useGetUsers from "../../hooks/admins/useGetUsers";
+import useDeleteUser from "../../hooks/admins/useDeleteUser";
+import useDeleteAdmin from "../../hooks/admins/useDeleteAdmin";
+import useUpdateAdmin from "../../hooks/admins/useUpdateAdmin";
+import useUpdateUser from "../../hooks/admins/useUpdateUser";
+import { useNavigate } from "react-router-dom";
+import CustomAlert from "../../components/CustomAlert";
+import CustomModal from "../../components/CustomModal";
+import { useState } from "react";
 
 export default function AdminUsersPage() {
   const { usersState } = useUsersContext();
@@ -36,12 +36,12 @@ export default function AdminUsersPage() {
   const { updateUser } = useUpdateUser();
 
   const handleAddUser = () => {
-    navigate('/admin/register');
+    navigate("/admin/register");
   };
 
   const suspendUser = (user) => {
     console.log(user);
-    if (user.role === 'admin') {
+    if (user.role === "admin") {
       deleteAdmin(user.username);
     } else {
       deleteUser(user.username);
@@ -55,7 +55,7 @@ export default function AdminUsersPage() {
 
   const update = (user) => {
     return (newUsername, newPassword, phoneNumber, vouchers) => {
-      if (user.role === 'admin') {
+      if (user.role === "admin") {
         updateAdmin(user.username, newUsername, newPassword);
       } else {
         updateUser(user.username, newUsername, newPassword, vouchers, phoneNumber);
@@ -68,14 +68,14 @@ export default function AdminUsersPage() {
     <Box>
       <Box
         sx={{
-          backgroundColor: '#f0f4ff',
-          borderRadius: '20px',
+          backgroundColor: "#f0f4ff",
+          borderRadius: "20px",
           padding: 3,
-          textAlign: 'center',
+          textAlign: "center",
           margin: 3,
         }}
       >
-        <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'salmon' }}>
+        <Typography variant="h4" sx={{ fontWeight: "bold", color: "salmon" }}>
           👤 Manage Users
         </Typography>
       </Box>
@@ -92,14 +92,14 @@ export default function AdminUsersPage() {
       <Button variant="contained" color="primary" onClick={handleAddUser}>
         Add User
       </Button>
-      <TableContainer sx={{ mt: "2%" }} >
+      <TableContainer sx={{ mt: "2%" }}>
         <Typography>Admins</Typography>
         <Table sx={{ mb: "2%" }}>
           <TableHead>
-            <TableRow sx ={{ backgroundColor: "lightgrey" }}>
+            <TableRow sx={{ backgroundColor: "lightgrey" }}>
               <TableCell>Username</TableCell>
               <TableCell>Role</TableCell>
-              <TableCell/>
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -107,8 +107,8 @@ export default function AdminUsersPage() {
               <TableRow key={user.username}>
                 <TableCell>{user.username}</TableCell>
                 <TableCell>{user.role}</TableCell>
-                <TableCell align='right'>
-                  <Button disabled={deleteUserLoading} onClick={() => suspendUser(user)}>
+                <TableCell align="right">
+                  <Button disabled={deleteAdminLoading} onClick={() => suspendUser(user)}>
                     Suspend
                   </Button>
                   <Button onClick={() => handleUpdate(user)}>Update</Button>
@@ -120,10 +120,10 @@ export default function AdminUsersPage() {
         <Typography>Users</Typography>
         <Table>
           <TableHead>
-            <TableRow sx ={{ backgroundColor: "lightgrey" }}>
+            <TableRow sx={{ backgroundColor: "lightgrey" }}>
               <TableCell>Username</TableCell>
               <TableCell>Role</TableCell>
-              <TableCell/>
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -131,7 +131,7 @@ export default function AdminUsersPage() {
               <TableRow key={user.username}>
                 <TableCell>{user.username}</TableCell>
                 <TableCell>{user.role}</TableCell>
-                <TableCell align='right'>
+                <TableCell align="right">
                   <Button disabled={deleteUserLoading} onClick={() => suspendUser(user)}>
                     Suspend
                   </Button>

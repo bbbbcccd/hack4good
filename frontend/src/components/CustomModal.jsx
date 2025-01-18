@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Modal, Box, TextField, Button, Typography } from '@mui/material';
-import PropTypes from 'prop-types';
+import { useState } from "react";
+import { Modal, Box, TextField, Button, Typography } from "@mui/material";
+import PropTypes from "prop-types";
 
 const CustomModal = ({ open, onClose, onSubmit, user }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [vouchers, setVouchers] = useState(0);
 
   const handleChange = (handler) => {
@@ -16,22 +16,23 @@ const CustomModal = ({ open, onClose, onSubmit, user }) => {
 
   const handleSubmit = () => {
     onSubmit(username, password, phoneNumber, vouchers);
-    setUsername('');
-    setPassword('');
-    setPhoneNumber('');
+    setUsername("");
+    setPassword("");
+    setPhoneNumber("");
     setVouchers(0);
+    onClose();
   };
 
   return (
     <Modal open={open} onClose={onClose}>
       <Box
         sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
           width: 400,
-          bgcolor: 'background.paper',
+          bgcolor: "background.paper",
           boxShadow: 24,
           p: 3,
           borderRadius: 2,
@@ -55,7 +56,7 @@ const CustomModal = ({ open, onClose, onSubmit, user }) => {
           onChange={handleChange(setPassword)}
           margin="normal"
         />
-        {user.role === 'user' && (
+        {user.role === "user" && (
           <TextField
             fullWidth
             label="Phone Number"
@@ -65,7 +66,7 @@ const CustomModal = ({ open, onClose, onSubmit, user }) => {
             margin="normal"
           />
         )}
-        {user.role === 'user' && (
+        {user.role === "user" && (
           <TextField
             fullWidth
             label="Vouchers"
