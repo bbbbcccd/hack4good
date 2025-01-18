@@ -10,7 +10,7 @@ const voucherTaskCompletionReducer = (voucherTaskCompletionState, action) => {
       return { taskCompletions: [action.payload, ...voucherTaskCompletionState.taskCompletions] };
     case "UPDATE_TASK_COMPLETION":
       return {
-        tasks: voucherTaskCompletionState.tasks.map((taskCompletion) => {
+        taskCompletions: voucherTaskCompletionState.taskCompletions.map((taskCompletion) => {
           if (
             taskCompletion.name === action.payload.name &&
             taskCompletion.username === action.payload.username
@@ -27,10 +27,12 @@ const voucherTaskCompletionReducer = (voucherTaskCompletionState, action) => {
 };
 
 export const VoucherTaskCompletionContextProvider = ({ children }) => {
-  const [voucherTaskCompletionState, voucherTaskCompletionDispatch] =
-    useReducer(voucherTaskCompletionReducer, {
+  const [voucherTaskCompletionState, voucherTaskCompletionDispatch] = useReducer(
+    voucherTaskCompletionReducer,
+    {
       taskCompletions: [],
-    });
+    },
+  );
 
   return (
     <VoucherTaskCompletionContext.Provider

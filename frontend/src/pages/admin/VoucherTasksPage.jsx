@@ -22,7 +22,6 @@ import useUpdateTask from "../../hooks/admins/useUpdateTask";
 import { useVoucherTaskContext } from "../../hooks/commons/useVoucherTaskContext";
 
 export default function VoucherTasksPage() {
-  const [requests, setRequests] = useState([]);
   const { error: getTaskCompletionError } = useGetVoucherTaskCompletion();
   const { error: getTasksError } = useGetVoucherTask();
   const { approveTask } = useApproveTask();
@@ -34,22 +33,25 @@ export default function VoucherTasksPage() {
   const { error: updateTaskError, loading: updateTaskLoading, updateTask } = useUpdateTask();
   const { voucherTaskState } = useVoucherTaskContext();
   const tasks = voucherTaskState.tasks;
+  const taskCompletions = voucherTaskCompletionState.taskCompletions;
   const [currTaskName, setCurrTaskName] = useState("");
-
-  useEffect(() => {
-    if (voucherTaskCompletionState) setRequests(voucherTaskCompletionState.taskCompletions);
-  }, [voucherTaskCompletionState]);
 
   const handleApprove = (taskName, username) => {
     approveTask(username, taskName);
   };
 
   const handleAddTask = (taskName, reward) => {
-    addTask(taskName, reward);
+    if (taskName && reward) {
+      addTask(taskName, reward);
+    }
+    setIsOpenAdd(false);
   };
 
   const handleEditTask = (name, reward) => {
-    updateTask(currTaskName, name, reward);
+    if (name && reward) {
+      updateTask(currTaskName, name, reward);
+    }
+    setIsOpenEdit(false);
   };
 
   const handleDeleteTask = (name) => {
@@ -67,6 +69,7 @@ export default function VoucherTasksPage() {
       {getTasksError && <CustomrAlert message={getTasksError} />}
       {deleteTaskError && <CustomrAlert message={deleteTaskError} />}
       {addTaskError && <CustomrAlert message={addTaskError} />}
+      {updateTaskError && <CustomrAlert message={updateTaskError} />}
       <Box
         sx={{
           backgroundColor: "#f0f4ff",
@@ -126,6 +129,7 @@ export default function VoucherTasksPage() {
                   <Button
                     variant="outlined"
                     color="info"
+                    disabled={updateTaskLoading}
                     onClick={() => {
                       setIsOpenEdit(true);
                       setCurrTaskName(task.name);
@@ -166,7 +170,7 @@ export default function VoucherTasksPage() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {requests.map((request, idx) => (
+            {taskCompletions.map((request, idx) => (
               <TableRow
                 key={idx}
                 sx={{
