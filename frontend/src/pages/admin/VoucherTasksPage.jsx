@@ -174,9 +174,9 @@ export default function VoucherTasksPage() {
               <TableRow
                 key={idx}
                 sx={{
-                  backgroundColor: request.status === "requested" ? "lemonchiffon" : "ghostwhite",
+                  backgroundColor: request.status === "requested" ? "#fff3e0" : "#e8f5e9",
                   "&:hover": {
-                    backgroundColor: request.status === "requested" ? "#fff3cd" : "#f8f9fa",
+                    backgroundColor: request.status === "requested" ? "#ffe0b2" : "#c8e6c9",
                   },
                 }}
               >
