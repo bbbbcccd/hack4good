@@ -13,7 +13,7 @@ const useGetVoucherTaskCompletion = () => {
             await axiosPrivate
                 .get('/user/completion')
                 .then((data) => {
-                    console.log(data);
+                    console.log("Retrieved taskCompletions: ", data);
                     voucherTaskCompletionDispatch({ type: 'GET_TASK_COMPLETIONS', payload: data.data });
                 })
                 .catch((error) => {
