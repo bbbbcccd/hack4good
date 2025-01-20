@@ -12,7 +12,7 @@ const voucherTaskCompletionReducer = (voucherTaskCompletionState, action) => {
       return {
         taskCompletions: voucherTaskCompletionState.taskCompletions.map((taskCompletion) => {
           if (
-            taskCompletion.name === action.payload.name &&
+            taskCompletion.task_name === action.payload.task_name &&
             taskCompletion.username === action.payload.username
           ) {
             return action.payload;

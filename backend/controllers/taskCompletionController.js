@@ -108,7 +108,7 @@ export const approveTask = async (req, res) => {
     await pool.query("UPDATE users SET vouchers = vouchers + $1 WHERE username = $2;", [taskReward, username]);
     const data = await pool
       .query(
-        "UPDATE task_completions SET status = 'approved' WHERE task_name = $1 AND username = $2 RETURNING status, task_name, username",
+        "UPDATE task_completions SET status = 'approved' WHERE task_name = $1 AND username = $2 RETURNING status, date, task_name, username",
         [taskName, username]
       )
     await pool.query('COMMIT');
