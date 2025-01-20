@@ -138,6 +138,15 @@ Members of the Welfare Home such as teachers, welfare officers or part time staf
   npm run dev
   ```
 
+4. ** Use the web application**
+
+- Use the default admin account with the following credentials to create new user accounts and test features
+
+  ```bash
+  username: admin
+  password: 123
+  ```
+
 ---
 
 ## Usage
