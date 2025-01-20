@@ -62,7 +62,7 @@ export const completeTask = async (req, res) => {
 
   await pool
     .query(
-      "INSERT INTO task_completions VALUES ('requested', NOW(), $1, $2) RETURNING status, task_name, username",
+      "INSERT INTO task_completions VALUES ('requested', NOW(), $1, $2) RETURNING status, date, task_name, username",
       [taskName, username]
     )
     .then((data) => res.send(data.rows[0]))
@@ -153,7 +153,7 @@ export const rejectTask = async (req, res) => {
 
   await pool
     .query(
-      "UPDATE task_completions SET status = 'requested' WHERE task_name = $1 AND username = $2 RETURNING status, task_name, username",
+      "UPDATE task_completions SET status = 'requested' WHERE task_name = $1 AND username = $2 RETURNING status, date, task_name, username",
       [taskName, username]
     )
     .then((data) => res.send(data.rows[0]))
